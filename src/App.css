@@ -1,3 +1,18 @@
+:root {
+  --primary-color: #f7f4e8;
+  --secondary-color: #48789d;
+  --accent-color-1: #e7372d;
+  --accent-color-2: #81c545;
+  --neutral-dark: #2b2b2b;
+  --neutral-light: #d5d4d0;
+}
+
+/* Primary Color: This should be the dominant color in your app. Use it for toolbar headers, footers, and other significant navigation elements. It's also a good choice for important buttons that you want to draw attention to.
+Secondary Color: This can be used for secondary navigation elements, less emphasized buttons, and as a background for selected elements in a list or grid.
+Accent Colors: These should be used sparingly, for things like floating action buttons, highlights, or indicators. They are meant to draw attention to specific actions or points.
+Neutral Dark: Ideal for most of your text, icons, and other forefront elements.
+Neutral Light: Use this for backgrounds, cards, or as an off-white alternative where the primary color might be too intense. */
+
 .App {
   text-align: center;
 }
@@ -5,34 +20,42 @@
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+  border-radius: 60px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+.App-body {
+  background-color: var(--primary-color);
+  color: var(--neutral-dark);
 
-.App-header {
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+body {
+  background-color: var(--primary-color);
+  color: var(--neutral-dark);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+header {
+  background-color: var(--secondary-color);
+  color: var(--neutral-light);
+}
+
+button.primary {
+  background-color: var(--accent-color-1);
+  color: var(--neutral-light);
+}
+
+button.secondary {
+  background-color: var(--accent-color-2);
+  color: var(--neutral-dark);
+}
+
+.card {
+  background-color: var(--neutral-light);
+  color: var(--neutral-dark);
 }
