@@ -27,7 +27,7 @@ Neutral Light: Use this for backgrounds, cards, or as an off-white alternative w
   background-color: var(--primary-color);
   color: var(--neutral-dark);
 
-  min-height: 100vh;
+  min-height: 92.5vh;
   display: flex;
   flex-direction: column;
   align-items: center;
