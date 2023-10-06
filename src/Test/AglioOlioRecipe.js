@@ -56,3 +56,5 @@ const AglioOlioRecipe = {
       "Serve immediately, garnished with additional parsley if desired.",
   },
 };
+
+export default AglioOlioRecipe;
