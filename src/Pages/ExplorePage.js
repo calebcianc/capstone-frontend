@@ -9,7 +9,7 @@ export default function ExplorePage() {
 
   return (
     <div>
-      <h1>This is the Explore page</h1>
+      <h2>This is the Explore page</h2>
       <button onClick={() => speak(text)}>Test text to speech</button>
       <NewRecipeModal />
     </div>

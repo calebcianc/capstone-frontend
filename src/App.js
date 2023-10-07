@@ -12,6 +12,9 @@ import ErrorPage from "./Pages/ErrorPage";
 import ExplorePage from "./Pages/ExplorePage";
 import ProfilePage from "./Pages/ProfilePage";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useState, useEffect } from "react";
+import WelcomeModal from "./Components/WelcomeModal";
+import Navbar from "./Components/Navbar";
 
 function App() {
   const [value, setValue] = React.useState(1);
@@ -29,7 +32,7 @@ function App() {
       MuiBottomNavigationAction: {
         styleOverrides: {
           root: {
-            color: "var(--neutral-dark-color)",
+            color: "var(--neutral-dark)",
             "&.Mui-selected": {
               color: "var(--secondary-color)", // Or any color you want for selected icons
             },
@@ -38,21 +41,23 @@ function App() {
       },
     },
   });
+  const [isModalOpen, setIsModalOpen] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsModalOpen(false);
+    }, 1500); // Change this value to control the duration the modal is displayed
+
+    return () => clearTimeout(timer); // Cleanup the timer to prevent memory leaks
+  }, []);
 
   return (
     <div className="App">
+      <WelcomeModal open={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <Navbar />
       <body className="App-body">
         <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <img src="/logo512.png" className="App-logo" alt="logo" />
-                <h1>Welcome to ChefTalk</h1>
-                <HomePage />
-              </>
-            }
-          />
+          <Route path="/" element={<HomePage />} />
           <Route path="/explore" element={<ExplorePage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="*" element={<ErrorPage />} />
