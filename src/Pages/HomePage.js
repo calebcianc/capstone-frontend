@@ -1,5 +1,5 @@
 import React from "react";
-import SpeechToText from "../Components/Recipe/SpeechToText";
+import SpeechToText from "../Components/SpeechTextUtilities/SpeechToText";
 
 export default function HomePage() {
   return (
