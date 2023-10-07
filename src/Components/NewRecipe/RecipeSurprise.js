@@ -9,10 +9,10 @@ export default async function recipeSurprise(event) {
 
     try {
       // setIsLoading(true);
-      const response = await fetch(`${BACKEND_URL}/itinerary/new`, {
+      const response = await fetch(`${BACKEND_URL}/recipe/new`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
-        body: JSON.stringify(itineraryInputs),
+        body: JSON.stringify(recipeInputs),
       });
       const newItineraryDetails = await response.json();
       if (newItineraryDetails && newItineraryDetails.error) {
