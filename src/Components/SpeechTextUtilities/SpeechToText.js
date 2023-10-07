@@ -6,7 +6,7 @@ import TextToSpeech from "./TextToSpeech";
 
 const SpeechToText = () => {
   const [message, setMessage] = useState("");
-  const [listening, setListening] = useState(true);
+  const [listening, setListening] = useState(false);
   const commands = [
     {
       command: "step *",
