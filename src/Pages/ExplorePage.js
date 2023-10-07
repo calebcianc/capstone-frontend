@@ -1,6 +1,6 @@
 import React from "react";
 import AglioOlioRecipe from "../Test/AglioOlioRecipe";
-import speak from "../API/text2speech";
+import speak from "../Components/SpeechTextUtilities/text2speech";
 import NewRecipeModal from "../Components/NewRecipe/NewRecipeModal";
 
 export default function ExplorePage() {
