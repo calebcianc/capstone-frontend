@@ -15,12 +15,13 @@ Neutral Light: Use this for backgrounds, cards, or as an off-white alternative w
 
 .App {
   text-align: center;
+  height: 100svh;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
-  border-radius: 60px;
+  border-radius: 25px;
 }
 
 .App-body {
@@ -33,6 +34,13 @@ Neutral Light: Use this for backgrounds, cards, or as an off-white alternative w
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
+}
+
+.bottom-navigation {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 body {
