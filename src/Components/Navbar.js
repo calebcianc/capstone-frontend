@@ -7,6 +7,10 @@ function Navbar() {
   return (
     <AppBar position="static">
       <Toolbar style={{ backgroundColor: "var(--neutral-dark" }}>
+        {/* <img
+          src="/logo192.png"
+          style={{ height: "50px", borderRadius: "5px" }}
+        /> */}
         <Typography
           component="div"
           sx={{
