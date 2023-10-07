@@ -58,9 +58,7 @@ function App() {
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </body>
-      <Box
-      // style={{ display: "flex", flexDirection: "column", height: "100svh" }}
-      >
+      <Box>
         <ThemeProvider theme={theme}>
           <BottomNavigation
             className="bottom-navigation"
