@@ -13,7 +13,7 @@ import ExplorePage from "./Pages/ExplorePage";
 import ProfilePage from "./Pages/ProfilePage";
 
 function App() {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(1);
   const navigate = useNavigate();
   return (
     <div className="App">
