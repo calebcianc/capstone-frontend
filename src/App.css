@@ -67,3 +67,7 @@ button.secondary {
   background-color: var(--neutral-light);
   color: var(--neutral-dark);
 }
+
+.step-card-effect {
+  transition: background-color 0.3s ease;
+}
