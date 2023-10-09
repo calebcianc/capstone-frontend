@@ -1,3 +1,4 @@
+import StepListModal from "../Step/StepListModal";
 import RecipeCard from "./RecipeCard";
 
 const RecipeList = () => {
@@ -5,6 +6,7 @@ const RecipeList = () => {
     <div>
       <RecipeCard />
       <RecipeCard />
+      <StepListModal />
       <RecipeCard />
     </div>
   );
