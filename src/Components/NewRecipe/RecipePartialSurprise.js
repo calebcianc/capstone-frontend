@@ -14,7 +14,8 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material";
+// import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material";
+import BACKEND_URL from "../../Test/Constants";
 
 export default function RecipePartialSurprise() {
   const [open, setOpen] = useState(false);
@@ -23,6 +24,7 @@ export default function RecipePartialSurprise() {
   const [dietaryRestrictions, setDietaryRestrictions] = useState("none");
   const [servings, setServings] = useState(1);
   const [prepTime, setPrepTime] = useState("30min");
+  const [recipeDetails, setRecipeDetails] = useState();
 
   useEffect(() => {
     console.log(mealType, cuisineType, dietaryRestrictions, servings, prepTime);
@@ -36,6 +38,49 @@ export default function RecipePartialSurprise() {
     setServings(1);
     setPrepTime("30min");
   };
+
+  const accessToken = true;
+  const userId = 1;
+
+  async function handleCreate(event) {
+    if (accessToken) {
+      console.log("generate for userid", userId);
+      event.preventDefault();
+
+      const recipeParameters = {
+        mealType,
+        cuisineType,
+        dietaryRestrictions,
+        servings,
+        prepTime,
+      };
+
+      try {
+        // setIsLoading(true);
+        const response = await fetch(`${BACKEND_URL}/recipe/partialsurprise`, {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify(recipeParameters),
+        });
+        const newRecipeDetails = await response.json();
+        if (newRecipeDetails && newRecipeDetails.error) {
+        } else {
+          setRecipeDetails(newRecipeDetails);
+          console.log("newRecipeDetails", newRecipeDetails);
+          // const newItineraryId =
+          //   newItineraryDetails[newItineraryDetails.length - 1].id;
+          // setSelectedItinerary(newItineraryId);
+        }
+        // navigate(`/upcoming`);
+        // setIsLoading(false);
+      } catch (error) {
+        // setIsLoading(false);
+      }
+      handleClose();
+    } else {
+      alert("Login to create your preferred recipe!");
+    }
+  }
 
   return (
     <div>
@@ -205,7 +250,7 @@ export default function RecipePartialSurprise() {
             Cancel
           </Button>
           <Button
-            onClick={handleClose}
+            onClick={handleCreate}
             variant="contained"
             style={{
               backgroundColor: "#2b2b2b",
