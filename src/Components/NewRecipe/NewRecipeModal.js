@@ -19,6 +19,7 @@ function NewRecipeModal() {
         <AddIcon />
       </Fab>
 
+      {/* option selector */}
       <Modal
         open={open}
         onClose={handleClose}

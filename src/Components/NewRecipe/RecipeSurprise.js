@@ -2,6 +2,7 @@
 import BACKEND_URL from "../../Test/Constants";
 const accessToken = true;
 
+// work in progress
 export default async function recipeSurprise(event) {
   if (accessToken) {
     // console.log("generate for userid", userId);
@@ -9,7 +10,7 @@ export default async function recipeSurprise(event) {
 
     try {
       // setIsLoading(true);
-      const response = await fetch(`${BACKEND_URL}/recipe/new`, {
+      const response = await fetch(`${BACKEND_URL}/recipe/partialsurprise`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(recipeInputs),
