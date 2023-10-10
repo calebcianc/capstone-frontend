@@ -4,8 +4,8 @@ import AglioOlioRecipe from "../../Test/AglioOlioRecipe";
 
 export default function RecipePage() {
   const { recipeId } = useParams();
-  // const [recipe, setRecipe] = useState(null);
   const recipe = AglioOlioRecipe;
+  // const [recipe, setRecipe] = useState(null);
 
   // useEffect to fetch recipe from postgres db by recipeId
   // useEffect(() => {

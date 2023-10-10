@@ -4,7 +4,6 @@ const AglioOlioRecipe = {
   name: "Spaghetti Aglio e Olio",
   userId: 1,
   creatorId: 1,
-  // servings: 4,
   totalTime: 15,
   photoUrl:
     "https://th.bing.com/th/id/OIG.FWwYWWy71up9PSm0_nfn?pid=ImgGn&w=1024&h=1024&rs=1",
