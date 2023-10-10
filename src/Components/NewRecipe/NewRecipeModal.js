@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { Fab, Modal, ButtonGroup, Button, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import RecipePartialSurprise from "./RecipePartialSurprise";
 
 function NewRecipeModal() {
   const [open, setOpen] = useState(false);
+  const [openRecipePartialSurprise, setOpenRecipePartialSurprise] =
+    useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -53,7 +56,7 @@ function NewRecipeModal() {
               >
                 <div style={{ fontSize: "40px" }}>📋</div>{" "}
                 {/* Replace with your Paste Text icon */}
-                <Typography>Input manual</Typography>
+                <Typography>Paste Recipe</Typography>
               </div>
             </Button>
             <Button>
@@ -66,7 +69,7 @@ function NewRecipeModal() {
               >
                 <div style={{ fontSize: "40px" }}>🌐</div>{" "}
                 {/* Replace with your Web Browsing icon */}
-                <Typography>From website</Typography>
+                <Typography>Some Help</Typography>
               </div>
             </Button>
             <Button>
@@ -75,6 +78,9 @@ function NewRecipeModal() {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
+                }}
+                onClick={() => {
+                  setOpenRecipePartialSurprise(true);
                 }}
               >
                 <div style={{ fontSize: "40px" }}>🎁</div>{" "}
@@ -85,6 +91,11 @@ function NewRecipeModal() {
           </ButtonGroup>
         </div>
       </Modal>
+
+      <RecipePartialSurprise
+        openRecipePartialSurprise={openRecipePartialSurprise}
+        setOpenRecipePartialSurprise={setOpenRecipePartialSurprise}
+      />
     </div>
   );
 }
