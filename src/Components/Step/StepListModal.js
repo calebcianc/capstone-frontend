@@ -19,7 +19,7 @@ function StepListModal() {
       });
     }
     console.log(instructions);
-  }, [recipeId, modalOpen]);
+  }, [modalOpen]);
 
   const cardsData = [
     { content: "Step 1 Content", timer: "2min" },
@@ -37,13 +37,13 @@ function StepListModal() {
       >
         Open Modal
       </Button>
-      <StepCard
+      {/* <StepCard
         className="step-card-effect"
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         instructions={instructions}
         cardsData={cardsData}
-      />
+      /> */}
     </div>
   );
 }

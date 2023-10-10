@@ -10,18 +10,17 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
 function StepCard({ open, onClose, instructions, cardsData }) {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
-  const [uploadedImage, setUploadedImage] = useState(instructions[0].photoUrl);
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setUploadedImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleImageChange = (event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setUploadedImage(reader.result);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
   const handlePrevious = () => {
     if (currentCardIndex > 0) {
@@ -97,7 +96,7 @@ function StepCard({ open, onClose, instructions, cardsData }) {
                 <input
                   type="file"
                   style={{ display: "none" }}
-                  onChange={handleImageChange}
+                  // onChange={handleImageChange}
                 />
                 {instructions[currentCardIndex].photoUrl ? (
                   <img
