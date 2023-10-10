@@ -94,6 +94,7 @@ export default function RecipePartialSurprise() {
             backgroundColor: "#f7f4e8",
             color: "#2b2b2b",
             borderRadius: "16px 16px 0 0",
+            fontWeight: "bold",
           }}
         >
           Recipe Parameters
@@ -163,23 +164,27 @@ export default function RecipePartialSurprise() {
             <MenuItem value="low-carb">Low Carb</MenuItem>
           </TextField>
 
-          <Typography
-            variant="h7"
-            style={{ color: "#2b2b2b", marginBottom: 8 }}
-          >
-            Serving Size
-          </Typography>
+          <Box mt={2}>
+            <Typography
+              variant="h7"
+              style={{ color: "#2b2b2b", fontWeight: "bold" }}
+            >
+              Serving Size
+            </Typography>
+          </Box>
           <Box
             display="flex"
             justifyContent="space-between"
             alignItems="center"
+            mt={1}
           >
             {[1, 2, 3, 4, 5].map((num) => (
               <Button
                 key={num}
-                variant="outlined"
+                variant={servings === num ? "contained" : "outlined"}
                 style={{
-                  color: "#2b2b2b",
+                  color: servings === num ? "#f7f4e8" : "#2b2b2b",
+                  backgroundColor: servings === num ? "#48789d" : undefined,
                   borderColor: "#2b2b2b",
                   borderRadius: "16px",
                   flex: 1,
@@ -210,24 +215,27 @@ export default function RecipePartialSurprise() {
             />
           </Box>
 
-          <Typography
-            variant="h7"
-            style={{ color: "#2b2b2b", marginBottom: 8 }}
-          >
-            Preparation Time
-          </Typography>
+          <Box mt={2}>
+            <Typography
+              variant="h7"
+              style={{ color: "#2b2b2b", fontWeight: "bold" }}
+            >
+              Preparation Time
+            </Typography>
+          </Box>
           <Box
             display="flex"
             justifyContent="space-between"
             alignItems="center"
-            mt={2}
+            mt={1}
           >
             {["15min", "30min", "1hr", "1.5hr", "2hr"].map((label) => (
               <Button
                 key={label}
-                variant="outlined"
+                variant={prepTime === label ? "contained" : "outlined"}
                 style={{
-                  color: "#2b2b2b",
+                  color: prepTime === label ? "#f7f4e8" : "#2b2b2b",
+                  backgroundColor: prepTime === label ? "#48789d" : undefined,
                   borderColor: "#2b2b2b",
                   borderRadius: "16px",
                   flex: 1,
@@ -256,6 +264,8 @@ export default function RecipePartialSurprise() {
               backgroundColor: "#2b2b2b",
               color: "#f7f4e8",
               borderRadius: "16px",
+              marginBottom: 10, // <- Added margin below here
+              marginRight: 8, // <- Added margin right here
             }}
           >
             Generate Recipe
