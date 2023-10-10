@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState, useEffect } from "react";
 import WelcomeModal from "./Components/WelcomeModal";
 import Navbar from "./Components/Navbar";
+import RecipePage from "./Components/Recipe/RecipePage";
 
 function App() {
   const [value, setValue] = React.useState(1);
@@ -51,6 +52,15 @@ function App() {
     return () => clearTimeout(timer); // Cleanup the timer to prevent memory leaks
   }, []);
 
+  // @mingquan
+  const [recipeList, setRecipeList] = useState(null);
+  const recipeId = 1;
+  useEffect(() => {
+    const fetchedRecipe = "test";
+    // fetchRecipe(recipeId);
+    setRecipeList(fetchedRecipe);
+  }, [recipeId]);
+
   return (
     <div className="App">
       <WelcomeModal open={isModalOpen} onClose={() => setIsModalOpen(false)} />
@@ -59,6 +69,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/explore" element={<ExplorePage />} />
+          <Route path="/recipe/:recipeId" element={<RecipePage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
