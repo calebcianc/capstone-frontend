@@ -9,7 +9,7 @@ import {
 import HourglassTopIcon from "@mui/icons-material/HourglassTop";
 import { Link } from "react-router-dom";
 
-const RecipeCard = () => {
+const RecipeCard = (props) => {
   const recipeId = 1;
 
   return (
@@ -31,7 +31,7 @@ const RecipeCard = () => {
         />
         <CardContent>
           <Typography variant="h6" color="var(--secondary-color)" gutterBottom>
-            Caramelized pear, radicchio, and blue cheese salad
+            {props.recipeData.name}
           </Typography>
           <div style={{ display: "flex", alignItems: "center" }}>
             <Typography
@@ -40,6 +40,7 @@ const RecipeCard = () => {
               style={{ marginLeft: "8px" }}
             >
               Sandra Schumann
+              {/* {props.recipeData.creatorId} */}
             </Typography>
             <IconButton
               style={{ marginLeft: "auto", color: "var(--accent-color-1)" }}
@@ -52,7 +53,7 @@ const RecipeCard = () => {
               color="var(--neutral-dark)"
               component="p"
             >
-              20 min.
+              {`${props.recipeData.totalTime} min.`}
             </Typography>
           </div>
         </CardContent>

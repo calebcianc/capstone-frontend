@@ -1,10 +1,15 @@
 import StepListModal from "../Step/StepListModal";
 import RecipeCard from "./RecipeCard";
 
-const RecipeList = () => {
+const RecipeList = (props) => {
+  const recipeList = props.recipeList.map((recipe, ind) => {
+    return <RecipeCard recipeData={recipe} />;
+  });
+
   return (
     <div>
-      <RecipeCard />
+      {/* {console.log(props.recipeList)} */}
+      {recipeList}
       <StepListModal />
     </div>
   );

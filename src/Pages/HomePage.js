@@ -4,12 +4,13 @@ import RecipeList from "../Components/Recipe/RecipeList";
 import RecipePartialSurprise from "../Components/NewRecipe/RecipePartialSurprise";
 import NewRecipeModal from "../Components/NewRecipe/NewRecipeModal";
 
-export default function HomePage() {
+export default function HomePage(props) {
   return (
     <div>
       <h3>This is the Home page</h3>
       {/* <SpeechToText /> */}
-      <RecipeList />
+      {/* {console.log(props.recipeList)} */}
+      <RecipeList recipeList={props.recipeList} />
       <NewRecipeModal />
     </div>
   );
