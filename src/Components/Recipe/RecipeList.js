@@ -5,9 +5,7 @@ const RecipeList = () => {
   return (
     <div>
       <RecipeCard />
-      <RecipeCard />
       <StepListModal />
-      <RecipeCard />
     </div>
   );
 };

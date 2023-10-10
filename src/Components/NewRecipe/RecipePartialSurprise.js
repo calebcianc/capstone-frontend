@@ -8,17 +8,16 @@ import {
   DialogActions,
   TextField,
   MenuItem,
-  ButtonGroup,
   Input,
-  InputAdornment,
-  IconButton,
   Typography,
 } from "@mui/material";
-// import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material";
+
 import BACKEND_URL from "../../Test/Constants";
 
-export default function RecipePartialSurprise() {
-  const [open, setOpen] = useState(false);
+export default function RecipePartialSurprise({
+  openRecipePartialSurprise,
+  setOpenRecipePartialSurprise,
+}) {
   const [mealType, setMealType] = useState("");
   const [cuisineType, setCuisineType] = useState("");
   const [dietaryRestrictions, setDietaryRestrictions] = useState("none");
@@ -31,7 +30,7 @@ export default function RecipePartialSurprise() {
   }, [mealType, cuisineType, dietaryRestrictions, servings, prepTime]);
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenRecipePartialSurprise(false);
     setMealType("");
     setCuisineType("");
     setDietaryRestrictions("none");
@@ -84,11 +83,7 @@ export default function RecipePartialSurprise() {
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={() => setOpen(true)}>
-        Open Recipe Generator
-      </Button>
-
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={openRecipePartialSurprise} onClose={handleClose}>
         <DialogTitle
           style={{
             backgroundColor: "#f7f4e8",

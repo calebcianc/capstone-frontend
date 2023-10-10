@@ -27,20 +27,11 @@ const RecipeCard = () => {
       />
 
       <CardContent>
-        {/* <Typography variant="h6" color="var(--neutral-dark)" gutterBottom>
-          Juicy Pear Recipes To Try This Season
-        </Typography> */}
-
         <Typography variant="h6" color="var(--secondary-color)" gutterBottom>
           Caramelized pear, radicchio, and blue cheese salad
         </Typography>
 
         <div style={{ display: "flex", alignItems: "center" }}>
-          {/* <img
-            src="URL_OF_THE_PROFILE_PICTURE" // Replace with the profile picture URL you have
-            alt="Sandra Schumann"
-            style={{ width: "40px", height: "40px", borderRadius: "50%" }}
-          /> */}
           <Typography
             variant="body1"
             color="var(--neutral-dark)"
