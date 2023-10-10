@@ -1,6 +1,7 @@
 import "./App.css";
 import { useNavigate, Routes, Route } from "react-router-dom";
 import * as React from "react";
+import axios from "axios";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
@@ -53,22 +54,28 @@ function App() {
   }, []);
 
   // @mingquan
-  const [recipeList, setRecipeList] = useState(null);
-  const recipeId = 1;
+  const [recipeList, setRecipeList] = useState([]);
   useEffect(() => {
-    const fetchedRecipe = "test";
-    // fetchRecipe(recipeId);
-    setRecipeList(fetchedRecipe);
-  }, [recipeId]);
+    fetchRecipe();
+  }, []);
+
+  const fetchRecipe = async () => {
+    const fetchedRecipeList = await axios.get(`http://localhost:3001/recipes`);
+    setRecipeList(fetchedRecipeList.data);
+  };
 
   return (
     <div className="App">
+      {/* {console.log(recipeList)} */}
       <WelcomeModal open={isModalOpen} onClose={() => setIsModalOpen(false)} />
       <Navbar />
       <body className="App-body">
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/explore" element={<ExplorePage />} />
+          <Route path="/" element={<HomePage recipeList={recipeList} />} />
+          <Route
+            path="/explore"
+            element={<ExplorePage recipeList={recipeList} />}
+          />
           <Route path="/recipe/:recipeId" element={<RecipePage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="*" element={<ErrorPage />} />

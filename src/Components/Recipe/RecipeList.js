@@ -1,12 +1,15 @@
 import InstructionListModal from "../Instruction/InstructionListModal";
 import RecipeCard from "./RecipeCard";
 
-const RecipeList = () => {
-  const recipe = "test";
+const RecipeList = (props) => {
+  const recipeList = props.recipeList?.map((recipe, ind) => {
+    return <RecipeCard recipeData={recipe} />;
+  });
 
   return (
     <div>
-      <RecipeCard recipe={recipe} />
+      {/* {console.log(props.recipeList)} */}
+      {recipeList}
       <InstructionListModal />
     </div>
   );

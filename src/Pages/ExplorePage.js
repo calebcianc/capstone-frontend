@@ -4,14 +4,14 @@ import speak from "../Components/SpeechTextUtilities/text2speech";
 import NewRecipeModal from "../Components/NewRecipe/NewRecipeModal";
 import RecipeList from "../Components/Recipe/RecipeList";
 
-export default function ExplorePage() {
+export default function ExplorePage(props) {
   const text = AglioOlioRecipe.instructions["Step 1"];
   console.log(AglioOlioRecipe.instructions["Step 1"]);
 
   return (
     <div>
       <h3>This is the Explore page</h3>
-      <RecipeList />
+      <RecipeList recipeList={props.recipeList} />
       {/* <button onClick={() => speak(text)}>Test text to speech</button> */}
     </div>
   );
