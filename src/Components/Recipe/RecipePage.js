@@ -19,6 +19,7 @@ export default function RecipePage() {
       <h1>{recipe.title}</h1>
       <img src={recipe.photoUrl} alt={recipe.title} />
       {/* ... display ingredients and instructions ... */}
+      "test"
     </div>
   );
 }
