@@ -1,60 +1,94 @@
 // assign JSON data to a variable called 'AglioOlioRecipe'
 const AglioOlioRecipe = {
-  title: "Spaghetti Aglio e Olio",
-  servings: 4,
+  id: 1,
+  name: "Spaghetti Aglio e Olio",
+  userId: 1,
+  creatorId: 1,
+  totalTime: 15,
+  photoUrl:
+    "https://th.bing.com/th/id/OIG.FWwYWWy71up9PSm0_nfn?pid=ImgGn&w=1024&h=1024&rs=1",
   ingredients: [
     {
-      item: "Spaghetti",
+      id: 1,
+      name: "Spaghetti",
       quantity: 400,
-      unit: "grams",
+      unitOfMeasurement: "grams",
     },
     {
-      item: "Extra virgin olive oil",
+      id: 2,
+      name: "Extra virgin olive oil",
       quantity: 0.25,
-      unit: "cup",
+      unitOfMeasurement: "cup",
     },
     {
-      item: "Garlic",
+      id: 3,
+      name: "Thinly sliced garlic",
       quantity: 6,
-      unit: "cloves",
-      preparation: "thinly sliced",
+      unitOfMeasurement: "cloves",
     },
     {
-      item: "Red pepper flakes",
+      id: 4,
+      name: "Red pepper flakes",
       quantity: 0.5,
-      unit: "teaspoon",
+      unitOfMeasurement: "teaspoon",
     },
     {
-      item: "Fresh parsley",
+      id: 5,
+      name: "Chopped fresh parsley",
       quantity: 0.25,
-      unit: "cup",
-      preparation: "chopped",
+      unitOfMeasurement: "cup",
     },
     {
-      item: "Salt",
+      id: 6,
+      name: "Salt",
       quantity: "to taste",
-      unit: "",
+      unitOfMeasurement: "",
     },
     {
-      item: "Black pepper",
+      id: 7,
+      name: "Black pepper",
       quantity: "to taste",
-      unit: "",
+      unitOfMeasurement: "",
     },
   ],
-  instructions: {
-    "Step 1":
-      "Bring a large pot of salted water to a boil. Add the spaghetti and cook until al dente, about 8-10 minutes.",
-    "Step 2":
-      "Meanwhile, in a large skillet, heat the olive oil over medium heat. Add the garlic and red pepper flakes, and sauté for about 1-2 minutes, until the garlic is golden but not browned.",
-    "Step 3":
-      "Reserve about 1 cup of the pasta cooking water, then drain the spaghetti.",
-    "Step 4":
-      "Add the spaghetti to the skillet with the garlic oil, and toss well to coat, adding a bit of the reserved pasta water if needed to loosen things up.",
-    "Step 5":
-      "Season with salt and black pepper to taste, and toss with fresh parsley.",
-    "Step 6":
-      "Serve immediately, garnished with additional parsley if desired.",
-  },
+  instructions: [
+    {
+      id: 1,
+      step: 1,
+      timeInterval: 3,
+      instruction:
+        "Bring a large pot of salted water to a boil. Add the spaghetti and cook until al dente, about 8-10 minutes.",
+      photoUrl:
+        "https://images.services.kitchenstories.io/ulsjibr7QK9Ceud44woUc657cCs=/1080x0/filters:quality(80)/images.kitchenstories.io/recipeStepImages/08_09_TraditionalGarlicAndOliveOilPasta_step01.jpg",
+    },
+    {
+      id: 2,
+      step: 2,
+      timeInterval: 13,
+      instruction:
+        "Meanwhile, in a large skillet, heat the olive oil over medium heat. Add the garlic and red pepper flakes, and sauté for about 1-2 minutes, until the garlic is golden but not browned.",
+      photoUrl:
+        "https://images.services.kitchenstories.io/ulsjibr7QK9Ceud44woUc657cCs=/1080x0/filters:quality(80)/images.kitchenstories.io/recipeStepImages/08_09_TraditionalGarlicAndOliveOilPasta_step01.jpg",
+    },
+    {
+      id: 3,
+      step: 3,
+      timeInterval: 15,
+      instruction:
+        "Reserve about 1 cup of the pasta cooking water, then drain the spaghetti.",
+      photoUrl:
+        "https://images.services.kitchenstories.io/ulsjibr7QK9Ceud44woUc657cCs=/1080x0/filters:quality(80)/images.kitchenstories.io/recipeStepImages/08_09_TraditionalGarlicAndOliveOilPasta_step01.jpg",
+    },
+    {
+      id: 4,
+      step: 4,
+      timeInterval: 16,
+      instruction:
+        "Add the spaghetti to the skillet with the garlic oil, and toss well to coat, adding a bit of the reserved pasta water if needed to loosen things up.",
+      photoUrl:
+        "https://images.services.kitchenstories.io/ulsjibr7QK9Ceud44woUc657cCs=/1080x0/filters:quality(80)/images.kitchenstories.io/recipeStepImages/08_09_TraditionalGarlicAndOliveOilPasta_step01.jpg",
+    },
+  ],
 };
 
 export default AglioOlioRecipe;

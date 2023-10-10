@@ -8,20 +8,19 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CloseIcon from "@mui/icons-material/Close";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
-function StepCard({ open, onClose, cardsData }) {
+function InstructionCard({ open, onClose, instructions, cardsData }) {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
-  const [uploadedImage, setUploadedImage] = useState(null);
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setUploadedImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleImageChange = (event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setUploadedImage(reader.result);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
   const handlePrevious = () => {
     if (currentCardIndex > 0) {
@@ -30,7 +29,7 @@ function StepCard({ open, onClose, cardsData }) {
   };
 
   const handleNext = () => {
-    if (currentCardIndex < cardsData.length - 1) {
+    if (currentCardIndex < instructions.length - 1) {
       setCurrentCardIndex((prev) => prev + 1);
     }
   };
@@ -97,11 +96,11 @@ function StepCard({ open, onClose, cardsData }) {
                 <input
                   type="file"
                   style={{ display: "none" }}
-                  onChange={handleImageChange}
+                  // onChange={handleImageChange}
                 />
-                {uploadedImage ? (
+                {instructions[currentCardIndex].photoUrl ? (
                   <img
-                    src={uploadedImage}
+                    src={instructions[currentCardIndex].photoUrl}
                     alt="Uploaded"
                     style={{
                       width: "100%",
@@ -124,13 +123,13 @@ function StepCard({ open, onClose, cardsData }) {
 
               {/* Description */}
               <div style={{ marginTop: 10, textAlign: "center" }}>
-                {cardsData[currentCardIndex].content}
+                {instructions[currentCardIndex].instruction}
               </div>
 
               {/* Timer (if provided) */}
-              {cardsData[currentCardIndex].timer && (
+              {instructions[currentCardIndex].timeInterval && (
                 <div style={{ marginTop: 10, textAlign: "center" }}>
-                  {cardsData[currentCardIndex].timer}
+                  {instructions[currentCardIndex].timeInterval} min
                 </div>
               )}
             </CardContent>
@@ -138,7 +137,7 @@ function StepCard({ open, onClose, cardsData }) {
 
           <Button
             onClick={handleNext}
-            disabled={currentCardIndex === cardsData.length - 1}
+            disabled={currentCardIndex === instructions.length - 1}
             style={{
               position: "absolute",
               right: 10,
@@ -161,4 +160,4 @@ function StepCard({ open, onClose, cardsData }) {
   );
 }
 
-export default StepCard;
+export default InstructionCard;

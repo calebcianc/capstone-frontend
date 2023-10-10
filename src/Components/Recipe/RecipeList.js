@@ -1,4 +1,4 @@
-import StepListModal from "../Step/StepListModal";
+import InstructionListModal from "../Instruction/InstructionListModal";
 import RecipeCard from "./RecipeCard";
 
 const RecipeList = (props) => {
