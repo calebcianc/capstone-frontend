@@ -23,7 +23,7 @@ export default function RecipePartialSurprise({
   const [dietaryRestrictions, setDietaryRestrictions] = useState("none");
   const [servings, setServings] = useState(1);
   const [prepTime, setPrepTime] = useState("30min");
-  const [recipeDetails, setRecipeDetails] = useState();
+  // const [recipeDetails, setRecipeDetails] = useState();
 
   useEffect(() => {
     console.log(mealType, cuisineType, dietaryRestrictions, servings, prepTime);
@@ -64,7 +64,7 @@ export default function RecipePartialSurprise({
         const newRecipeDetails = await response.json();
         if (newRecipeDetails && newRecipeDetails.error) {
         } else {
-          setRecipeDetails(newRecipeDetails);
+          // setRecipeDetails(newRecipeDetails);
           console.log("newRecipeDetails", newRecipeDetails);
           // const newItineraryId =
           //   newItineraryDetails[newItineraryDetails.length - 1].id;
@@ -92,7 +92,7 @@ export default function RecipePartialSurprise({
             fontWeight: "bold",
           }}
         >
-          Recipe Parameters
+          What'd you like to cook?
         </DialogTitle>
 
         <DialogContent style={{ backgroundColor: "#f7f4e8" }}>
