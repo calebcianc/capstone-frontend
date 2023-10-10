@@ -8,7 +8,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CloseIcon from "@mui/icons-material/Close";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
-function StepCard({ open, onClose, instructions, cardsData }) {
+function InstructionCard({ open, onClose, instructions, cardsData }) {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
 
   // const handleImageChange = (event) => {
@@ -160,4 +160,4 @@ function StepCard({ open, onClose, instructions, cardsData }) {
   );
 }
 
-export default StepCard;
+export default InstructionCard;

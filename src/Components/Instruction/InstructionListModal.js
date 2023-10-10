@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
-import StepCard from "./StepCard";
+import InstructionCard from "./InstructionCard";
 import "../../App.css";
 import axios from "axios";
 import BACKEND_URL from "../../Test/Constants.js";
 
-function StepListModal() {
+function InstructionListModal() {
   const [modalOpen, setModalOpen] = useState(false);
   const [recipe, setRecipe] = useState("");
   const [instructions, setInstructions] = useState({});
@@ -37,7 +37,7 @@ function StepListModal() {
       >
         Open Modal
       </Button>
-      {/* <StepCard
+      {/* <InstructionCard
         className="step-card-effect"
         open={modalOpen}
         onClose={() => setModalOpen(false)}
@@ -48,4 +48,4 @@ function StepListModal() {
   );
 }
 
-export default StepListModal;
+export default InstructionListModal;
