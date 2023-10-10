@@ -8,14 +8,16 @@ import {
 } from "@mui/material";
 import HourglassTopIcon from "@mui/icons-material/HourglassTop";
 import { Link } from "react-router-dom";
+import AglioOlioRecipe from "../../Test/AglioOlioRecipe";
 
-const RecipeCard = () => {
-  const recipeId = 1;
+function RecipeCard({}) {
+  const recipe = AglioOlioRecipe; // to replace with props.recipe
 
   return (
-    <Link to={`/recipe/${recipeId}`}>
+    <Link to={`/recipe/${recipe.id}`}>
       <Card
         sx={{
+          width: "500px",
           maxWidth: "100%",
           borderRadius: "16px",
           background: "white",
@@ -26,12 +28,12 @@ const RecipeCard = () => {
         <CardMedia
           component="img"
           height="140"
-          image="https://th.bing.com/th/id/OIG.uK2TpbWL9ciGi1qUPLUD?pid=ImgGn" // Replace with the image URL you have
-          alt="Juicy Pear Recipe"
+          image={recipe.photoUrl} // Replace with the image URL you have
+          alt={recipe.name}
         />
         <CardContent>
           <Typography variant="h6" color="var(--secondary-color)" gutterBottom>
-            Caramelized pear, radicchio, and blue cheese salad
+            {recipe.name}
           </Typography>
           <div style={{ display: "flex", alignItems: "center" }}>
             <Typography
@@ -39,7 +41,7 @@ const RecipeCard = () => {
               color="var(--neutral-dark)"
               style={{ marginLeft: "8px" }}
             >
-              Sandra Schumann
+              UserId: {recipe.userId}
             </Typography>
             <IconButton
               style={{ marginLeft: "auto", color: "var(--accent-color-1)" }}
@@ -52,13 +54,13 @@ const RecipeCard = () => {
               color="var(--neutral-dark)"
               component="p"
             >
-              20 min.
+              {recipe.totalTime} min.
             </Typography>
           </div>
         </CardContent>
       </Card>
     </Link>
   );
-};
+}
 
 export default RecipeCard;
