@@ -18,32 +18,14 @@ export default function RecipePage() {
     setRecipe(fetchedRecipe.data[0]);
   };
 
-  const ingredients = recipe.ingredients?.map((ingredient, ind) => {
-    return <li>{ingredient.name}</li>;
-  });
-
-  const instructions = recipe.instructions?.map((instruction, ind) => {
-    return <li>{instruction.instruction} </li>;
-  });
-
   if (!recipe) return <div>Loading...</div>;
 
   return (
-    <div>
-      {/* {console.log(recipe)} */}
-//       <h1>{recipe.name}</h1>
-      {/* <img src={recipe.photoUrl} alt={recipe.name} /> */}
-      {/* ... display ingredients and instructions ... */}
-//       Ingredients:
-//       <ol>{ingredients}</ol>
-//       <br />
-//       Instructions:
-//       <ol>{instructions}</ol>
     <div style={{ color: "#2b2b2b", backgroundColor: "#f7f4e8" }}>
       {/* Recipe Title & Photo */}
       <h3>{recipe.name}</h3>
       <img
-        src={recipe.photoUrl}
+        src={recipe?.photoUrl} // to add photourl in backend
         alt={recipe.name}
         style={{ maxWidth: "50%", borderRadius: "16px" }}
       />
@@ -51,7 +33,7 @@ export default function RecipePage() {
       {/* Ingredients */}
       <h4 style={{ marginTop: "16px", color: "#48789d" }}>Ingredients</h4>
       <ul style={{ listStyleType: "none", padding: 0, fontSize: "20px" }}>
-        {recipe.ingredients.map((ingredient) => (
+        {recipe.ingredients?.map((ingredient) => (
           <li key={ingredient.id} style={{ marginBottom: "8px" }}>
             <span>{ingredient.name}: </span>
             <span>{ingredient.quantity}</span>
@@ -65,7 +47,7 @@ export default function RecipePage() {
       {/* Instructions */}
       <h4 style={{ marginTop: "16px", color: "#e7372d" }}>Instructions</h4>
       <ol>
-        {recipe.instructions.map((instruction) => (
+        {recipe.instructions?.map((instruction) => (
           <li
             key={instruction.id}
             style={{ marginBottom: "12px", fontSize: "20px" }}

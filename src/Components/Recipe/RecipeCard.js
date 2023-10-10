@@ -8,14 +8,13 @@ import {
 } from "@mui/material";
 import HourglassTopIcon from "@mui/icons-material/HourglassTop";
 import { Link } from "react-router-dom";
-import AglioOlioRecipe from "../../Test/AglioOlioRecipe";
+// import AglioOlioRecipe from "../../Test/AglioOlioRecipe";
 
 const RecipeCard = (props) => {
-  const recipeId = 1;
-
+  // const recipeId = 1;
 
   return (
-    <Link to={`/recipe/${recipe.id}`}>
+    <Link to={`/recipe/${props.recipeData.id}`}>
       <Card
         sx={{
           width: "500px",
@@ -29,8 +28,8 @@ const RecipeCard = (props) => {
         <CardMedia
           component="img"
           height="140"
-          image={recipe.photoUrl} // Replace with the image URL you have
-          alt={recipe.name}
+          image={props.recipeData?.photoUrl} // Replace with the image URL you have // to add photourl in backend
+          alt={props.recipeData.name}
         />
         <CardContent>
           <Typography variant="h6" color="var(--secondary-color)" gutterBottom>
@@ -44,7 +43,6 @@ const RecipeCard = (props) => {
             >
               Sandra Schumann
               {/* {props.recipeData.creatorId} */}
-
             </Typography>
             <IconButton
               style={{ marginLeft: "auto", color: "var(--accent-color-1)" }}
@@ -64,6 +62,6 @@ const RecipeCard = (props) => {
       </Card>
     </Link>
   );
-}
+};
 
 export default RecipeCard;
