@@ -57,7 +57,7 @@ export default function RecipePartialSurprise() {
 
       try {
         // setIsLoading(true);
-        const response = await fetch(`${BACKEND_URL}/recipe/partialsurprise`, {
+        const response = await fetch(`${BACKEND_URL}/recipes/partialsurprise`, {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify(recipeParameters),
