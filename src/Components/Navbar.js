@@ -5,12 +5,8 @@ import Typography from "@mui/material/Typography";
 
 function Navbar() {
   return (
-    <AppBar position="static">
+    <AppBar position="fixed">
       <Toolbar style={{ backgroundColor: "var(--neutral-dark" }}>
-        {/* <img
-          src="/logo192.png"
-          style={{ height: "50px", borderRadius: "5px" }}
-        /> */}
         <Typography
           component="div"
           sx={{
@@ -18,7 +14,6 @@ function Navbar() {
             textAlign: "center",
             fontFamily: "Bitter, serif",
             fontSize: "2.5rem",
-            // fontWeight: "bold",
           }}
         >
           ChefTalk
