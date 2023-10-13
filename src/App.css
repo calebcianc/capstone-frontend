@@ -80,3 +80,9 @@ button.secondary {
 .step-card-effect {
   transition: background-color 0.3s ease;
 }
+
+.button-disabled {
+  background-color: lightgrey;
+  color: white;
+  cursor: not-allowed;
+}

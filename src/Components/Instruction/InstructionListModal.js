@@ -68,14 +68,10 @@ function InstructionListModal({ open, onClose, recipe }) {
           >
             {!viewingInstructions ? (
               <>
-                <IngredientList ingredients={ingredients} />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleStartCooking}
-                >
-                  Ingredients present
-                </Button>
+                <IngredientList
+                  ingredients={ingredients}
+                  handleStartCooking={handleStartCooking}
+                />
               </>
             ) : (
               <>
