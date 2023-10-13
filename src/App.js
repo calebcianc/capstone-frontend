@@ -17,6 +17,7 @@ import { useState, useEffect } from "react";
 import WelcomeModal from "./Components/WelcomeModal";
 import Navbar from "./Components/Navbar";
 import RecipePage from "./Components/Recipe/RecipePage";
+import BACKEND_URL from "./constants";
 
 function App() {
   const [value, setValue] = React.useState(1);
@@ -60,7 +61,7 @@ function App() {
   }, []);
 
   const fetchRecipe = async () => {
-    const fetchedRecipeList = await axios.get(`http://localhost:3001/recipes`);
+    const fetchedRecipeList = await axios.get(`${BACKEND_URL}/recipes`);
     setRecipeList(fetchedRecipeList.data);
   };
 

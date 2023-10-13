@@ -8,8 +8,9 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CloseIcon from "@mui/icons-material/Close";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
-function InstructionCard({ open, onClose, instructions, cardsData }) {
+function InstructionCard({ open, onClose, instructions }) {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  console.log("instruction card", instructions);
 
   // const handleImageChange = (event) => {
   //   const file = event.target.files[0];
@@ -77,7 +78,6 @@ function InstructionCard({ open, onClose, instructions, cardsData }) {
               height: 400,
               overflow: "hidden",
               display: "flex",
-              // alignItems: "center",
               justifyContent: "center",
             }}
           >

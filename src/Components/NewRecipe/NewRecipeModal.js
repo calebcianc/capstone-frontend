@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Fab, Modal, ButtonGroup, Button, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RecipePartialSurprise from "./RecipePartialSurprise";
-import BACKEND_URL from "../../Test/Constants";
+import BACKEND_URL from "../../constants";
 import "./LoadingSpinner.css";
 import PasteRecipeModal from "./RecipeFromUserInput";
 

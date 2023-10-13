@@ -1,4 +1,3 @@
-import InstructionListModal from "../Instruction/InstructionListModal";
 import RecipeCard from "./RecipeCard";
 
 const RecipeList = (props) => {
@@ -10,7 +9,6 @@ const RecipeList = (props) => {
     <div>
       {/* {console.log(props.recipeList)} */}
       {recipeList}
-      <InstructionListModal />
     </div>
   );
 };

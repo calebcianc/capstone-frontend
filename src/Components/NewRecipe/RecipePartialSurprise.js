@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import BACKEND_URL from "../../Test/Constants";
+import BACKEND_URL from "../../constants";
 
 export default function RecipePartialSurprise({
   openRecipePartialSurprise,

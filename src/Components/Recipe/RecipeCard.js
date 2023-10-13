@@ -11,8 +11,6 @@ import { Link } from "react-router-dom";
 // import AglioOlioRecipe from "../../Test/AglioOlioRecipe";
 
 const RecipeCard = (props) => {
-  // const recipeId = 1;
-
   return (
     <Link to={`/recipe/${props.recipeData.id}`}>
       <Card
