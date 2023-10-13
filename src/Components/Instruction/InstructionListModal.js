@@ -16,8 +16,8 @@ function InstructionListModal({ open, onClose, recipe }) {
   const [viewingInstructions, setViewingInstructions] = useState(false);
   const [listening, setListening] = useState(false);
 
-  console.log("instructions", instructions);
-  console.log("ingredients", ingredients);
+  // console.log("instructions", instructions);
+  // console.log("ingredients", ingredients);
 
   useEffect(() => {
     if (recipe?.instructions) {
