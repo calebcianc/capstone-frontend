@@ -70,6 +70,13 @@ export default function RecipePage() {
         ))}
       </ol>
       <Button
+        style={{
+          position: "fixed",
+          bottom: 70,
+          left: "50%",
+          width: 450,
+          transform: "translateX(-50%)",
+        }}
         variant="contained"
         color="primary"
         onClick={() => setInstructionModalOpen(true)}

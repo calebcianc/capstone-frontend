@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import Modal from "@mui/material/Modal";
-import Button from "@mui/material/Button";
+import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import CloseIcon from "@mui/icons-material/Close";
+
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
-function InstructionCard({ open, onClose, instructions }) {
-  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+function InstructionCard({ instructions, currentCardIndex }) {
+  const currentInstruction = instructions.find(
+    (instr) => instr.id === currentCardIndex + 1
+  );
+  console.log("currentCardIndex", currentCardIndex + 1);
   console.log("instruction card", instructions);
+  console.log("currentInstruction", currentInstruction);
 
   // const handleImageChange = (event) => {
   //   const file = event.target.files[0];
@@ -23,140 +23,82 @@ function InstructionCard({ open, onClose, instructions }) {
   //   }
   // };
 
-  const handlePrevious = () => {
-    if (currentCardIndex > 0) {
-      setCurrentCardIndex((prev) => prev - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (currentCardIndex < instructions.length - 1) {
-      setCurrentCardIndex((prev) => prev + 1);
-    }
-  };
-
   return (
-    <Modal open={open} onClose={onClose}>
-      <div
+    // <Card
+    // style={{
+    //   width: 300,
+    //   height: 400,
+    //   overflow: "hidden",
+    //   display: "flex",
+    //   justifyContent: "center",
+    // }}
+    // >
+    <CardContent
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginTop: "60px",
+      }}
+    >
+      {/* Image upload area */}
+      <label
         style={{
+          cursor: "pointer",
+          display: "block",
+          width: "50vh",
+          height: "50vh",
+          border: currentInstruction.photoUrl ? "none" : "2px dashed gray",
           position: "relative",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "100vh",
-          width: "100%",
         }}
       >
-        <div
-          style={{
-            width: 500,
-            height: 500,
-            backgroundColor: "rgba(255, 255, 255)",
-            position: "relative",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Button
-            onClick={handlePrevious}
-            disabled={currentCardIndex === 0}
+        <input
+          type="file"
+          style={{ display: "none" }}
+          // onChange={handleImageChange}
+        />
+        {currentInstruction.photoUrl ? (
+          <img
+            src={currentInstruction.photoUrl}
+            alt="current_step_picture"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        ) : (
+          <AddPhotoAlternateIcon
             style={{
               position: "absolute",
-              left: 10,
               top: "50%",
-              transform: "translateY(-50%)",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              fontSize: 50,
             }}
-          >
-            <ArrowBackIosIcon />
-          </Button>
+          />
+        )}
+      </label>
 
-          <Card
-            style={{
-              width: 300,
-              height: 400,
-              overflow: "hidden",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <CardContent>
-              {/* Image upload area */}
-              <label
-                style={{
-                  cursor: "pointer",
-                  display: "block",
-                  width: "100%",
-                  height: "30%",
-                  border: "2px dashed gray",
-                  position: "relative",
-                }}
-              >
-                <input
-                  type="file"
-                  style={{ display: "none" }}
-                  // onChange={handleImageChange}
-                />
-                {instructions[currentCardIndex].photoUrl ? (
-                  <img
-                    src={instructions[currentCardIndex].photoUrl}
-                    alt="Uploaded"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                ) : (
-                  <AddPhotoAlternateIcon
-                    style={{
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      transform: "translate(-50%, -50%)",
-                      fontSize: 50,
-                    }}
-                  />
-                )}
-              </label>
-
-              {/* Description */}
-              <div style={{ marginTop: 10, textAlign: "center" }}>
-                {instructions[currentCardIndex].instruction}
-              </div>
-
-              {/* Timer (if provided) */}
-              {instructions[currentCardIndex].timeInterval && (
-                <div style={{ marginTop: 10, textAlign: "center" }}>
-                  {instructions[currentCardIndex].timeInterval} min
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          <Button
-            onClick={handleNext}
-            disabled={currentCardIndex === instructions.length - 1}
-            style={{
-              position: "absolute",
-              right: 10,
-              top: "50%",
-              transform: "translateY(-50%)",
-            }}
-          >
-            <ArrowForwardIosIcon />
-          </Button>
-
-          <Button
-            onClick={onClose}
-            style={{ position: "absolute", top: 10, right: 10 }}
-          >
-            <CloseIcon />
-          </Button>
-        </div>
+      {/* Description */}
+      <div
+        style={{
+          marginTop: 10,
+          textAlign: "justify",
+        }}
+      >
+        {currentInstruction.instruction}
       </div>
-    </Modal>
+
+      {/* Timer (if provided) */}
+      {currentInstruction.timeInterval && (
+        <div style={{ marginTop: 10, textAlign: "center" }}>
+          Duration:{currentInstruction.timeInterval} min
+        </div>
+      )}
+    </CardContent>
+    // </Card>
   );
 }
 
