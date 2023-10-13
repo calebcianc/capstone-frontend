@@ -3,9 +3,17 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 // import TextToSpeech from "./TextToSpeech";
+import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
+import MicOffIcon from "@mui/icons-material/MicOff";
+import { IconButton } from "@mui/material";
 
-const SpeechToText = ({ setCurrentCardIndex, totalSteps, instructions }) => {
-  const [listening, setListening] = useState(false);
+const SpeechToText = ({
+  setCurrentCardIndex,
+  totalSteps,
+  instructions,
+  listening,
+  setListening,
+}) => {
   const [message, setMessage] = useState(false);
   const commands = [
     {
@@ -13,11 +21,10 @@ const SpeechToText = ({ setCurrentCardIndex, totalSteps, instructions }) => {
       callback: () =>
         setCurrentCardIndex((prev) => {
           if (prev < totalSteps - 1) {
-            setMessage(`Move to next step`);
+            console.log(`Move to next step`);
             return prev + 1;
           } else {
             // Add a sound/ using text-to-speech to inform about the last step
-            setMessage(`You are already at the last step.`);
             console.log("You are already at the last step.");
             return prev; // Remain on the current step
           }
@@ -28,11 +35,10 @@ const SpeechToText = ({ setCurrentCardIndex, totalSteps, instructions }) => {
       callback: () =>
         setCurrentCardIndex((prev) => {
           if (prev > 0) {
-            setMessage(`Move to previous step`);
+            console.log(`Move to previous step`);
             return prev - 1;
           } else {
             // Add a sound/ using text-to-speech to inform about the last step
-            setMessage(`You are already at the first step.`);
             console.log("You are already at the first step.");
             return prev; // Remain on the current step
           }
@@ -66,10 +72,17 @@ const SpeechToText = ({ setCurrentCardIndex, totalSteps, instructions }) => {
 
   return (
     <div>
-      <p>Microphone: {listening ? "on" : "off"}</p>
-      <button onClick={toggleListening}>{listening ? "Stop" : "Start"}</button>
-      <p>transcript: {transcript}</p>
-      <p>message: {message}</p>
+      {listening ? (
+        <IconButton onClick={toggleListening}>
+          <KeyboardVoiceIcon />
+        </IconButton>
+      ) : (
+        <IconButton onClick={toggleListening}>
+          <MicOffIcon />
+        </IconButton>
+      )}
+      {/* <p>transcript: {transcript}</p>
+      <p>message: {message}</p> */}
     </div>
   );
 };

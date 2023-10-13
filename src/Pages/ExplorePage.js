@@ -1,6 +1,6 @@
 import React from "react";
 import AglioOlioRecipe from "../Test/AglioOlioRecipe";
-import speak from "../Components/SpeechTextUtilities/text2speech";
+import TextToSpeech from "../Components/SpeechTextUtilities/TextToSpeech";
 import NewRecipeModal from "../Components/NewRecipe/NewRecipeModal";
 import RecipeList from "../Components/Recipe/RecipeList";
 
@@ -12,7 +12,7 @@ export default function ExplorePage(props) {
     <div>
       <h3>This is the Explore page</h3>
       <RecipeList recipeList={props.recipeList} />
-      {/* <button onClick={() => speak(text)}>Test text to speech</button> */}
+      {/* <button onClick={() => TextToSpeech(text)}>Test text to speech</button> */}
     </div>
   );
 }

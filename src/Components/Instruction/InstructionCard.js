@@ -1,7 +1,6 @@
 import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import TextToSpeech from "../SpeechTextUtilities/TextToSpeech";
 
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
@@ -9,9 +8,6 @@ function InstructionCard({ instructions, currentCardIndex }) {
   const currentInstruction = instructions.find(
     (instr) => instr.id === currentCardIndex + 1
   );
-  console.log("currentCardIndex", currentCardIndex + 1);
-  console.log("instruction card", instructions);
-  console.log("currentInstruction", currentInstruction);
 
   // const handleImageChange = (event) => {
   //   const file = event.target.files[0];

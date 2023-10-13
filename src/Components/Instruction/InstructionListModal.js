@@ -14,6 +14,7 @@ function InstructionListModal({ open, onClose, recipe }) {
   const [ingredients, setIngredients] = useState(recipe?.ingredients || []);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [viewingInstructions, setViewingInstructions] = useState(false);
+  const [listening, setListening] = useState(false);
 
   console.log("instructions", instructions);
   console.log("ingredients", ingredients);
@@ -41,6 +42,13 @@ function InstructionListModal({ open, onClose, recipe }) {
 
   const handleStartCooking = () => {
     setViewingInstructions((prevState) => !prevState);
+
+    // Start listening when switching to instruction view
+    if (!viewingInstructions) {
+      setListening(true);
+    } else {
+      setListening(false);
+    }
   };
 
   return (
@@ -104,11 +112,7 @@ function InstructionListModal({ open, onClose, recipe }) {
                     <ArrowForwardIosIcon />
                   </Button>
                 </div>
-                <SpeechToText
-                  setCurrentCardIndex={setCurrentCardIndex}
-                  totalSteps={recipe?.instructions.length || 0}
-                  instructions={instructions}
-                />
+
                 <InstructionCard
                   instructions={instructions}
                   currentCardIndex={currentCardIndex}
@@ -132,7 +136,20 @@ function InstructionListModal({ open, onClose, recipe }) {
                 alignItems: "center",
               }}
             >
-              {!viewingInstructions ? <p></p> : <p>Steps</p>}
+              {!viewingInstructions ? (
+                <p></p>
+              ) : (
+                <>
+                  <p>Steps</p>{" "}
+                  <SpeechToText
+                    setCurrentCardIndex={setCurrentCardIndex}
+                    totalSteps={recipe?.instructions.length || 0}
+                    instructions={instructions}
+                    listening={listening}
+                    setListening={setListening}
+                  />
+                </>
+              )}
 
               <Button onClick={onClose}>
                 <CloseIcon />
