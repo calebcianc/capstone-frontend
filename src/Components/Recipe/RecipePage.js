@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import Button from "@mui/material/Button";
+import InstructionListModal from "../Instruction/InstructionListModal";
+import BACKEND_URL from "../../constants";
 
 export default function RecipePage() {
+  const [instructionModalopen, setInstructionModalOpen] = useState(false);
   const { recipeId } = useParams();
 
   // useEffect to fetch recipe from postgres db by recipeId
@@ -12,9 +16,7 @@ export default function RecipePage() {
   }, []);
 
   const fetchRecipe = async () => {
-    const fetchedRecipe = await axios.get(
-      `http://localhost:3001/recipes/${recipeId}`
-    );
+    const fetchedRecipe = await axios.get(`${BACKEND_URL}/recipes/${recipeId}`);
     setRecipe(fetchedRecipe.data[0]);
   };
 
@@ -67,6 +69,25 @@ export default function RecipePage() {
           </li>
         ))}
       </ol>
+      <Button
+        style={{
+          position: "fixed",
+          bottom: 70,
+          left: "50%",
+          width: 450,
+          transform: "translateX(-50%)",
+        }}
+        variant="contained"
+        color="primary"
+        onClick={() => setInstructionModalOpen(true)}
+      >
+        Start Cooking
+      </Button>
+      <InstructionListModal
+        recipe={recipe}
+        open={instructionModalopen}
+        onClose={() => setInstructionModalOpen(false)}
+      />
     </div>
   );
 }
