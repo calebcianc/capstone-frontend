@@ -11,6 +11,8 @@ import {
   Input,
   Typography,
 } from "@mui/material";
+import "./RecipePartialSurprise.css";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 import BACKEND_URL from "../../constants";
 
@@ -21,8 +23,8 @@ export default function RecipePartialSurprise({
   const [mealType, setMealType] = useState("");
   const [cuisineType, setCuisineType] = useState("");
   const [dietaryRestrictions, setDietaryRestrictions] = useState("none");
-  const [servings, setServings] = useState(1);
-  const [prepTime, setPrepTime] = useState("30min");
+  const [servings, setServings] = useState(2);
+  const [prepTime, setPrepTime] = useState(30);
   // const [recipeDetails, setRecipeDetails] = useState();
 
   useEffect(() => {
@@ -34,8 +36,8 @@ export default function RecipePartialSurprise({
     setMealType("");
     setCuisineType("");
     setDietaryRestrictions("none");
-    setServings(1);
-    setPrepTime("30min");
+    setServings(2);
+    setPrepTime(30);
   };
 
   const accessToken = true;
@@ -83,19 +85,24 @@ export default function RecipePartialSurprise({
 
   return (
     <div>
-      <Dialog open={openRecipePartialSurprise} onClose={handleClose}>
+      <Dialog
+        open={openRecipePartialSurprise}
+        onClose={handleClose}
+        maxWidth="sm" // Set maximum width to medium (you can adjust this as needed)
+        fullWidth
+      >
         <DialogTitle
           style={{
             backgroundColor: "#f7f4e8",
             color: "#2b2b2b",
-            borderRadius: "16px 16px 0 0",
+            borderRadius: "16px",
             fontWeight: "bold",
           }}
         >
           What'd you like to cook?
         </DialogTitle>
 
-        <DialogContent style={{ backgroundColor: "#f7f4e8" }}>
+        <DialogContent style={{ backgroundColor: "#f7f4e8", paddingBottom: 0 }}>
           {/* Meal Type */}
           <TextField
             select
@@ -105,7 +112,7 @@ export default function RecipePartialSurprise({
             variant="outlined"
             value={mealType}
             onChange={(e) => setMealType(e.target.value)}
-            style={{ backgroundColor: "#d5d4d0" }}
+            style={{ backgroundColor: "white" }}
           >
             <MenuItem value="breakfast">Breakfast</MenuItem>
             <MenuItem value="lunch">Lunch</MenuItem>
@@ -121,7 +128,7 @@ export default function RecipePartialSurprise({
             variant="outlined"
             value={cuisineType}
             onChange={(e) => setCuisineType(e.target.value)}
-            style={{ backgroundColor: "#d5d4d0" }}
+            style={{ backgroundColor: "white" }}
           >
             <MenuItem value="italian">Italian</MenuItem>
             <MenuItem value="chinese">Chinese</MenuItem>
@@ -144,7 +151,7 @@ export default function RecipePartialSurprise({
             variant="outlined"
             value={dietaryRestrictions}
             onChange={(e) => setDietaryRestrictions(e.target.value)}
-            style={{ backgroundColor: "#d5d4d0" }}
+            style={{ backgroundColor: "white" }}
           >
             <MenuItem value="none">None</MenuItem>
             <MenuItem value="vegetarian">Vegetarian</MenuItem>
@@ -159,95 +166,90 @@ export default function RecipePartialSurprise({
             <MenuItem value="low-carb">Low Carb</MenuItem>
           </TextField>
 
-          <Box mt={2}>
-            <Typography
-              variant="h7"
-              style={{ color: "#2b2b2b", fontWeight: "bold" }}
-            >
-              Serving Size
-            </Typography>
-          </Box>
           <Box
             display="flex"
             justifyContent="space-between"
             alignItems="center"
-            mt={1}
+            style={{
+              backgroundColor: "white",
+              margin: "8px 0",
+              padding: "6px 0",
+            }}
           >
-            {[1, 2, 3, 4, 5].map((num) => (
-              <Button
-                key={num}
-                variant={servings === num ? "contained" : "outlined"}
+            <Box flex="0 1 50%" textAlign="left">
+              <Typography
+                variant="h7"
                 style={{
-                  color: servings === num ? "#f7f4e8" : "#2b2b2b",
-                  backgroundColor: servings === num ? "#48789d" : undefined,
-                  borderColor: "#2b2b2b",
-                  borderRadius: "16px",
-                  flex: 1,
-                  margin: 4,
-                }}
-                onClick={() => {
-                  setServings(num);
+                  color: "#2b2b2b",
+
+                  marginLeft: "8px",
                 }}
               >
-                {num}
+                Serving Size
+              </Typography>
+            </Box>
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <Button
+                onClick={() => setServings((prev) => Math.max(1, prev - 1))} // Decrease but not below 1
+                className="button"
+              >
+                -
               </Button>
-            ))}
-            <Input
-              type="number"
-              inputProps={{ min: 6 }}
-              style={{
-                backgroundColor: "#d5d4d0",
-                borderRadius: "16px",
-                width: 60,
-                marginLeft: 4,
-              }}
-              onChange={(e) => {
-                const value = parseInt(e.target.value, 10);
-                if (value > 5) {
-                  setServings(value);
-                }
-              }}
-            />
+              <Typography>{servings} pax</Typography>
+              <Button
+                onClick={() => setServings((prev) => prev + 1)} // Increase serving size
+                className="button"
+              >
+                +
+              </Button>
+            </Box>
           </Box>
 
-          <Box mt={2}>
-            <Typography
-              variant="h7"
-              style={{ color: "#2b2b2b", fontWeight: "bold" }}
-            >
-              Preparation Time
-            </Typography>
-          </Box>
           <Box
             display="flex"
             justifyContent="space-between"
             alignItems="center"
-            mt={1}
+            style={{
+              backgroundColor: "white",
+              margin: "12px 0 4px 0",
+              padding: "6px 0",
+            }}
           >
-            {["15min", "30min", "1hr", "1.5hr", "2hr"].map((label) => (
-              <Button
-                key={label}
-                variant={prepTime === label ? "contained" : "outlined"}
+            <Box flex="0 1 50%" textAlign="left">
+              <Typography
+                variant="h7"
                 style={{
-                  color: prepTime === label ? "#f7f4e8" : "#2b2b2b",
-                  backgroundColor: prepTime === label ? "#48789d" : undefined,
-                  borderColor: "#2b2b2b",
-                  borderRadius: "16px",
-                  flex: 1,
-                  margin: 4,
-                }}
-                onClick={() => {
-                  setPrepTime(label);
+                  color: "#2b2b2b",
+                  marginLeft: "8px",
                 }}
               >
-                {label}
+                Preparation Time
+              </Typography>
+            </Box>
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <Button
+                onClick={() => setPrepTime((prev) => Math.max(15, prev - 15))} // Decrease by 15 but not below 15
+                className="button"
+              >
+                -
               </Button>
-            ))}
+              <Typography>{prepTime} mins</Typography>
+              <Button
+                onClick={() => setPrepTime((prev) => prev + 15)} // Increase prep time by 15
+                className="button"
+              >
+                +
+              </Button>
+            </Box>
           </Box>
         </DialogContent>
 
         <DialogActions
-          style={{ backgroundColor: "#f7f4e8", borderRadius: "0 0 16px 16px" }}
+          style={{
+            backgroundColor: "#f7f4e8",
+            borderRadius: "0 0 16px 16px",
+            padding: "24px 24px 16px 24px",
+          }}
         >
           <Button onClick={handleClose} style={{ color: "#e7372d" }}>
             Cancel
@@ -259,9 +261,9 @@ export default function RecipePartialSurprise({
               backgroundColor: "#2b2b2b",
               color: "#f7f4e8",
               borderRadius: "16px",
-              marginBottom: 10, // <- Added margin below here
-              marginRight: 8, // <- Added margin right here
             }}
+            endIcon={<RestartAltIcon />}
+            disabled={mealType === "" || cuisineType === ""}
           >
             Generate Recipe
           </Button>

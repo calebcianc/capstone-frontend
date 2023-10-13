@@ -15,6 +15,7 @@ import "./NewRecipeModal.css";
 import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import KeyboardIcon from "@mui/icons-material/Keyboard";
 import AssistantIcon from "@mui/icons-material/Assistant";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 function MySpeedDial({
   setOpenRecipePartialSurprise,
@@ -25,8 +26,8 @@ function MySpeedDial({
   // const [open, setOpen] = useState(false);
   const actions = [
     {
-      icon: <ContentPasteIcon />,
-      name: "Paste Recipe",
+      icon: <CloudUploadIcon />,
+      name: "Upload Recipe",
       onClick: () => {
         setOpenUserInputRecipe(true);
       },
