@@ -9,16 +9,24 @@ import {
   Typography,
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import makeOpenAiRequest from "./OpenAiRequest";
 
-function PasteRecipeModal({ openUserInputRecipe, setOpenUserInputRecipe }) {
+function PasteRecipeModal({
+  openUserInputRecipe,
+  setOpenUserInputRecipe,
+  setIsLoading,
+}) {
   const [text, setText] = useState("");
 
   const handleSubmit = () => {
-    // Process the text here, e.g., send it to your server or do some processing on the client side
+    const data = { type: "paste", input: text };
+    makeOpenAiRequest(data, setIsLoading);
+    handleClose();
     console.log(text);
   };
 
   const handleClose = () => {
+    setText("");
     setOpenUserInputRecipe(false);
   };
 

@@ -66,6 +66,7 @@ function App() {
     setRecipeList(fetchedRecipeList.data);
   };
 
+  // to help set the height of the app to the height of the viewport
   useEffect(() => {
     // Define the function
     const setVH = () => {
