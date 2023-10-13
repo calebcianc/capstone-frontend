@@ -24,11 +24,19 @@ Neutral Light: Use this for backgrounds, cards, or as an off-white alternative w
   border-radius: 25px;
 }
 
+/* div for body */
 .App-body {
-  background-color: var(--primary-color);
+  /* background-color: var(--primary-color); */
+  background-color: white;
   color: var(--neutral-dark);
+
+  /* so the content does not get obscured by the nav bar and bottom nav bar */
   padding-top: 60px;
   padding-bottom: 56px;
+
+  /* so the content is kept to a reasonable width and centered */
+  max-width: 1025px;
+  margin: auto;
 
   display: flex;
   flex-direction: column;
