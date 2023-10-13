@@ -1,0 +1,11 @@
+/* styles.css */
+.fabIcon {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  transition: transform 0.3s; /* This provides a smooth transition effect */
+}
+
+.fabIcon:hover {
+  transform: scale(1.5); /* This enlarges the icon by 10% when hovered */
+}

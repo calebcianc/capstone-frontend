@@ -1,10 +1,18 @@
 import React, { useState } from "react";
-import { Fab, Modal, ButtonGroup, Button, Typography } from "@mui/material";
+import {
+  Fab,
+  Modal,
+  ButtonGroup,
+  Button,
+  Typography,
+  Tooltip,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RecipePartialSurprise from "./RecipePartialSurprise";
 import BACKEND_URL from "../../constants";
 import "./LoadingSpinner.css";
 import PasteRecipeModal from "./RecipeFromUserInput";
+import "./NewRecipeModal.css";
 
 function NewRecipeModal() {
   const [open, setOpen] = useState(false);
@@ -63,10 +71,23 @@ function NewRecipeModal() {
   // code to send chatgpt a chunk of text to organise into the recipe format
 
   return (
-    <div>
-      <Fab color="primary" aria-label="add" onClick={handleOpen}>
-        <AddIcon />
-      </Fab>
+    <div
+      style={{
+        position: "absolute",
+        bottom: "10px",
+        right: "35px",
+        textAlign: "center",
+      }}
+    >
+      <div>
+        <Fab color="primary" aria-label="add" onClick={handleOpen}>
+          {/* <AddIcon /> */}
+          <img src="/logo512.png" alt="logo" className="fabIcon" />
+        </Fab>
+        <Typography variant="caption" display="block" gutterBottom mt={1}>
+          Add recipe
+        </Typography>
+      </div>
 
       {/* option selector */}
       <Modal
