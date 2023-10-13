@@ -2,42 +2,47 @@ import React, { useEffect, useState } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import TextToSpeech from "./TextToSpeech";
+// import TextToSpeech from "./TextToSpeech";
+import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
+import MicOffIcon from "@mui/icons-material/MicOff";
+import { IconButton } from "@mui/material";
 
-const SpeechToText = () => {
-  const [message, setMessage] = useState("");
-  const [listening, setListening] = useState(false);
+const SpeechToText = ({
+  setCurrentCardIndex,
+  totalSteps,
+  instructions,
+  listening,
+  setListening,
+}) => {
+  const [message, setMessage] = useState(false);
   const commands = [
     {
-      command: "step *",
-      callback: (number) => setMessage(`Step ${number} is being read`),
+      command: ["next step"],
+      callback: () =>
+        setCurrentCardIndex((prev) => {
+          if (prev < totalSteps - 1) {
+            console.log(`Move to next step`);
+            return prev + 1;
+          } else {
+            // Add a sound/ using text-to-speech to inform about the last step
+            console.log("You are already at the last step.");
+            return prev; // Remain on the current step
+          }
+        }),
     },
     {
-      command: ["Next", "Okay"],
-      callback: () => setMessage(`The next step is being read`),
-      matchInterim: true,
-    },
-    {
-      command: ["Repeat", "Again", "previous"],
-      callback: () => setMessage(`The previous step is being read again`),
-      matchInterim: true,
-    },
-    {
-      command: ["Hello", "Hi", "yo"],
-      callback: ({ command }) =>
-        setMessage(`${command} there! What shall we cook today?"`),
-      matchInterim: true,
-    },
-    {
-      command: "stop",
-      callback: () => {
-        setMessage(`Goodbye!`);
-        setListening(false);
-      },
-    },
-    {
-      command: ["clear", "reset"],
-      callback: ({ resetTranscript }) => resetTranscript(),
+      command: ["previous step"],
+      callback: () =>
+        setCurrentCardIndex((prev) => {
+          if (prev > 0) {
+            console.log(`Move to previous step`);
+            return prev - 1;
+          } else {
+            // Add a sound/ using text-to-speech to inform about the last step
+            console.log("You are already at the first step.");
+            return prev; // Remain on the current step
+          }
+        }),
     },
   ];
 
@@ -67,11 +72,17 @@ const SpeechToText = () => {
 
   return (
     <div>
-      <p>Microphone: {listening ? "on" : "off"}</p>
-      <button onClick={toggleListening}>{listening ? "Stop" : "Start"}</button>
-      <p>transcript: {transcript}</p>
-      <p>Message: {message}</p>
-      <TextToSpeech predefinedText={message} />
+      {listening ? (
+        <IconButton onClick={toggleListening}>
+          <KeyboardVoiceIcon />
+        </IconButton>
+      ) : (
+        <IconButton onClick={toggleListening}>
+          <MicOffIcon />
+        </IconButton>
+      )}
+      {/* <p>transcript: {transcript}</p>
+      <p>message: {message}</p> */}
     </div>
   );
 };

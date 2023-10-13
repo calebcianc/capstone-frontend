@@ -1,14 +1,16 @@
-import React, { useEffect } from "react";
+// text to speech API call
+import BACKEND_URL from "../../constants";
 
-const TextToSpeech = ({ predefinedText }) => {
-  useEffect(() => {
-    const utterance = new SpeechSynthesisUtterance(predefinedText);
-    window.speechSynthesis.speak(utterance);
-  }, [predefinedText]);
-
-  return <div></div>;
-};
+async function TextToSpeech(text) {
+  const response = await fetch(`${BACKEND_URL}/synthesize`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text }),
+  });
+  const blob = await response.blob();
+  const audioUrl = URL.createObjectURL(blob);
+  const audio = new Audio(audioUrl);
+  audio.play();
+}
 
 export default TextToSpeech;
-
-// to change to google API

@@ -6,6 +6,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CloseIcon from "@mui/icons-material/Close";
 import InstructionCard from "./InstructionCard";
 import IngredientList from "./IngredientList";
+import SpeechToText from "../SpeechTextUtilities/SpeechToText";
 import "../../App.css";
 
 function InstructionListModal({ open, onClose, recipe }) {
@@ -13,9 +14,10 @@ function InstructionListModal({ open, onClose, recipe }) {
   const [ingredients, setIngredients] = useState(recipe?.ingredients || []);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [viewingInstructions, setViewingInstructions] = useState(false);
+  const [listening, setListening] = useState(false);
 
-  console.log("instructions", instructions);
-  console.log("ingredients", ingredients);
+  // console.log("instructions", instructions);
+  // console.log("ingredients", ingredients);
 
   useEffect(() => {
     if (recipe?.instructions) {
@@ -40,6 +42,13 @@ function InstructionListModal({ open, onClose, recipe }) {
 
   const handleStartCooking = () => {
     setViewingInstructions((prevState) => !prevState);
+
+    // Start listening when switching to instruction view
+    if (!viewingInstructions) {
+      setListening(true);
+    } else {
+      setListening(false);
+    }
   };
 
   return (
@@ -68,14 +77,10 @@ function InstructionListModal({ open, onClose, recipe }) {
           >
             {!viewingInstructions ? (
               <>
-                <IngredientList ingredients={ingredients} />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleStartCooking}
-                >
-                  Ingredients present
-                </Button>
+                <IngredientList
+                  ingredients={ingredients}
+                  handleStartCooking={handleStartCooking}
+                />
               </>
             ) : (
               <>
@@ -107,6 +112,7 @@ function InstructionListModal({ open, onClose, recipe }) {
                     <ArrowForwardIosIcon />
                   </Button>
                 </div>
+
                 <InstructionCard
                   instructions={instructions}
                   currentCardIndex={currentCardIndex}
@@ -130,7 +136,20 @@ function InstructionListModal({ open, onClose, recipe }) {
                 alignItems: "center",
               }}
             >
-              {!viewingInstructions ? <p></p> : <p>Steps</p>}
+              {!viewingInstructions ? (
+                <p></p>
+              ) : (
+                <>
+                  <p>Steps</p>{" "}
+                  <SpeechToText
+                    setCurrentCardIndex={setCurrentCardIndex}
+                    totalSteps={recipe?.instructions.length || 0}
+                    instructions={instructions}
+                    listening={listening}
+                    setListening={setListening}
+                  />
+                </>
+              )}
 
               <Button onClick={onClose}>
                 <CloseIcon />
