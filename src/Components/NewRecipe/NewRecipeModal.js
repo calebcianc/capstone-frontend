@@ -5,6 +5,9 @@ import {
   ButtonGroup,
   Button,
   Typography,
+  SpeedDial,
+  SpeedDialIcon,
+  SpeedDialAction,
   Tooltip,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -13,8 +16,67 @@ import BACKEND_URL from "../../constants";
 import "./LoadingSpinner.css";
 import PasteRecipeModal from "./RecipeFromUserInput";
 import "./NewRecipeModal.css";
+import ContentPasteIcon from "@mui/icons-material/ContentPaste";
+import KeyboardIcon from "@mui/icons-material/Keyboard";
+import AssistantIcon from "@mui/icons-material/Assistant";
 
-function NewRecipeModal() {
+function MySpeedDial({
+  setOpenRecipePartialSurprise,
+  setOpenUserInputRecipe,
+  open,
+  setOpen,
+}) {
+  // const [open, setOpen] = useState(false);
+  const actions = [
+    {
+      icon: <ContentPasteIcon />,
+      name: "Paste Recipe",
+      onClick: () => {
+        setOpenUserInputRecipe(true);
+      },
+    },
+    {
+      icon: <KeyboardIcon />,
+      name: "Suggest Recipe",
+      onClick: () => {
+        setOpenRecipePartialSurprise(true);
+      },
+    },
+    { icon: <AssistantIcon />, name: "Surprise Me", onClick: () => {} },
+  ];
+
+  return (
+    <div style={{ position: "relative", width: "fit-content" }}>
+      <SpeedDial
+        ariaLabel="SpeedDial"
+        icon={<img src="/logo512.png" alt="logo" className="fabIcon" />}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        open={open}
+      >
+        {actions.map((action) => (
+          <SpeedDialAction
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+            onClick={action.onClick}
+          />
+        ))}
+      </SpeedDial>
+      <Typography
+        variant="caption"
+        display="block"
+        gutterBottom
+        mt={1}
+        style={{ textAlign: "center", marginTop: 8 }}
+      >
+        Add recipe
+      </Typography>
+    </div>
+  );
+}
+
+export default function NewRecipeModal() {
   const [open, setOpen] = useState(false);
   const [openRecipePartialSurprise, setOpenRecipePartialSurprise] =
     useState(false);
@@ -79,19 +141,17 @@ function NewRecipeModal() {
         textAlign: "center",
       }}
     >
-      <div>
-        <Fab color="primary" aria-label="add" onClick={handleOpen}>
-          {/* <AddIcon /> */}
-          <img src="/logo512.png" alt="logo" className="fabIcon" />
-        </Fab>
-        <Typography variant="caption" display="block" gutterBottom mt={1}>
-          Add recipe
-        </Typography>
-      </div>
-
-      {/* option selector */}
-      <Modal
+      {/* Buttons for the 3 options */}
+      <MySpeedDial
+        setOpenRecipePartialSurprise={setOpenRecipePartialSurprise}
+        setOpenUserInputRecipe={setOpenUserInputRecipe}
         open={open}
+        setOpen={setOpen}
+      />
+
+      {/* option selector - TO DELETE*/}
+      <Modal
+        // open={open}
         onClose={handleClose}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
@@ -204,5 +264,3 @@ function NewRecipeModal() {
     </div>
   );
 }
-
-export default NewRecipeModal;
