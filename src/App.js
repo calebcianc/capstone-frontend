@@ -46,6 +46,7 @@ function App() {
   });
   const [isModalOpen, setIsModalOpen] = useState(true);
 
+  // useEffect that shows the logo at the start of the app
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsModalOpen(false);

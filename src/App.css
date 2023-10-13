@@ -26,8 +26,8 @@ Neutral Light: Use this for backgrounds, cards, or as an off-white alternative w
 
 /* div for body */
 .App-body {
-  /* background-color: var(--primary-color); */
-  background-color: white;
+  background-color: var(--primary-color);
+  /* background-color: white; */
   color: var(--neutral-dark);
 
   /* so the content does not get obscured by the nav bar and bottom nav bar */

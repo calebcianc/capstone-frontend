@@ -7,5 +7,5 @@
 }
 
 .fabIcon:hover {
-  transform: scale(1.5); /* This enlarges the icon by 10% when hovered */
+  transform: scale(1.1); /* This enlarges the icon by 10% when hovered */
 }
