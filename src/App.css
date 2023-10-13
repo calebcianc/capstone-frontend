@@ -24,13 +24,14 @@ Neutral Light: Use this for backgrounds, cards, or as an off-white alternative w
   border-radius: 25px;
 }
 
-/* div for body */
+/* div for body*/
 .App-body {
   background-color: var(--primary-color);
   /* background-color: white; */
   color: var(--neutral-dark);
 
   /* so the content does not get obscured by the nav bar and bottom nav bar */
+
   padding-top: 60px;
   padding-bottom: 56px;
 
@@ -43,6 +44,16 @@ Neutral Light: Use this for backgrounds, cards, or as an off-white alternative w
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
+}
+
+.childDiv {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 60px - 56px); /* adjusted height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .bottom-navigation {
