@@ -15,6 +15,7 @@ const RecipeCard = (props) => {
 
   return (
     <Link to={`/recipe/${props.recipeData.id}`}>
+      {console.log(props.recipeData)}
       <Card
         sx={{
           width: "500px",
@@ -28,7 +29,7 @@ const RecipeCard = (props) => {
         <CardMedia
           component="img"
           height="140"
-          image={props.recipeData?.photoUrl} // Replace with the image URL you have // to add photourl in backend
+          image={props.recipeData.recipeImageUrl}
           alt={props.recipeData.name}
         />
         <CardContent>
@@ -41,8 +42,8 @@ const RecipeCard = (props) => {
               color="var(--neutral-dark)"
               style={{ marginLeft: "8px" }}
             >
-              Sandra Schumann
-              {/* {props.recipeData.creatorId} */}
+              {/* Sandra Schumann */}
+              {props.recipeData.user.name}
             </Typography>
             <IconButton
               style={{ marginLeft: "auto", color: "var(--accent-color-1)" }}

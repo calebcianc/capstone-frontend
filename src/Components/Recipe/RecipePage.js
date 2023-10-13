@@ -25,7 +25,7 @@ export default function RecipePage() {
       {/* Recipe Title & Photo */}
       <h3>{recipe.name}</h3>
       <img
-        src={recipe?.photoUrl} // to add photourl in backend
+        src={recipe.recipeImageUrl}
         alt={recipe.name}
         style={{ maxWidth: "50%", borderRadius: "16px" }}
       />
