@@ -1,0 +1,22 @@
+:root {
+  --primary-color: #f7f4e8;
+  --secondary-color: #48789d;
+  --accent-color-1: #e7372d;
+  --accent-color-2: #81c545;
+  --neutral-dark: #2b2b2b;
+  --neutral-light: #d5d4d0;
+}
+
+.button {
+  color: var(--neutral-dark);
+  /* background-color: var(--neutral-light); */
+  border-radius: 100%;
+  font-size: large;
+  font-weight: bold;
+}
+
+.button:hover {
+  background-color: inherit !important; /* Restores original background color on hover */
+  color: var(--secondary-color);
+  /* font-size: x-large; */
+}
