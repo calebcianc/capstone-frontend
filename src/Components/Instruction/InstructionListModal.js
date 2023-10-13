@@ -6,6 +6,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CloseIcon from "@mui/icons-material/Close";
 import InstructionCard from "./InstructionCard";
 import IngredientList from "./IngredientList";
+import SpeechToText from "../SpeechTextUtilities/SpeechToText";
 import "../../App.css";
 
 function InstructionListModal({ open, onClose, recipe }) {
@@ -103,6 +104,11 @@ function InstructionListModal({ open, onClose, recipe }) {
                     <ArrowForwardIosIcon />
                   </Button>
                 </div>
+                <SpeechToText
+                  setCurrentCardIndex={setCurrentCardIndex}
+                  totalSteps={recipe?.instructions.length || 0}
+                  instructions={instructions}
+                />
                 <InstructionCard
                   instructions={instructions}
                   currentCardIndex={currentCardIndex}

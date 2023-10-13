@@ -1,7 +1,8 @@
 // text to speech API call
+import BACKEND_URL from "../../constants";
 
 async function speak(text) {
-  const response = await fetch("http://localhost:3001/synthesize", {
+  const response = await fetch(`${BACKEND_URL}/synthesize`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text }),
