@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   TextField,
@@ -6,10 +6,52 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Typography,
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import makeOpenAiRequest from "./OpenAiRequest";
+import { useNavigate } from "react-router-dom";
+import BACKEND_URL from "../../constants";
+
+//custom hook with issues
+async function makeOpenAiRequest(data, setIsLoading, setRecipeId, event) {
+  if (event) {
+    event.preventDefault();
+  }
+
+  const accessToken = true;
+  const userId = 1;
+  data.userId = userId;
+  console.log("Sending data: ", data);
+
+  if (accessToken) {
+    console.log("generate for userid", userId);
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${BACKEND_URL}/recipes/new`, {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const newRecipeDetails = await response.json();
+      if (newRecipeDetails && newRecipeDetails.error) {
+        console.error("Error:", newRecipeDetails.error);
+      } else {
+        console.log("newRecipeDetails", JSON.stringify(newRecipeDetails));
+        console.log("newRecipeDetails.id", newRecipeDetails.id);
+        setRecipeId(newRecipeDetails.id);
+        // navigate(`/recipes/${newRecipeDetails.id}`);
+      }
+      setIsLoading(false);
+      return newRecipeDetails;
+    } catch (error) {
+      setIsLoading(false);
+
+      console.error("Error while fetching:", error);
+      throw error;
+    }
+  } else {
+    alert("Login to create your preferred recipe!");
+  }
+}
 
 function PasteRecipeModal({
   openUserInputRecipe,
@@ -17,10 +59,18 @@ function PasteRecipeModal({
   setIsLoading,
 }) {
   const [text, setText] = useState("");
+  const navigate = useNavigate();
+  const [recipeId, setRecipeId] = useState();
+
+  useEffect(() => {
+    if (recipeId) {
+      navigate(`/recipe/${recipeId}`);
+    }
+  }, [recipeId]);
 
   const handleSubmit = () => {
     const data = { type: "paste", input: text };
-    makeOpenAiRequest(data, setIsLoading);
+    makeOpenAiRequest(data, setIsLoading, setRecipeId);
     handleClose();
     console.log(text);
   };

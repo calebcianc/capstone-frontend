@@ -1,14 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Typography, SpeedDial, SpeedDialAction } from "@mui/material";
 import SuggestRecipeModal from "./SuggestRecipeModal";
-import BACKEND_URL from "../../constants";
 import "./LoadingGif.css";
 import PasteRecipeModal from "./PasteRecipeModal";
 import "./NewRecipeModal.css";
 import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import KeyboardIcon from "@mui/icons-material/Keyboard";
 import AssistantIcon from "@mui/icons-material/Assistant";
-import makeOpenAiRequest from "./OpenAiRequest";
+import { useNavigate } from "react-router-dom";
+import BACKEND_URL from "../../constants";
+
+//custom hook with issues
+async function makeOpenAiRequest(data, setIsLoading, setRecipeId) {
+  // if (event) {
+  //   event.preventDefault();
+  // }
+
+  const accessToken = true;
+  const userId = 1;
+  data.userId = userId;
+  console.log("Sending data: ", data);
+
+  if (accessToken) {
+    console.log("generate for userid", userId);
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${BACKEND_URL}/recipes/new`, {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const newRecipeDetails = await response.json();
+      if (newRecipeDetails && newRecipeDetails.error) {
+        console.error("Error:", newRecipeDetails.error);
+      } else {
+        console.log("newRecipeDetails", JSON.stringify(newRecipeDetails));
+        console.log("newRecipeDetails.id", newRecipeDetails.id);
+        setRecipeId(newRecipeDetails.id);
+        // navigate(`/recipes/${newRecipeDetails.id}`);
+      }
+      setIsLoading(false);
+      return newRecipeDetails;
+    } catch (error) {
+      setIsLoading(false);
+
+      console.error("Error while fetching:", error);
+      throw error;
+    }
+  } else {
+    alert("Login to create your preferred recipe!");
+  }
+}
 
 function MySpeedDial({
   setOpenRecipePartialSurprise,
@@ -16,7 +58,9 @@ function MySpeedDial({
   open,
   setOpen,
   setIsLoading,
+  setRecipeId,
 }) {
+  const data = { type: "surprise", input: "" };
   const actions = [
     {
       icon: <ContentPasteIcon />,
@@ -36,8 +80,7 @@ function MySpeedDial({
       icon: <AssistantIcon />,
       name: "Surprise Me",
       onClick: () => {
-        const data = { type: "surprise" };
-        makeOpenAiRequest(data, setIsLoading);
+        makeOpenAiRequest(data, setIsLoading, setRecipeId);
       },
     },
   ];
@@ -73,53 +116,14 @@ export default function NewRecipeModal() {
     useState(false);
   const [openUserInputRecipe, setOpenUserInputRecipe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [recipeId, setRecipeId] = useState(null);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const accessToken = true;
-  const userId = 1;
-  const type = "surprise";
-
-  // code to generate a random recipe
-  async function handleTotalSurprise(type) {
-    if (accessToken) {
-      console.log("generate for userid", userId);
-      // event.preventDefault();
-      const cuisineType = "Random";
-      const recipeParameters = {
-        cuisineType,
-      };
-
-      try {
-        setIsLoading(true);
-        const response = await fetch(`${BACKEND_URL}/recipes/partialsurprise`, {
-          method: "POST",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify(recipeParameters),
-        });
-        const newRecipeDetails = await response.json();
-        if (newRecipeDetails && newRecipeDetails.error) {
-        } else {
-          // setRecipeDetails(newRecipeDetails);
-          console.log("newRecipeDetails", newRecipeDetails);
-          // const newItineraryId =
-          //   newItineraryDetails[newItineraryDetails.length - 1].id;
-          // setSelectedItinerary(newItineraryId);
-        }
-        // navigate(`/upcoming`);
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-      }
-      handleClose();
-    } else {
-      alert("Login to create your preferred recipe!");
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (recipeId) {
+      navigate(`/recipe/${recipeId}`);
     }
-  }
-
-  // code to send chatgpt a chunk of text to organise into the recipe format
+  }, [recipeId]);
 
   return (
     <div
@@ -137,6 +141,7 @@ export default function NewRecipeModal() {
         open={open}
         setOpen={setOpen}
         setIsLoading={setIsLoading}
+        setRecipeId={setRecipeId}
       />
 
       <SuggestRecipeModal
@@ -156,24 +161,8 @@ export default function NewRecipeModal() {
           <img
             src="https://cdn.dribbble.com/users/2243442/screenshots/11362056/media/c9432283d2d6ba1a23f2fcd6169f2983.gif"
             alt="Loading..."
-            style={{ borderRadius: "10px" }}
+            style={{ borderRadius: "10px", height: "500px" }}
           />
-
-          {/* <div
-            style={{
-              position: "fixed", // Set the position to fixed
-              top: "50%", // Vertically center
-              left: "50%", // Horizontally center
-              transform: "translate(-50%, 170px)", // Offset by 150px down
-              color: "black",
-              textAlign: "center",
-              zIndex: 1,
-              fontSize: "20px",
-              fontWeight: "bold",
-            }}
-          >
-            
-          </div> */}
         </div>
       )}
     </div>
