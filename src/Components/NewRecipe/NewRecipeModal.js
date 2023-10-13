@@ -1,16 +1,12 @@
 import React, { useState } from "react";
 import {
-  Fab,
   Modal,
   ButtonGroup,
   Button,
   Typography,
   SpeedDial,
-  SpeedDialIcon,
   SpeedDialAction,
-  Tooltip,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 import RecipePartialSurprise from "./RecipePartialSurprise";
 import BACKEND_URL from "../../constants";
 import "./LoadingSpinner.css";
@@ -46,7 +42,9 @@ function MySpeedDial({
   ];
 
   return (
-    <div style={{ position: "relative", width: "fit-content" }}>
+    <div
+    //  style={{ position: "relative", width: "fit-content" }}
+    >
       <SpeedDial
         ariaLabel="SpeedDial"
         icon={<img src="/logo512.png" alt="logo" className="fabIcon" />}
@@ -66,9 +64,9 @@ function MySpeedDial({
       <Typography
         variant="caption"
         display="block"
-        gutterBottom
+        // gutterBottom
         mt={1}
-        style={{ textAlign: "center", marginTop: 8 }}
+        // style={{ textAlign: "center", marginTop: 8 }}
       >
         Add recipe
       </Typography>
@@ -83,9 +81,9 @@ export default function NewRecipeModal() {
   const [openUserInputRecipe, setOpenUserInputRecipe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  // const handleOpen = () => {
+  //   setOpen(true);
+  // };
   const handleClose = () => {
     setOpen(false);
   };
