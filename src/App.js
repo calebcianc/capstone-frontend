@@ -20,7 +20,7 @@ import RecipePage from "./Components/Recipe/RecipePage";
 import BACKEND_URL from "./constants";
 
 function App() {
-  const [value, setValue] = React.useState(1);
+  const [value, setValue] = useState(1);
   const navigate = useNavigate();
   const theme = createTheme({
     components: {
@@ -90,7 +90,7 @@ function App() {
     <div className="App">
       {/* {console.log(recipeList)} */}
       <WelcomeModal open={isModalOpen} onClose={() => setIsModalOpen(false)} />
-      <Navbar />
+      <Navbar setValue={setValue} />
       <body className="App-body">
         <Routes>
           <Route path="/" element={<HomePage recipeList={recipeList} />} />

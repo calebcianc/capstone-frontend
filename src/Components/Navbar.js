@@ -4,7 +4,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 
-function Navbar() {
+export default function Navbar({ setValue }) {
   const navigate = useNavigate();
 
   return (
@@ -20,6 +20,7 @@ function Navbar() {
             cursor: "pointer",
           }}
           onClick={() => {
+            setValue(1);
             navigate("/");
           }}
         >
@@ -29,5 +30,3 @@ function Navbar() {
     </AppBar>
   );
 }
-
-export default Navbar;
