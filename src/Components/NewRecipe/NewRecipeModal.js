@@ -1,33 +1,26 @@
 import React, { useState } from "react";
-import {
-  Modal,
-  ButtonGroup,
-  Button,
-  Typography,
-  SpeedDial,
-  SpeedDialAction,
-} from "@mui/material";
-import RecipePartialSurprise from "./RecipePartialSurprise";
+import { Typography, SpeedDial, SpeedDialAction } from "@mui/material";
+import SuggestRecipeModal from "./SuggestRecipeModal";
 import BACKEND_URL from "../../constants";
-import "./LoadingSpinner.css";
-import PasteRecipeModal from "./RecipeFromUserInput";
+import "./LoadingGif.css";
+import PasteRecipeModal from "./PasteRecipeModal";
 import "./NewRecipeModal.css";
 import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import KeyboardIcon from "@mui/icons-material/Keyboard";
 import AssistantIcon from "@mui/icons-material/Assistant";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import makeOpenAiRequest from "./OpenAiRequest";
 
 function MySpeedDial({
   setOpenRecipePartialSurprise,
   setOpenUserInputRecipe,
   open,
   setOpen,
+  setIsLoading,
 }) {
-  // const [open, setOpen] = useState(false);
   const actions = [
     {
-      icon: <CloudUploadIcon />,
-      name: "Upload Recipe",
+      icon: <ContentPasteIcon />,
+      name: "Paste Recipe",
       onClick: () => {
         setOpenUserInputRecipe(true);
       },
@@ -39,13 +32,18 @@ function MySpeedDial({
         setOpenRecipePartialSurprise(true);
       },
     },
-    { icon: <AssistantIcon />, name: "Surprise Me", onClick: () => {} },
+    {
+      icon: <AssistantIcon />,
+      name: "Surprise Me",
+      onClick: () => {
+        const data = { type: "surprise" };
+        makeOpenAiRequest(data, setIsLoading);
+      },
+    },
   ];
 
   return (
-    <div
-    //  style={{ position: "relative", width: "fit-content" }}
-    >
+    <div>
       <SpeedDial
         ariaLabel="SpeedDial"
         icon={<img src="/logo512.png" alt="logo" className="fabIcon" />}
@@ -62,13 +60,7 @@ function MySpeedDial({
           />
         ))}
       </SpeedDial>
-      <Typography
-        variant="caption"
-        display="block"
-        // gutterBottom
-        mt={1}
-        // style={{ textAlign: "center", marginTop: 8 }}
-      >
+      <Typography variant="caption" display="block" mt={1}>
         Add recipe
       </Typography>
     </div>
@@ -82,18 +74,16 @@ export default function NewRecipeModal() {
   const [openUserInputRecipe, setOpenUserInputRecipe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // const handleOpen = () => {
-  //   setOpen(true);
-  // };
   const handleClose = () => {
     setOpen(false);
   };
 
   const accessToken = true;
   const userId = 1;
+  const type = "surprise";
 
   // code to generate a random recipe
-  async function handleTotalSurprise() {
+  async function handleTotalSurprise(type) {
     if (accessToken) {
       console.log("generate for userid", userId);
       // event.preventDefault();
@@ -146,93 +136,19 @@ export default function NewRecipeModal() {
         setOpenUserInputRecipe={setOpenUserInputRecipe}
         open={open}
         setOpen={setOpen}
+        setIsLoading={setIsLoading}
       />
 
-      {/* option selector - TO DELETE*/}
-      <Modal
-        // open={open}
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        <div
-          style={{
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            position: "absolute",
-            width: 400,
-            backgroundColor: "white",
-            padding: 20,
-          }}
-        >
-          <ButtonGroup
-            variant="text"
-            color="primary"
-            fullWidth
-            aria-label="text primary button group"
-          >
-            <Button>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-                onClick={() => {
-                  setOpenUserInputRecipe(true);
-                }}
-              >
-                <div style={{ fontSize: "40px" }}>📋</div>{" "}
-                {/* Replace with your Paste Text icon */}
-                <Typography>Paste Recipe</Typography>
-              </div>
-            </Button>
-            <Button>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-                onClick={() => {
-                  setOpenRecipePartialSurprise(true);
-                }}
-              >
-                <div style={{ fontSize: "40px" }}>🌐</div>{" "}
-                {/* Replace with your Web Browsing icon */}
-                <Typography>Some Help</Typography>
-              </div>
-            </Button>
-            <Button>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-                onClick={() => {
-                  handleTotalSurprise();
-                }}
-              >
-                <div style={{ fontSize: "40px" }}>🎁</div>{" "}
-                {/* Replace with your Mystery Box icon */}
-                <Typography>Surprise me!</Typography>
-              </div>
-            </Button>
-          </ButtonGroup>
-        </div>
-      </Modal>
-
-      {/* partial surprise modal */}
-      <RecipePartialSurprise
+      <SuggestRecipeModal
         openRecipePartialSurprise={openRecipePartialSurprise}
         setOpenRecipePartialSurprise={setOpenRecipePartialSurprise}
+        setIsLoading={setIsLoading}
       />
 
       <PasteRecipeModal
         openUserInputRecipe={openUserInputRecipe}
         setOpenUserInputRecipe={setOpenUserInputRecipe}
+        setIsLoading={setIsLoading}
       />
 
       {isLoading && (
@@ -243,7 +159,7 @@ export default function NewRecipeModal() {
             style={{ borderRadius: "10px" }}
           />
 
-          <div
+          {/* <div
             style={{
               position: "fixed", // Set the position to fixed
               top: "50%", // Vertically center
@@ -256,8 +172,8 @@ export default function NewRecipeModal() {
               fontWeight: "bold",
             }}
           >
-            {/* {currentPhrase} */}
-          </div>
+            
+          </div> */}
         </div>
       )}
     </div>

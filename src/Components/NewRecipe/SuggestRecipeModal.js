@@ -8,17 +8,16 @@ import {
   DialogActions,
   TextField,
   MenuItem,
-  Input,
   Typography,
 } from "@mui/material";
-import "./RecipePartialSurprise.css";
+import "./SuggestRecipeModal.css";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import makeOpenAiRequest from "./OpenAiRequest";
 
-import BACKEND_URL from "../../constants";
-
-export default function RecipePartialSurprise({
+export default function SuggestRecipeModal({
   openRecipePartialSurprise,
   setOpenRecipePartialSurprise,
+  setIsLoading,
 }) {
   const [mealType, setMealType] = useState("");
   const [cuisineType, setCuisineType] = useState("");
@@ -40,48 +39,21 @@ export default function RecipePartialSurprise({
     setPrepTime(30);
   };
 
-  const accessToken = true;
-  const userId = 1;
-
-  async function handleCreate(event) {
-    if (accessToken) {
-      console.log("generate for userid", userId);
-      event.preventDefault();
-
-      const recipeParameters = {
+  const handleSubmit = (event) => {
+    const data = {
+      type: "suggest",
+      input: {
         mealType,
         cuisineType,
         dietaryRestrictions,
         servings,
         prepTime,
-      };
-
-      try {
-        // setIsLoading(true);
-        const response = await fetch(`${BACKEND_URL}/recipes/partialsurprise`, {
-          method: "POST",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify(recipeParameters),
-        });
-        const newRecipeDetails = await response.json();
-        if (newRecipeDetails && newRecipeDetails.error) {
-        } else {
-          // setRecipeDetails(newRecipeDetails);
-          console.log("newRecipeDetails", newRecipeDetails);
-          // const newItineraryId =
-          //   newItineraryDetails[newItineraryDetails.length - 1].id;
-          // setSelectedItinerary(newItineraryId);
-        }
-        // navigate(`/upcoming`);
-        // setIsLoading(false);
-      } catch (error) {
-        // setIsLoading(false);
-      }
-      handleClose();
-    } else {
-      alert("Login to create your preferred recipe!");
-    }
-  }
+      },
+    };
+    makeOpenAiRequest(data, setIsLoading, event);
+    handleClose();
+    console.log(JSON.stringify(data));
+  };
 
   return (
     <div>
@@ -248,14 +220,14 @@ export default function RecipePartialSurprise({
           style={{
             backgroundColor: "#f7f4e8",
             borderRadius: "0 0 16px 16px",
-            padding: "24px 24px 16px 24px",
+            padding: "16px 24px 16px 24px",
           }}
         >
           <Button onClick={handleClose} style={{ color: "#e7372d" }}>
             Cancel
           </Button>
           <Button
-            onClick={handleCreate}
+            onClick={handleSubmit}
             variant="contained"
             style={{
               backgroundColor: "#2b2b2b",
