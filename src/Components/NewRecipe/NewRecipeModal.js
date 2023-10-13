@@ -135,7 +135,7 @@ export default function NewRecipeModal() {
       style={{
         position: "absolute",
         bottom: "10px",
-        right: "35px",
+        right: "25px",
         textAlign: "center",
       }}
     >
