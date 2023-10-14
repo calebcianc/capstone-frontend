@@ -6,12 +6,7 @@ const RecipeList = (props) => {
     return <RecipeCard recipeData={recipe} />;
   });
 
-  return (
-    <div className="recipe-list-container">
-      {/* {console.log(props.recipeList)} */}
-      {recipeList}
-    </div>
-  );
+  return <div className="recipe-list-container">{recipeList}</div>;
 };
 
 export default RecipeList;

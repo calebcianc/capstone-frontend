@@ -9,7 +9,6 @@ import {
 import HourglassTopIcon from "@mui/icons-material/HourglassTop";
 import { Link } from "react-router-dom";
 import "./RecipeCard.css";
-// import AglioOlioRecipe from "../../Test/AglioOlioRecipe";
 
 const RecipeCard = (props) => {
   return (
