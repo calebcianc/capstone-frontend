@@ -1,0 +1,51 @@
+.recipe-container {
+  color: var(--neutral-dark);
+  background-color: var(--primary-color);
+  height: 100%;
+  /* overflow: auto; */
+  display: grid;
+  grid-template-columns: 1fr; /* On mobile devices, only 1 column is shown */
+  grid-template-areas:
+    "title-photo"
+    "ingredients"
+    "instructions";
+}
+
+.recipe-ingredients-instructions {
+  overflow: auto;
+  border-width: 1px;
+  border-color: var(--neutral-light);
+  border-style: solid;
+  border-radius: 16px;
+  max-width: 430px;
+  margin: 10px 0px;
+  padding: 10px;
+}
+
+.ingredients-instructions {
+  font-size: medium;
+}
+
+.recipe-title-photo {
+  grid-area: title-photo;
+}
+
+.recipe-ingredients {
+  grid-area: ingredients;
+  color: var(--secondary-color);
+}
+
+.recipe-instructions {
+  grid-area: instructions;
+  color: var(--accent-color-1);
+  overflow: auto;
+}
+
+@media (min-width: 800px) {
+  .recipe-container {
+    grid-template-columns: 1fr 1fr; /* On tablets, 2 columns are shown */
+    grid-template-areas:
+      "title-photo ingredients"
+      "title-photo instructions";
+  }
+}
