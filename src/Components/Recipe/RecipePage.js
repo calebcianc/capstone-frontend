@@ -23,13 +23,21 @@ export default function RecipePage() {
   if (!recipe) return <div>Loading...</div>;
 
   return (
-    <div style={{ color: "#2b2b2b", backgroundColor: "#f7f4e8" }}>
+    <div
+      style={{
+        color: "#2b2b2b",
+        backgroundColor: "#f7f4e8",
+        paddingTop: "64px",
+        paddingBottom: "56px",
+        maxHeight: "100vh-64px-56px",
+      }}
+    >
       {/* Recipe Title & Photo */}
       <h3>{recipe.name}</h3>
       <img
         src={recipe.recipeImageUrl}
         alt={recipe.name}
-        style={{ maxWidth: "50%", borderRadius: "16px" }}
+        style={{ maxWidth: "50%", borderRadius: "16px", height: "100px" }}
       />
 
       {/* Ingredients */}
