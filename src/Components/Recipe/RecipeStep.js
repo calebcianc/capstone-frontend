@@ -10,18 +10,21 @@ export default function RecipeStep({ instruction }) {
     >
       {/* step photo */}
       {instruction.photoUrl && (
-        <img
-          src={instruction.photoUrl}
-          alt={`Step ${instruction.step}`}
-          style={{
-            maxWidth: "100%",
-            borderRadius: "16px",
-          }}
-        />
+        <div className="step-label-container">
+          <img
+            src={instruction.photoUrl}
+            alt={`Step ${instruction.step}`}
+            style={{
+              maxWidth: "100%",
+              borderRadius: "16px",
+            }}
+          />
+          <span className="step-label">Step {instruction.step}</span>
+        </div>
       )}
 
       {/* step */}
-      <div>{instruction.instruction}</div>
+      <p>{instruction.instruction}</p>
     </Card>
   );
 }
