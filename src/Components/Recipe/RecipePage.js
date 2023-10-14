@@ -6,6 +6,7 @@ import { Fab, Typography } from "@mui/material";
 import BACKEND_URL from "../../constants";
 import "./RecipePage.css";
 import "../NewRecipe/FabIcon.css";
+import RecipeStep from "./RecipeStep";
 
 export default function RecipePage() {
   const [instructionModalopen, setInstructionModalOpen] = useState(false);
@@ -29,7 +30,14 @@ export default function RecipePage() {
       <div className="recipe-container">
         {/* Recipe Title & Photo */}
         <div className="recipe-title-photo">
-          <h3>{recipe.name}</h3>
+          <Typography
+            variant="h4"
+            fontFamily={"Bitter, serif"}
+            fontWeight={"bold"}
+            gutterBottom
+          >
+            {recipe.name}
+          </Typography>
           <img
             src={recipe.recipeImageUrl}
             alt={recipe.name}
@@ -39,9 +47,19 @@ export default function RecipePage() {
             Total time: {recipe.totalTime} mins
           </Typography>
         </div>
+
         {/* Ingredients */}
         <div className="recipe-ingredients">
-          <h4 style={{ marginTop: "16px", color: "#48789d" }}>Ingredients</h4>
+          <div className="recipe-ingredients-header-box">
+            <Typography
+              variant="h5"
+              fontFamily={"Bitter, serif"}
+              fontWeight={"bold"}
+              gutterBottom
+            >
+              Ingredients
+            </Typography>
+          </div>
           <ul
             className="ingredients-instructions"
             style={{ listStyleType: "none", padding: 0, textAlign: "left" }}
@@ -57,32 +75,27 @@ export default function RecipePage() {
             ))}
           </ul>
         </div>
+
         {/* Instructions */}
         <div className="recipe-instructions">
-          <h4 style={{ marginTop: "16px", color: "#e7372d" }}>Instructions</h4>
-          <ol style={{ textAlign: "left" }}>
+          <div className="recipe-instructions-header-box">
+            <Typography
+              variant="h5"
+              fontFamily={"Bitter, serif"}
+              fontWeight={"bold"}
+              gutterBottom
+            >
+              Instructions
+            </Typography>
+          </div>
+          <div className="recipe-instructions-steps-box">
             {recipe.instructions?.map((instruction) => (
-              <li
-                key={instruction.id}
-                className="ingredients-instructions"
-                style={{ marginBottom: "12px" }}
-              >
-                <div>{instruction.instruction}</div>
-                {instruction.photoUrl && (
-                  <img
-                    src={instruction.photoUrl}
-                    alt={`Step ${instruction.step}`}
-                    style={{
-                      maxWidth: "50%",
-                      borderRadius: "16px",
-                      marginTop: "8px",
-                    }}
-                  />
-                )}
-              </li>
+              <RecipeStep instruction={instruction} />
             ))}
-          </ol>
+          </div>
         </div>
+
+        {/* start cooking button */}
         <div className="fab-container">
           <Fab color="primary" onClick={() => setInstructionModalOpen(true)}>
             <img src="/logo512.png" alt="Start Cooking" className="fab-icon" />

@@ -30,7 +30,7 @@ export default function WelcomeModal({ open, onClose }) {
       <Fade in={open} timeout={{ exit: 1500 }}>
         <div style={modalStyle}>
           <img src="/logo512.png" className="App-logo" alt="logo" />
-          <h1>Welcome to ChefTalk</h1>
+          <h1>Welcome to CHEFTALK</h1>
         </div>
       </Fade>
     </Modal>
