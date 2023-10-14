@@ -34,6 +34,10 @@ export default function RecipePage() {
             variant="h4"
             fontFamily={"Bitter, serif"}
             fontWeight={"bold"}
+            marginTop={"20px"}
+            marginBottom={"20px"}
+            paddingLeft={"10px"}
+            height={"40px"}
             gutterBottom
           >
             {recipe.name}
@@ -43,9 +47,9 @@ export default function RecipePage() {
             alt={recipe.name}
             className="recipe-photo"
           />
-          <Typography style={{ margin: "10px 0px" }}>
+          {/* <Typography variant="caption" style={{ margin: "10px 0px" }}>
             Total time: {recipe.totalTime} mins
-          </Typography>
+          </Typography> */}
         </div>
 
         {/* Ingredients */}
@@ -55,22 +59,23 @@ export default function RecipePage() {
               variant="h5"
               fontFamily={"Bitter, serif"}
               fontWeight={"bold"}
-              gutterBottom
+              height={"40px"}
             >
               Ingredients
             </Typography>
           </div>
-          <ul
-            className="ingredients-instructions"
-            style={{ listStyleType: "none", padding: 0, textAlign: "left" }}
-          >
+          <ul className="ingredients-instructions">
             {recipe.ingredients?.map((ingredient) => (
-              <li key={ingredient.id} style={{ marginBottom: "8px" }}>
-                <span>{ingredient.name}: </span>
-                <span>{ingredient.quantity}</span>
-                {ingredient.unitOfMeasurement && (
-                  <span> {ingredient.unitOfMeasurement}</span>
-                )}
+              <li key={ingredient.id} className="ingredient-row">
+                <div className="ingredient-quantity">
+                  <span>{ingredient.quantity}</span>
+                  {ingredient.unitOfMeasurement && (
+                    <span> {ingredient.unitOfMeasurement}</span>
+                  )}
+                </div>
+                <div className="ingredient-name">
+                  <span>{ingredient.name}</span>
+                </div>
               </li>
             ))}
           </ul>
@@ -83,7 +88,8 @@ export default function RecipePage() {
               variant="h5"
               fontFamily={"Bitter, serif"}
               fontWeight={"bold"}
-              gutterBottom
+              marginTop={"10px"}
+              height={"40px"}
             >
               Instructions
             </Typography>
@@ -110,6 +116,8 @@ export default function RecipePage() {
           </Typography>
         </div>
       </div>
+
+      {/* Instruction List Modal */}
       <InstructionListModal
         recipe={recipe}
         open={instructionModalopen}
