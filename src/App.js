@@ -45,6 +45,7 @@ function App() {
     },
   });
   const [isModalOpen, setIsModalOpen] = useState(true);
+  const [counter, setCounter] = useState(0);
 
   // useEffect that shows the logo at the start of the app
   useEffect(() => {
@@ -90,7 +91,11 @@ function App() {
     <div className="App">
       {/* {console.log(recipeList)} */}
       <WelcomeModal open={isModalOpen} onClose={() => setIsModalOpen(false)} />
+
+      {/* top nav bar */}
       <Navbar setValue={setValue} />
+
+      {/* everything else */}
       <body className="App-body">
         <Routes>
           <Route path="/" element={<HomePage recipeList={recipeList} />} />
@@ -103,6 +108,8 @@ function App() {
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </body>
+
+      {/* bottom navigation bar */}
       <Box>
         <ThemeProvider theme={theme}>
           <BottomNavigation

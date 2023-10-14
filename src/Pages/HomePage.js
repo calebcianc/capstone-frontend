@@ -7,7 +7,7 @@ import "../App.css";
 export default function HomePage(props) {
   return (
     <div className="childDiv">
-      <h3>This is the Home page</h3>
+      {/* <h3>This is the Home page</h3> */}
       {/* <SpeechToText /> */}
       {/* {console.log(props.recipeList)} */}
       <RecipeList recipeList={props.recipeList} />

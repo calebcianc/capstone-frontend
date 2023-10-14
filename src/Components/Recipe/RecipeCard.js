@@ -8,22 +8,14 @@ import {
 } from "@mui/material";
 import HourglassTopIcon from "@mui/icons-material/HourglassTop";
 import { Link } from "react-router-dom";
+import "./RecipeCard.css";
 // import AglioOlioRecipe from "../../Test/AglioOlioRecipe";
 
 const RecipeCard = (props) => {
   return (
-    <Link to={`/recipe/${props.recipeData.id}`}>
+    <Link to={`/recipe/${props.recipeData.id}`} className="no-underline">
       {console.log(props.recipeData)}
-      <Card
-        sx={{
-          width: "500px",
-          maxWidth: "100%",
-          borderRadius: "16px",
-          background: "white",
-          // "var(--neutral-light)",
-          // "var(--primary-color)",
-        }}
-      >
+      <Card className="recipe-card">
         <CardMedia
           component="img"
           height="140"
@@ -31,7 +23,7 @@ const RecipeCard = (props) => {
           alt={props.recipeData.name}
         />
         <CardContent>
-          <Typography variant="h6" color="var(--secondary-color)" gutterBottom>
+          <Typography variant="h6" className="recipe-card-name" gutterBottom>
             {props.recipeData.name}
           </Typography>
           <div style={{ display: "flex", alignItems: "center" }}>

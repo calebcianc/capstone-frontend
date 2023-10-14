@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import Button from "@mui/material/Button";
 import InstructionListModal from "../Instruction/InstructionListModal";
+import { Fab, Typography } from "@mui/material";
 import BACKEND_URL from "../../constants";
 import "./RecipePage.css";
-import { Typography } from "@mui/material";
+import "../NewRecipe/FabIcon.css";
 
 export default function RecipePage() {
   const [instructionModalopen, setInstructionModalOpen] = useState(false);
@@ -25,28 +25,26 @@ export default function RecipePage() {
   if (!recipe) return <div>Loading...</div>;
 
   return (
-    <div className="recipe-container">
-      {/* Recipe Title & Photo */}
-      <div className="recipe-title-photo">
-        <h3>{recipe.name}</h3>
-        <img
-          src={recipe.recipeImageUrl}
-          alt={recipe.name}
-          style={{ borderRadius: "16px", width: "430px" }}
-        />
-
-        <Typography style={{ margin: "10px 0px" }}>
-          Total time: {recipe.totalTime} mins
-        </Typography>
-      </div>
-
-      <div className="recipe-ingredients-instructions">
+    <>
+      <div className="recipe-container">
+        {/* Recipe Title & Photo */}
+        <div className="recipe-title-photo">
+          <h3>{recipe.name}</h3>
+          <img
+            src={recipe.recipeImageUrl}
+            alt={recipe.name}
+            className="recipe-photo"
+          />
+          <Typography style={{ margin: "10px 0px" }}>
+            Total time: {recipe.totalTime} mins
+          </Typography>
+        </div>
         {/* Ingredients */}
         <div className="recipe-ingredients">
           <h4 style={{ marginTop: "16px", color: "#48789d" }}>Ingredients</h4>
           <ul
             className="ingredients-instructions"
-            style={{ listStyleType: "none", padding: 0 }}
+            style={{ listStyleType: "none", padding: 0, textAlign: "left" }}
           >
             {recipe.ingredients?.map((ingredient) => (
               <li key={ingredient.id} style={{ marginBottom: "8px" }}>
@@ -62,7 +60,7 @@ export default function RecipePage() {
         {/* Instructions */}
         <div className="recipe-instructions">
           <h4 style={{ marginTop: "16px", color: "#e7372d" }}>Instructions</h4>
-          <ol>
+          <ol style={{ textAlign: "left" }}>
             {recipe.instructions?.map((instruction) => (
               <li
                 key={instruction.id}
@@ -85,27 +83,25 @@ export default function RecipePage() {
             ))}
           </ol>
         </div>
+        <div className="fab-container">
+          <Fab color="primary" onClick={() => setInstructionModalOpen(true)}>
+            <img src="/logo512.png" alt="Start Cooking" className="fab-icon" />
+          </Fab>
+          <Typography
+            variant="caption"
+            display="block"
+            mt={1}
+            style={{ backgroundColor: "#f7f4e8" }}
+          >
+            <b>START COOKING!</b>
+          </Typography>
+        </div>
       </div>
-
-      <Button
-        style={{
-          position: "fixed",
-          bottom: 70,
-          left: "50%",
-          width: 450,
-          transform: "translateX(-50%)",
-        }}
-        variant="contained"
-        color="primary"
-        onClick={() => setInstructionModalOpen(true)}
-      >
-        Start Cooking
-      </Button>
       <InstructionListModal
         recipe={recipe}
         open={instructionModalopen}
         onClose={() => setInstructionModalOpen(false)}
       />
-    </div>
+    </>
   );
 }
