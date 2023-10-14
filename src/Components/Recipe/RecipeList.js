@@ -1,4 +1,5 @@
 import RecipeCard from "./RecipeCard";
+import "./RecipeList.css";
 
 const RecipeList = (props) => {
   const recipeList = props.recipeList?.map((recipe, ind) => {
@@ -6,7 +7,7 @@ const RecipeList = (props) => {
   });
 
   return (
-    <div>
+    <div className="recipe-list-container">
       {/* {console.log(props.recipeList)} */}
       {recipeList}
     </div>

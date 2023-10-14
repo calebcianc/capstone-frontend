@@ -24,7 +24,7 @@ export default function Navbar({ setValue }) {
             navigate("/");
           }}
         >
-          ChefTalk
+          <b>CHEFTALK</b>
         </Typography>
       </Toolbar>
     </AppBar>

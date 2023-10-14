@@ -1,9 +1,9 @@
+import "./LoadingGif.css";
+import "../NewRecipe/FabIcon.css";
 import React, { useEffect, useState } from "react";
 import { Typography, SpeedDial, SpeedDialAction } from "@mui/material";
 import SuggestRecipeModal from "./SuggestRecipeModal";
-import "./LoadingGif.css";
 import PasteRecipeModal from "./PasteRecipeModal";
-import "./NewRecipeModal.css";
 import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import KeyboardIcon from "@mui/icons-material/Keyboard";
 import AssistantIcon from "@mui/icons-material/Assistant";
@@ -86,10 +86,10 @@ function MySpeedDial({
   ];
 
   return (
-    <div>
+    <div className="fab-container">
       <SpeedDial
         ariaLabel="SpeedDial"
-        icon={<img src="/logo512.png" alt="logo" className="fabIcon" />}
+        icon={<img src="/logo512.png" alt="logo" className="fab-icon" />}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         open={open}
@@ -104,7 +104,7 @@ function MySpeedDial({
         ))}
       </SpeedDial>
       <Typography variant="caption" display="block" mt={1}>
-        Add recipe
+        <b>ADD RECIPE</b>
       </Typography>
     </div>
   );
@@ -126,14 +126,7 @@ export default function NewRecipeModal() {
   }, [recipeId]);
 
   return (
-    <div
-      style={{
-        position: "absolute",
-        bottom: "10px",
-        right: "25px",
-        textAlign: "center",
-      }}
-    >
+    <>
       {/* Buttons for the 3 options */}
       <MySpeedDial
         setOpenRecipePartialSurprise={setOpenRecipePartialSurprise}
@@ -165,6 +158,6 @@ export default function NewRecipeModal() {
           />
         </div>
       )}
-    </div>
+    </>
   );
 }

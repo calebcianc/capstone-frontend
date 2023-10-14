@@ -1,7 +1,9 @@
 .recipe-container {
+  position: relative;
   color: var(--neutral-dark);
   background-color: var(--primary-color);
   height: 100%;
+  width: 100%;
   /* overflow: auto; */
   display: grid;
   grid-template-columns: 1fr; /* On mobile devices, only 1 column is shown */
@@ -11,7 +13,7 @@
     "instructions";
 }
 
-.recipe-ingredients-instructions {
+/* .recipe-ingredients-instructions {
   overflow: auto;
   border-width: 1px;
   border-color: var(--neutral-light);
@@ -20,7 +22,7 @@
   max-width: 430px;
   margin: 10px 0px;
   padding: 10px;
-}
+} */
 
 .ingredients-instructions {
   font-size: medium;
@@ -30,6 +32,17 @@
   grid-area: title-photo;
 }
 
+.recipe-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.recipe-photo {
+  border-radius: 16px;
+  max-width: 430px;
+}
+
 .recipe-ingredients {
   grid-area: ingredients;
   color: var(--secondary-color);
@@ -37,8 +50,10 @@
 
 .recipe-instructions {
   grid-area: instructions;
-  color: var(--accent-color-1);
+  color: var(--neutral-dark);
   overflow: auto;
+  display: grid;
+  grid-template-rows: 1fr;
 }
 
 @media (min-width: 800px) {
@@ -46,6 +61,6 @@
     grid-template-columns: 1fr 1fr; /* On tablets, 2 columns are shown */
     grid-template-areas:
       "title-photo ingredients"
-      "title-photo instructions";
+      "instructions instructions";
   }
 }
