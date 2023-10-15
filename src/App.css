@@ -102,3 +102,38 @@ button.secondary {
   color: white;
   cursor: not-allowed;
 }
+
+.form-field {
+  margin-bottom: 20px; /* Add space between form fields */
+}
+
+.form-field label {
+  display: block; /* Display labels on top of input fields */
+  font-weight: bold; /* Make labels bold */
+  margin-bottom: 5px; /* Add space between label and input field */
+}
+
+.form-field input {
+  width: 100%; /* Make input fields 100% width */
+  padding: 5px; /* Add padding to input fields */
+  color: #f9f9f9;
+}
+
+.form-field input[type="text"] {
+  color: #000000; /* Input text color */
+}
+.form-field input[type="text2"] {
+  color: #f9f9f9; /* Input text color */
+}
+.form-field input[type="submit"] {
+  background-color: #007bff; /* Submit button background color */
+  color: white; /* Submit button text color */
+  padding: 10px 20px; /* Submit button padding */
+  border: none; /* Remove button border */
+  cursor: pointer; /* Add cursor pointer on hover */
+  transition: background-color 0.3s; /* Add smooth hover transition */
+}
+
+.form-field input[type="submit"]:hover {
+  background-color: #0056b3; /* Hover background color */
+}
