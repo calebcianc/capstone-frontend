@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 const RecipeCard = (props) => {
   return (
     <Link to={`/recipe/${props.recipeData.id}`}>
-      {console.log(props.recipeData)}
+      {/* {console.log(props.recipeData)} */}
       <Card
         sx={{
           width: "500px",
