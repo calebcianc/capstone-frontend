@@ -12,9 +12,18 @@ import "./RecipeCard.css";
 
 const RecipeCard = (props) => {
   return (
-    <Link to={`/recipe/${props.recipeData.id}`} className="no-underline">
-      {console.log(props.recipeData)}
-      <Card className="recipe-card">
+    <Link to={`/recipe/${props.recipeData.id}`}>
+      {/* {console.log(props.recipeData)} */}
+      <Card
+        sx={{
+          width: "500px",
+          maxWidth: "100%",
+          borderRadius: "16px",
+          background: "white",
+          // "var(--neutral-light)",
+          // "var(--primary-color)",
+        }}
+      >
         <CardMedia
           component="img"
           height="140"
