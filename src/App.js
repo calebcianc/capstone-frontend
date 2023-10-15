@@ -133,38 +133,42 @@ function App() {
 
   return (
     <div className="App">
-      {/* {console.log(recipeList)} */}
       {user && (
         <WelcomeModal
           open={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />
       )}
+
       {/* add condition to show only on first login */}
       {user && userAuth0Info?.logins_count === 1 && <FirstLoginModal />}
+
       {/* top nav bar */}
       <Navbar setValue={setValue} />
+
       {/* everything else */}
       <body className="App-body">
         {/* logins_count: {userAuth0Info?.logins_count} */}
         {/* User email: {user?.email} */}
-        {!isAuthenticated && LoginButton}
-        <br />
-        <br />
-        <br />
-        {isAuthenticated && LogoutButton}
-        {user && (
-          <Routes>
-            <Route path="/" element={<HomePage recipeList={recipeList} />} />
-            <Route
-              path="/explore"
-              element={<ExplorePage recipeList={recipeList} />}
-            />
-            <Route path="/recipe/:recipeId" element={<RecipePage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="*" element={<ErrorPage />} />
-          </Routes>
-        )}
+        <Routes>
+          <Route path="/" element={<HomePage recipeList={recipeList} />} />
+          <Route
+            path="/explore"
+            element={<ExplorePage recipeList={recipeList} />}
+          />
+          <Route path="/recipe/:recipeId" element={<RecipePage />} />
+          <Route
+            path="/profile"
+            element={
+              <ProfilePage
+                isAuthenticated={isAuthenticated}
+                LoginButton={LoginButton}
+                LogoutButton={LogoutButton}
+              />
+            }
+          />
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
       </body>
       {/* bottom navigation bar */}
       {user && (
