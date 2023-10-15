@@ -1,0 +1,15 @@
+.recipe-card {
+  max-width: 500px;
+  max-width: 100%;
+  background: white;
+  border-radius: 16px;
+}
+
+.no-underline {
+  text-decoration: none;
+}
+
+.recipe-card-name {
+  color: var(--secondary-color);
+  font-weight: bold;
+}

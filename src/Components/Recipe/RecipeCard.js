@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import HourglassTopIcon from "@mui/icons-material/HourglassTop";
 import { Link } from "react-router-dom";
-// import AglioOlioRecipe from "../../Test/AglioOlioRecipe";
+import "./RecipeCard.css";
 
 const RecipeCard = (props) => {
   return (
@@ -31,7 +31,7 @@ const RecipeCard = (props) => {
           alt={props.recipeData.name}
         />
         <CardContent>
-          <Typography variant="h6" color="var(--secondary-color)" gutterBottom>
+          <Typography variant="h6" className="recipe-card-name" gutterBottom>
             {props.recipeData.name}
           </Typography>
           <div style={{ display: "flex", alignItems: "center" }}>

@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import Button from "@mui/material/Button";
 import InstructionListModal from "../Instruction/InstructionListModal";
+import { Fab, Typography } from "@mui/material";
 import BACKEND_URL from "../../constants";
+import "./RecipePage.css";
+import "../NewRecipe/FabIcon.css";
+import RecipeStep from "./RecipeStep";
 
 export default function RecipePage() {
   const [instructionModalopen, setInstructionModalOpen] = useState(false);
@@ -23,79 +26,103 @@ export default function RecipePage() {
   if (!recipe) return <div>Loading...</div>;
 
   return (
-    <div
-      style={{
-        color: "#2b2b2b",
-        backgroundColor: "#f7f4e8",
-        paddingTop: "64px",
-        paddingBottom: "56px",
-        maxHeight: "100vh-64px-56px",
-      }}
-    >
-      {/* Recipe Title & Photo */}
-      <h3>{recipe.name}</h3>
-      <img
-        src={recipe.recipeImageUrl}
-        alt={recipe.name}
-        style={{ maxWidth: "50%", borderRadius: "16px", height: "100px" }}
-      />
-
-      {/* Ingredients */}
-      <h4 style={{ marginTop: "16px", color: "#48789d" }}>Ingredients</h4>
-      <ul style={{ listStyleType: "none", padding: 0, fontSize: "20px" }}>
-        {recipe.ingredients?.map((ingredient) => (
-          <li key={ingredient.id} style={{ marginBottom: "8px" }}>
-            <span>{ingredient.name}: </span>
-            <span>{ingredient.quantity}</span>
-            {ingredient.unitOfMeasurement && (
-              <span> {ingredient.unitOfMeasurement}</span>
-            )}
-          </li>
-        ))}
-      </ul>
-
-      {/* Instructions */}
-      <h4 style={{ marginTop: "16px", color: "#e7372d" }}>Instructions</h4>
-      <ol>
-        {recipe.instructions?.map((instruction) => (
-          <li
-            key={instruction.id}
-            style={{ marginBottom: "12px", fontSize: "20px" }}
+    <>
+      <div className="recipe-container">
+        {/* Recipe Title & Photo */}
+        <div className="recipe-title-photo">
+          <Typography
+            variant="h4"
+            fontFamily={"Bitter, serif"}
+            fontWeight={"bold"}
+            marginTop={"20px"}
+            marginBottom={"20px"}
+            paddingLeft={"10px"}
+            height={"40px"}
+            gutterBottom
           >
-            <div>{instruction.instruction}</div>
-            {instruction.photoUrl && (
-              <img
-                src={instruction.photoUrl}
-                alt={`Step ${instruction.step}`}
-                style={{
-                  maxWidth: "50%",
-                  borderRadius: "16px",
-                  marginTop: "8px",
-                }}
-              />
-            )}
-          </li>
-        ))}
-      </ol>
-      <Button
-        style={{
-          position: "fixed",
-          bottom: 70,
-          left: "50%",
-          width: 450,
-          transform: "translateX(-50%)",
-        }}
-        variant="contained"
-        color="primary"
-        onClick={() => setInstructionModalOpen(true)}
-      >
-        Start Cooking
-      </Button>
+            {recipe.name}
+          </Typography>
+          <img
+            src={recipe.recipeImageUrl}
+            alt={recipe.name}
+            className="recipe-photo"
+          />
+          {/* <Typography variant="caption" style={{ margin: "10px 0px" }}>
+            Total time: {recipe.totalTime} mins
+          </Typography> */}
+        </div>
+
+        {/* Ingredients */}
+        <div className="recipe-ingredients">
+          <div className="recipe-ingredients-header-box">
+            <Typography
+              variant="h5"
+              fontFamily={"Bitter, serif"}
+              fontWeight={"bold"}
+              height={"40px"}
+            >
+              Ingredients
+            </Typography>
+          </div>
+          <ul className="ingredients-instructions">
+            {recipe.ingredients?.map((ingredient) => (
+              <li key={ingredient.id} className="ingredient-row">
+                <div className="ingredient-quantity">
+                  <span>{ingredient.quantity}</span>
+                  {ingredient.unitOfMeasurement && (
+                    <span> {ingredient.unitOfMeasurement}</span>
+                  )}
+                </div>
+                <div className="ingredient-name">
+                  <span>{ingredient.name}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Instructions */}
+        <div className="recipe-instructions">
+          <div className="recipe-instructions-header-box">
+            <Typography
+              variant="h5"
+              fontFamily={"Bitter, serif"}
+              fontWeight={"bold"}
+              marginTop={"10px"}
+              height={"40px"}
+            >
+              Instructions
+            </Typography>
+          </div>
+          <div className="recipe-instructions-steps-box">
+            {recipe.instructions?.map((instruction) => (
+              <RecipeStep instruction={instruction} />
+            ))}
+          </div>
+        </div>
+
+        {/* start cooking button */}
+        <div className="fab-container">
+          <Fab color="primary" onClick={() => setInstructionModalOpen(true)}>
+            <img src="/logo512.png" alt="Start Cooking" className="fab-icon" />
+          </Fab>
+          <Typography
+            variant="caption"
+            display="block"
+            mt={1}
+            style={{ backgroundColor: "#f7f4e8" }}
+          >
+            <b>START COOKING!</b>
+          </Typography>
+        </div>
+      </div>
+
+      {/* Instruction List Modal */}
       <InstructionListModal
         recipe={recipe}
         open={instructionModalopen}
         onClose={() => setInstructionModalOpen(false)}
       />
-    </div>
+    </>
   );
 }
