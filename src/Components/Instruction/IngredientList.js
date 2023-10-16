@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
+import "./IngredientList.css";
 
 function IngredientList({ ingredients, handleStartCooking }) {
   const [checkedIngredients, setCheckedIngredients] = useState([]);
@@ -29,12 +30,7 @@ function IngredientList({ ingredients, handleStartCooking }) {
   };
 
   return (
-    <div
-      style={{
-        marginTop: 60,
-        marginLeft: 40,
-      }}
-    >
+    <div className="ingredient-list">
       <h2>Ingredient List</h2>
       <hr />
       <p style={{ fontStyle: "italic" }}>
@@ -67,15 +63,18 @@ function IngredientList({ ingredients, handleStartCooking }) {
           </li>
         ))}
       </ul>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleStartCooking}
-        disabled={checkedIngredients.length !== ingredients.length}
-      >
-        {" "}
-        Let's start!
-      </Button>
+      <br />
+      <div className="start-button-container">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleStartCooking}
+          disabled={checkedIngredients.length !== ingredients.length}
+        >
+          {" "}
+          Let's start!
+        </Button>
+      </div>
     </div>
   );
 }
