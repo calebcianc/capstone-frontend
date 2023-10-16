@@ -9,12 +9,6 @@ export default function RecipeStep({ instruction }) {
             src={instruction.photoUrl}
             alt={`Step ${instruction.step}`}
             className="step-photo"
-            // style={{
-            //   width: "50%",
-            //   height: "100%",
-            //   objectFit: "cover",
-            //   objectPosition: "center",
-            // }}
           />
           <span className="step-label">Step {instruction.step}</span>
         </div>
