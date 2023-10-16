@@ -199,7 +199,7 @@
     font-size: 2.5rem; /* Adjust the font size as needed */
     font-family: Bitter, serif;
     font-weight: bold;
-    margin-top: 0;
+    margin-top: 10px;
     margin-bottom: 10px;
     padding-left: 10px;
   }
@@ -222,7 +222,7 @@
   .recipe-ingredients-header-box {
     display: flex;
     justify-content: flex-start;
-    margin-top: 60px;
+    margin-top: 70px;
     padding-left: 10px;
   }
 
