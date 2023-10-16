@@ -1,0 +1,8 @@
+.ingredient-list {
+  padding: 10px;
+}
+
+.start-button-container {
+  display: flex;
+  justify-content: flex-end;
+}

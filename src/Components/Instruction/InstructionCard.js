@@ -31,7 +31,7 @@ function InstructionCard({ instructions, currentCardIndex }) {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "space-between",
-        marginTop: "60px",
+        // marginTop: "50px",
       }}
     >
       {/* Image upload area */}

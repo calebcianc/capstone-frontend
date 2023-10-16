@@ -8,6 +8,7 @@ import InstructionCard from "./InstructionCard";
 import IngredientList from "./IngredientList";
 import SpeechToText from "../SpeechTextUtilities/SpeechToText";
 import "../../App.css";
+import "./InstructionListModal.css";
 
 function InstructionListModal({ open, onClose, recipe }) {
   const [instructions, setInstructions] = useState(recipe?.instructions || []);
@@ -52,14 +53,19 @@ function InstructionListModal({ open, onClose, recipe }) {
   return (
     <Modal open={open} onClose={onClose}>
       <div
+        // styling for modal
         style={{
-          height: "100vh",
-          width: "100%",
+          maxWidth: "1025px",
+          minWidth: "500px",
           backgroundColor: "rgba(255, 255, 255)",
-          position: "relative",
-          display: "flex",
-          flexDirection: "column",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          padding: "20px",
+          borderRadius: "16px",
         }}
+        className="instruction-list-modal"
       >
         {!viewingInstructions ? (
           <IngredientList
@@ -73,7 +79,7 @@ function InstructionListModal({ open, onClose, recipe }) {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                marginTop: "60px",
+                marginTop: "35px",
               }}
             >
               <Button
@@ -101,11 +107,14 @@ function InstructionListModal({ open, onClose, recipe }) {
               instructions={instructions}
               currentCardIndex={currentCardIndex}
             />
+
             <Button style={{ marginBottom: 10 }} onClick={handleStartCooking}>
               Back to ingredient list
             </Button>
           </>
         )}
+
+        {/* speech to text feature + close button */}
         <div
           style={{
             position: "absolute",
