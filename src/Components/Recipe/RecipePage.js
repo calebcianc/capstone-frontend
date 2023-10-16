@@ -37,7 +37,7 @@ export default function RecipePage() {
             marginTop={"20px"}
             marginBottom={"20px"}
             paddingLeft={"10px"}
-            height={"40px"}
+            // height={"40px"}
             gutterBottom
           >
             {recipe.name}
@@ -53,7 +53,7 @@ export default function RecipePage() {
         </div>
 
         {/* Ingredients */}
-        <div className="recipe-ingredients">
+        <div className="recipe-ingredients ">
           <div className="recipe-ingredients-header-box">
             <Typography
               variant="h5"
@@ -64,7 +64,7 @@ export default function RecipePage() {
               Ingredients
             </Typography>
           </div>
-          <ul className="ingredients-instructions">
+          <div className="ingredients-list">
             {recipe.ingredients?.map((ingredient) => (
               <li key={ingredient.id} className="ingredient-row">
                 <div className="ingredient-quantity">
@@ -78,9 +78,8 @@ export default function RecipePage() {
                 </div>
               </li>
             ))}
-          </ul>
+          </div>
         </div>
-
         {/* Instructions */}
         <div className="recipe-instructions">
           <div className="recipe-instructions-header-box">
@@ -88,7 +87,6 @@ export default function RecipePage() {
               variant="h5"
               fontFamily={"Bitter, serif"}
               fontWeight={"bold"}
-              marginTop={"10px"}
               height={"40px"}
             >
               Instructions
