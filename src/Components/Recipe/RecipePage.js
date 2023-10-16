@@ -30,18 +30,7 @@ export default function RecipePage() {
       <div className="recipe-container">
         {/* Recipe Title & Photo */}
         <div className="recipe-title-photo">
-          <Typography
-            variant="h4"
-            fontFamily={"Bitter, serif"}
-            fontWeight={"bold"}
-            marginTop={"20px"}
-            marginBottom={"20px"}
-            paddingLeft={"10px"}
-            // height={"40px"}
-            gutterBottom
-          >
-            {recipe.name}
-          </Typography>
+          <div className="recipe-title">{recipe.name}</div>
           <img
             src={recipe.recipeImageUrl}
             alt={recipe.name}

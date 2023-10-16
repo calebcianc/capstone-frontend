@@ -1,24 +1,20 @@
-import { Card } from "@mui/material";
 import "./RecipePage.css";
 
 export default function RecipeStep({ instruction }) {
   return (
-    <Card
-      key={instruction.id}
-      className="recipe-instructions-steps"
-      style={{ backgroundColor: "transparent", boxShadow: "none" }}
-    >
-      {/* step photo */}
+    <div key={instruction.id} className="recipe-instructions-steps">
       {instruction.photoUrl && (
         <div className="step-label-container">
           <img
             src={instruction.photoUrl}
             alt={`Step ${instruction.step}`}
-            style={{
-              maxWidth: "100%",
-
-              borderRadius: "16px",
-            }}
+            className="step-photo"
+            // style={{
+            //   width: "50%",
+            //   height: "100%",
+            //   objectFit: "cover",
+            //   objectPosition: "center",
+            // }}
           />
           <span className="step-label">Step {instruction.step}</span>
         </div>
@@ -26,6 +22,6 @@ export default function RecipeStep({ instruction }) {
 
       {/* step */}
       <p>{instruction.instruction}</p>
-    </Card>
+    </div>
   );
 }
