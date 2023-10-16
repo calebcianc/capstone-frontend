@@ -1,8 +1,8 @@
 .recipe-card {
-  max-width: 500px;
+  width: 500px;
   max-width: 100%;
   background: white;
-  border-radius: 16px;
+  border-radius: 16px !important;
 }
 
 .no-underline {
@@ -11,5 +11,7 @@
 
 .recipe-card-name {
   color: var(--secondary-color);
-  font-weight: bold;
+  /* font-family: "Bitter, serif"; */
+  font-size: 1.5rem !important;
+  font-weight: bold !important;
 }
