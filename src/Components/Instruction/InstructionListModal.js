@@ -129,6 +129,7 @@ function InstructionListModal({ open, onClose, recipe }) {
                 instructions={instructions}
                 listening={listening}
                 setListening={setListening}
+                onClose={onClose}
               />
             </>
           )}
