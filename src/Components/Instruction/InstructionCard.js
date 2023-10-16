@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import TextToSpeech from "../SpeechTextUtilities/TextToSpeech";
 
@@ -10,10 +9,9 @@ function InstructionCard({ instructions, currentCardIndex }) {
     (instr) => instr.id === currentCardIndex + 1
   );
 
-  useEffect(() => {
-    TextToSpeech(currentInstruction.instruction);
-    console.log("Reading instruction", currentInstruction.instruction);
-  }, [currentInstruction]);
+  // useEffect(() => {
+  //   TextToSpeech(currentInstruction.instruction);
+  // }, [currentInstruction]);
 
   // const handleImageChange = (event) => {
   //   const file = event.target.files[0];
@@ -27,15 +25,6 @@ function InstructionCard({ instructions, currentCardIndex }) {
   // };
 
   return (
-    // <Card
-    // style={{
-    //   width: 300,
-    //   height: 400,
-    //   overflow: "hidden",
-    //   display: "flex",
-    //   justifyContent: "center",
-    // }}
-    // >
     <CardContent
       style={{
         display: "flex",
@@ -101,7 +90,6 @@ function InstructionCard({ instructions, currentCardIndex }) {
         </div>
       )}
     </CardContent>
-    // </Card>
   );
 }
 
