@@ -133,15 +133,10 @@ function App() {
 
   return (
     <div className="App">
-      {user && (
-        <WelcomeModal
-          open={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-        />
-      )}
+      <WelcomeModal open={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
       {/* add condition to show only on first login */}
-      {user && userAuth0Info?.logins_count === 1 && <FirstLoginModal />}
+      {/* {user && userAuth0Info?.logins_count === 1 && <FirstLoginModal />} */}
 
       {/* top nav bar */}
       <Navbar setValue={setValue} />
@@ -170,6 +165,7 @@ function App() {
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </body>
+
       {/* bottom navigation bar */}
       {user && (
         <Box>
