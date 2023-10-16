@@ -6,7 +6,7 @@
   width: 100%;
   display: grid;
   grid-template-columns: 1fr; /* On mobile devices, only 1 column is shown */
-  grid-template-rows: 40% 30% 30%; /* Split the container into two rows, each taking 50% of the height */
+  grid-template-rows: 30% 30% 40%; /* Split the container into two rows, each taking 50% of the height */
   grid-template-areas:
     "title-photo"
     "ingredients"
@@ -19,13 +19,22 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 10px;
+  padding: 0 10px;
+}
+
+.recipe-title {
+  font-size: 2.5rem; /* Adjust the font size as needed */
+  font-family: Bitter, serif;
+  font-weight: bold;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  padding-left: 10px;
 }
 
 .recipe-photo {
   border-radius: 16px;
   width: 97%;
-  height: 70%;
+  height: 71%;
 
   margin-left: 10px;
   object-fit: cover;
@@ -40,7 +49,7 @@
   grid-area: "ingredients";
   color: var(--neutral-dark);
   /* margin: 0 auto; */
-  padding: 10px;
+  padding: 10px 10px 0 10px;
 }
 
 .recipe-ingredients-header-box {
@@ -54,7 +63,7 @@
   padding: 10px;
   margin: 0 10px;
 
-  height: 69%;
+  height: 72%;
   overflow-y: auto;
   overflow-x: hidden;
 
@@ -104,6 +113,7 @@
   overflow-x: auto; /* Allow horizontal scrolling */
   overflow-y: hidden; /* Prevent vertical scrolling */
   margin: 0 10px 10px 10px;
+  height: 96%;
 
   border-radius: 26px;
   border: 1px solid var(--neutral-light);
@@ -111,14 +121,24 @@
 }
 
 .recipe-instructions-steps {
-  width: 300px;
+  min-width: 150px;
+  height: 94%;
   padding: 10px;
   border-radius: 16px;
   font-size: medium;
   display: inline-block; /* Display each card inline */
-  background-color: var(--primary-color) Important!; /* Set background color */
   overflow-y: auto;
-  text-align: justify;
+  text-align: left;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+/* delete */
+.step-photo {
+  border-radius: 16px;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .step-label-container {
@@ -156,12 +176,19 @@
     padding: 10px;
   }
 
+  .recipe-title {
+    font-size: 2.5rem; /* Adjust the font size as needed */
+    font-family: Bitter, serif;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding-left: 10px;
+  }
+
   .recipe-photo {
     border-radius: 16px;
     width: 96%;
-    height: 76%;
-    /* margin: 0 auto; */
-    /* padding-left: 10px; */
+    height: 82%;
     margin-left: 10px;
     object-fit: cover;
     object-position: center;
@@ -176,7 +203,7 @@
   .recipe-ingredients-header-box {
     display: flex;
     justify-content: flex-start;
-    margin-top: 80px;
+    margin-top: 60px;
     padding-left: 10px;
   }
 
@@ -184,9 +211,7 @@
     font-size: medium;
     padding: 10px;
     margin: 0 10px;
-
-    height: 59%;
-
+    height: 65%;
     list-style-type: none;
     border-radius: 16px;
     border: 1px solid var(--neutral-light);
@@ -240,14 +265,24 @@
   }
 
   .recipe-instructions-steps {
-    width: 300px;
+    min-width: 300px;
+    height: 94%;
     padding: 10px;
     border-radius: 16px;
     font-size: medium;
     display: inline-block; /* Display each card inline */
-    background-color: var(--primary-color) Important!; /* Set background color */
     overflow-y: auto;
     text-align: justify;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .step-photo {
+    border-radius: 16px;
+    width: 100%;
+    max-height: 50%;
+    object-fit: cover;
+    object-position: center;
   }
 
   .step-label-container {

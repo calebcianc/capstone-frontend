@@ -51,6 +51,13 @@ Neutral Light: Use this for backgrounds, cards, or as an off-white alternative w
   font-size: calc(10px + 2vmin);
 }
 
+@media (max-width: 600px) {
+  .App-body {
+    padding-top: 60px;
+    height: calc(var(--vh, 1vh) * 100 - 60px - 56px);
+  }
+}
+
 .childDiv {
   position: relative;
   width: 100%;
