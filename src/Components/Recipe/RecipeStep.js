@@ -16,6 +16,7 @@ export default function RecipeStep({ instruction }) {
             alt={`Step ${instruction.step}`}
             style={{
               maxWidth: "100%",
+
               borderRadius: "16px",
             }}
           />
