@@ -75,10 +75,10 @@ function App() {
     useAuth0();
   const [userAuth0Info, setUserAuth0Info] = useState(null);
 
-  useEffect(() => {
-    isAuthenticated && getUserAuth0Info();
-    return;
-  }, [isAuthenticated]);
+  // useEffect(() => {
+  //   isAuthenticated && getUserAuth0Info();
+  //   return;
+  // }, [isAuthenticated]);
 
   const getUserAuth0Info = async () => {
     let data = [];
