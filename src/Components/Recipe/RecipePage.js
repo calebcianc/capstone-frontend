@@ -13,15 +13,11 @@ export default function RecipePage() {
   const { recipeId } = useParams();
   const [userId, setUserId] = useState("");
   const [newImageUrl, setNewImageUrl] = useState(""); //for instruction photo
-
-  // useEffect to fetch recipe from postgres db by recipeId
+  const [viewingInstructions, setViewingInstructions] = useState(false);
   const [recipe, setRecipe] = useState([]);
-  const [count, setCount] = useState(0);
 
   useEffect(() => {
     fetchRecipe();
-    setCount(count + 1);
-    console.log(`number of times it fetches: ${count}`);
   }, [newImageUrl]);
 
   const fetchRecipe = async () => {
@@ -115,10 +111,15 @@ export default function RecipePage() {
       <InstructionListModal
         recipe={recipe}
         open={instructionModalopen}
-        onClose={() => setInstructionModalOpen(false)}
+        onClose={() => {
+          setInstructionModalOpen(false);
+          setViewingInstructions(false);
+        }}
         userId={userId}
         newImageUrl={newImageUrl}
         setNewImageUrl={setNewImageUrl}
+        setViewingInstructions={setViewingInstructions}
+        viewingInstructions={viewingInstructions}
       />
     </>
   );

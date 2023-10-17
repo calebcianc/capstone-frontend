@@ -17,11 +17,13 @@ function InstructionListModal({
   userId,
   newImageUrl,
   setNewImageUrl,
+  viewingInstructions,
+  setViewingInstructions,
 }) {
   const [instructions, setInstructions] = useState(recipe?.instructions || []);
   const [ingredients, setIngredients] = useState(recipe?.ingredients || []);
   const [currentCardIndex, setCurrentCardIndex] = useState(1);
-  const [viewingInstructions, setViewingInstructions] = useState(false);
+
   const [listening, setListening] = useState(false);
 
   useEffect(() => {
@@ -51,6 +53,7 @@ function InstructionListModal({
     // Start listening when switching to instruction view
     if (!viewingInstructions) {
       setListening(true);
+      setCurrentCardIndex(1);
     } else {
       setListening(false);
     }
