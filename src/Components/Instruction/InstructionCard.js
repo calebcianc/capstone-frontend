@@ -1,24 +1,73 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CardContent from "@mui/material/CardContent";
-import TextToSpeech from "../SpeechTextUtilities/TextToSpeech";
-
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import {
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
+import { storage } from "../../firebase";
+import BACKEND_URL from "../../constants";
+const STORAGE_PROFILE_FOLDER_NAME = "UserData";
 
-function InstructionCard({ instructions, currentCardIndex }) {
+function InstructionCard({
+  instructions,
+  currentCardIndex,
+  userId,
+  imageUrl,
+  setImageUrl,
+}) {
   const currentInstruction = instructions.find(
     (instr) => instr.step === currentCardIndex
   );
+  if (currentInstruction && currentInstruction.photoUrl) {
+    setImageUrl(currentInstruction.photoUrl);
+  }
+  const handleImageChange = async (e) => {
+    const selectedFile = e.target.files[0];
 
-  // const handleImageChange = (event) => {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setUploadedImage(reader.result);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
+    // Store images in an images folder in Firebase Storage
+    if (selectedFile) {
+      const fileRef = storageRef(
+        storage,
+        `${STORAGE_PROFILE_FOLDER_NAME}/${userId}/recipe/${currentInstruction.recipeId}/instructionImage/${currentInstruction.step}/${selectedFile.name}`
+      );
+      try {
+        const snapshot = await uploadBytes(fileRef, selectedFile);
+        const instructionPhotoUrl = await getDownloadURL(snapshot.ref);
+        console.log("retrieve instructionPhotoUrl", instructionPhotoUrl);
+        setImageUrl(instructionPhotoUrl);
+        // Call the saveImageUrlToPostgreSQL function
+        await saveImageUrlToPostgreSQL(instructionPhotoUrl);
+      } catch (error) {
+        console.error("Error uploading file or getting download URL:", error);
+      }
+    }
+  };
+
+  async function saveImageUrlToPostgreSQL(imageUrl) {
+    try {
+      const response = await fetch(
+        `${BACKEND_URL}/instructions/saveImageUrl/${currentInstruction.recipeId}/${currentInstruction.step}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            photoUrl: imageUrl,
+          }),
+        }
+      );
+      if (response.ok) {
+        console.log("Image URL saved in PostgreSQL.");
+      } else {
+        console.error("Failed to save image URL in PostgreSQL.");
+      }
+    } catch (error) {
+      console.error("Error saving image URL in PostgreSQL:", error);
+    }
+  }
 
   return (
     <CardContent
@@ -44,7 +93,7 @@ function InstructionCard({ instructions, currentCardIndex }) {
         <input
           type="file"
           style={{ display: "none" }}
-          // onChange={handleImageChange}
+          onChange={handleImageChange}
         />
         {currentInstruction.photoUrl ? (
           <img
