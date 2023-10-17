@@ -17,17 +17,14 @@ const SpeechToText = ({
   setListening,
   onClose,
 }) => {
-  console.log("onClose", onClose);
   useEffect(() => {
     const currentStep = instructions.find(
-      (instr) => instr.id === currentCardIndex + 1
+      (instr) => instr.step === currentCardIndex
     );
-
     const currentInstruction = currentStep.instruction;
-    console.log(currentInstruction);
 
     TextToSpeech(currentInstruction).then(() => {
-      if (currentCardIndex === totalSteps - 1) {
+      if (currentCardIndex === totalSteps) {
         TextToSpeech("You have reached the end of the recipe. Enjoy! ");
       }
     });
@@ -35,18 +32,17 @@ const SpeechToText = ({
 
   const playCurrentInstruction = () => {
     const currentStep = instructions.find(
-      (instr) => instr.id === currentCardIndex + 1
+      (instr) => instr.id === currentCardIndex
     );
 
     if (currentStep) {
       const currentInstruction = currentStep.instruction;
-      console.log(currentInstruction);
       TextToSpeech(currentInstruction);
     }
   };
 
   const moveToNextStep = () => {
-    if (currentCardIndex < totalSteps - 1) {
+    if (currentCardIndex < totalSteps) {
       setCurrentCardIndex(currentCardIndex + 1);
     } else {
       TextToSpeech("You are already at the last step.");
@@ -54,7 +50,7 @@ const SpeechToText = ({
   };
 
   const moveToPreviousStep = () => {
-    if (currentCardIndex > 0) {
+    if (currentCardIndex > 1) {
       setCurrentCardIndex(currentCardIndex - 1);
     } else {
       TextToSpeech("You are already at the first step.");

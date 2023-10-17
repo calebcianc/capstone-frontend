@@ -13,7 +13,7 @@ import "./InstructionListModal.css";
 function InstructionListModal({ open, onClose, recipe }) {
   const [instructions, setInstructions] = useState(recipe?.instructions || []);
   const [ingredients, setIngredients] = useState(recipe?.ingredients || []);
-  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [currentCardIndex, setCurrentCardIndex] = useState(1);
   const [viewingInstructions, setViewingInstructions] = useState(false);
   const [listening, setListening] = useState(false);
 
@@ -44,7 +44,6 @@ function InstructionListModal({ open, onClose, recipe }) {
     // Start listening when switching to instruction view
     if (!viewingInstructions) {
       setListening(true);
-      setCurrentCardIndex(0);
     } else {
       setListening(false);
     }
@@ -90,7 +89,7 @@ function InstructionListModal({ open, onClose, recipe }) {
               </Button>
               <p style={{ marginLeft: 10, fontSize: "24px" }}>
                 <span style={{ fontSize: "40px", fontWeight: "bold" }}>
-                  {currentCardIndex + 1}
+                  {currentCardIndex}
                 </span>
                 /{instructions.length}
               </p>
