@@ -11,16 +11,19 @@ import RecipeStep from "./RecipeStep";
 export default function RecipePage() {
   const [instructionModalopen, setInstructionModalOpen] = useState(false);
   const { recipeId } = useParams();
+  const [userId, setUserId] = useState("");
+  const [imageUrl, setImageUrl] = useState(""); //for instruction photo
 
   // useEffect to fetch recipe from postgres db by recipeId
   const [recipe, setRecipe] = useState([]);
   useEffect(() => {
     fetchRecipe();
-  }, []);
+  }, [imageUrl]);
 
   const fetchRecipe = async () => {
     const fetchedRecipe = await axios.get(`${BACKEND_URL}/recipes/${recipeId}`);
     setRecipe(fetchedRecipe.data[0]);
+    setUserId(fetchedRecipe.data[0].userId);
   };
 
   if (!recipe) return <div>Loading...</div>;
@@ -109,6 +112,9 @@ export default function RecipePage() {
         recipe={recipe}
         open={instructionModalopen}
         onClose={() => setInstructionModalOpen(false)}
+        userId={userId}
+        imageUrl={imageUrl}
+        setImageUrl={setImageUrl}
       />
     </>
   );

@@ -10,7 +10,14 @@ import SpeechToText from "../SpeechTextUtilities/SpeechToText";
 import "../../App.css";
 import "./InstructionListModal.css";
 
-function InstructionListModal({ open, onClose, recipe }) {
+function InstructionListModal({
+  open,
+  onClose,
+  recipe,
+  userId,
+  imageUrl,
+  setImageUrl,
+}) {
   const [instructions, setInstructions] = useState(recipe?.instructions || []);
   const [ingredients, setIngredients] = useState(recipe?.ingredients || []);
   const [currentCardIndex, setCurrentCardIndex] = useState(1);
@@ -27,13 +34,13 @@ function InstructionListModal({ open, onClose, recipe }) {
   }, [recipe]);
 
   const handlePrevious = () => {
-    if (currentCardIndex > 0) {
+    if (currentCardIndex > 1) {
       setCurrentCardIndex((prev) => prev - 1);
     }
   };
 
   const handleNext = () => {
-    if (instructions && currentCardIndex < instructions.length - 1) {
+    if (instructions && currentCardIndex < instructions.length) {
       setCurrentCardIndex((prev) => prev + 1);
     }
   };
@@ -95,7 +102,7 @@ function InstructionListModal({ open, onClose, recipe }) {
               </p>
               <Button
                 onClick={handleNext}
-                disabled={currentCardIndex === instructions.length - 1}
+                disabled={currentCardIndex === instructions.length}
                 style={{ marginLeft: 10 }}
               >
                 <ArrowForwardIosIcon />
@@ -105,6 +112,9 @@ function InstructionListModal({ open, onClose, recipe }) {
             <InstructionCard
               instructions={instructions}
               currentCardIndex={currentCardIndex}
+              userId={userId}
+              imageUrl={imageUrl}
+              setImageUrl={setImageUrl}
             />
 
             <Button style={{ marginBottom: 10 }} onClick={handleStartCooking}>
