@@ -6,12 +6,8 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
 function InstructionCard({ instructions, currentCardIndex }) {
   const currentInstruction = instructions.find(
-    (instr) => instr.id === currentCardIndex + 1
+    (instr) => instr.step === currentCardIndex
   );
-
-  // useEffect(() => {
-  //   TextToSpeech(currentInstruction.instruction);
-  // }, [currentInstruction]);
 
   // const handleImageChange = (event) => {
   //   const file = event.target.files[0];
