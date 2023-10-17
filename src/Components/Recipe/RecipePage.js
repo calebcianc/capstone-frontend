@@ -85,9 +85,11 @@ export default function RecipePage() {
             </Typography>
           </div>
           <div className="recipe-instructions-steps-box">
-            {recipe.instructions?.map((instruction) => (
-              <RecipeStep instruction={instruction} />
-            ))}
+            {recipe.instructions
+              ?.sort((a, b) => a.step - b.step)
+              .map((instruction) => (
+                <RecipeStep instruction={instruction} />
+              ))}
           </div>
         </div>
 
