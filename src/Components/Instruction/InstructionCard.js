@@ -14,15 +14,14 @@ function InstructionCard({
   instructions,
   currentCardIndex,
   userId,
-  imageUrl,
-  setImageUrl,
+  newImageUrl,
+  setNewImageUrl,
+  setInstructions,
 }) {
   const currentInstruction = instructions.find(
     (instr) => instr.step === currentCardIndex
   );
-  if (currentInstruction && currentInstruction.photoUrl) {
-    setImageUrl(currentInstruction.photoUrl);
-  }
+
   const handleImageChange = async (e) => {
     const selectedFile = e.target.files[0];
 
@@ -36,7 +35,15 @@ function InstructionCard({
         const snapshot = await uploadBytes(fileRef, selectedFile);
         const instructionPhotoUrl = await getDownloadURL(snapshot.ref);
         console.log("retrieve instructionPhotoUrl", instructionPhotoUrl);
-        setImageUrl(instructionPhotoUrl);
+        setNewImageUrl(instructionPhotoUrl);
+        // Update the current instruction's photo URL in the step modal
+        const updatedInstructions = instructions.map((instr) => {
+          if (instr.step === currentCardIndex) {
+            return { ...instr, photoUrl: instructionPhotoUrl };
+          }
+          return instr;
+        });
+        setInstructions(updatedInstructions);
         // Call the saveImageUrlToPostgreSQL function
         await saveImageUrlToPostgreSQL(instructionPhotoUrl);
       } catch (error) {

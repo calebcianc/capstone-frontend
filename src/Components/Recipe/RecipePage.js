@@ -12,13 +12,17 @@ export default function RecipePage() {
   const [instructionModalopen, setInstructionModalOpen] = useState(false);
   const { recipeId } = useParams();
   const [userId, setUserId] = useState("");
-  const [imageUrl, setImageUrl] = useState(""); //for instruction photo
+  const [newImageUrl, setNewImageUrl] = useState(""); //for instruction photo
 
   // useEffect to fetch recipe from postgres db by recipeId
   const [recipe, setRecipe] = useState([]);
+  const [count, setCount] = useState(0);
+
   useEffect(() => {
     fetchRecipe();
-  }, [imageUrl]);
+    setCount(count + 1);
+    console.log(`number of times it fetches: ${count}`);
+  }, [newImageUrl]);
 
   const fetchRecipe = async () => {
     const fetchedRecipe = await axios.get(`${BACKEND_URL}/recipes/${recipeId}`);
@@ -113,8 +117,8 @@ export default function RecipePage() {
         open={instructionModalopen}
         onClose={() => setInstructionModalOpen(false)}
         userId={userId}
-        imageUrl={imageUrl}
-        setImageUrl={setImageUrl}
+        newImageUrl={newImageUrl}
+        setNewImageUrl={setNewImageUrl}
       />
     </>
   );

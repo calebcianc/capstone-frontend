@@ -15,8 +15,8 @@ function InstructionListModal({
   onClose,
   recipe,
   userId,
-  imageUrl,
-  setImageUrl,
+  newImageUrl,
+  setNewImageUrl,
 }) {
   const [instructions, setInstructions] = useState(recipe?.instructions || []);
   const [ingredients, setIngredients] = useState(recipe?.ingredients || []);
@@ -90,7 +90,7 @@ function InstructionListModal({
             >
               <Button
                 onClick={handlePrevious}
-                disabled={currentCardIndex === 0}
+                disabled={currentCardIndex === 1}
               >
                 <ArrowBackIosIcon />
               </Button>
@@ -113,8 +113,9 @@ function InstructionListModal({
               instructions={instructions}
               currentCardIndex={currentCardIndex}
               userId={userId}
-              imageUrl={imageUrl}
-              setImageUrl={setImageUrl}
+              newImageUrl={newImageUrl}
+              setNewImageUrl={setNewImageUrl}
+              setInstructions={setInstructions}
             />
 
             <Button style={{ marginBottom: 10 }} onClick={handleStartCooking}>
