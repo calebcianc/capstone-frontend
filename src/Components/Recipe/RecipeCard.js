@@ -13,7 +13,7 @@ import "./RecipeCard.css";
 const RecipeCard = (props) => {
   return (
     <Link to={`/recipe/${props.recipeData.id}`} className="no-underline">
-      {/* {console.log(props.recipeData)} */}
+      {console.log(props.recipeData)}
       <Card className="recipe-card">
         <CardMedia
           component="img"
@@ -31,8 +31,8 @@ const RecipeCard = (props) => {
               color="var(--neutral-dark)"
               style={{ marginLeft: "8px" }}
             >
-              {/* Sandra Schumann */}
-              {props.recipeData.user.name}
+              {props.recipeData.user.name} (
+              {props.recipeData.isPublic ? "Public" : "Private"})
             </Typography>
             <IconButton
               style={{ marginLeft: "auto", color: "var(--accent-color-1)" }}
