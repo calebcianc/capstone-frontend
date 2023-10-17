@@ -23,7 +23,10 @@
 }
 
 .recipe-title {
-  font-size: 2.5rem; /* Adjust the font size as needed */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 2rem; /* Adjust the font size as needed */
   font-family: Bitter, serif;
   font-weight: bold;
   margin-top: 5px;
@@ -155,9 +158,30 @@
   border-radius: 6px;
 }
 
+.placeholder-container {
+  position: relative;
+  height: 0; /* Maintain aspect ratio */
+  padding-bottom: 50%; /* Maintain aspect ratio */
+}
+
+.placeholder {
+  border-radius: 16px;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: whitesmoke;
+  cursor: pointer;
+  display: block;
+}
+
 @media (max-width: 450px) {
   .recipe-title {
-    font-size: 2rem; /* Adjust the font size as needed */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.75rem; /* Adjust the font size as needed */
     font-family: Bitter, serif;
     font-weight: bold;
     margin-top: 5px;
@@ -196,10 +220,13 @@
   }
 
   .recipe-title {
-    font-size: 2.5rem; /* Adjust the font size as needed */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 2.25rem; /* Adjust the font size as needed */
     font-family: Bitter, serif;
     font-weight: bold;
-    margin-top: 10px;
+    /* margin-top: 10px; */
     margin-bottom: 10px;
     padding-left: 10px;
   }
@@ -222,7 +249,7 @@
   .recipe-ingredients-header-box {
     display: flex;
     justify-content: flex-start;
-    margin-top: 70px;
+    margin-top: 55px;
     padding-left: 10px;
   }
 
@@ -230,7 +257,7 @@
     font-size: medium;
     padding: 10px;
     margin: 0 10px;
-    height: 66.5%;
+    height: 64%;
     list-style-type: none;
     border-radius: 16px;
     border: 1px solid var(--neutral-light);
@@ -310,5 +337,23 @@
     background-color: var(--secondary-color);
     color: var(--neutral-light);
     border-radius: 6px;
+  }
+
+  .placeholder-container {
+    position: relative;
+    height: 0; /* Maintain aspect ratio */
+    padding-bottom: 50%; /* Maintain aspect ratio */
+  }
+
+  .placeholder {
+    border-radius: 16px;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: whitesmoke;
+    cursor: pointer;
+    display: block;
   }
 }
