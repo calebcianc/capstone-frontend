@@ -88,7 +88,15 @@ export default function RecipePage() {
             {recipe.instructions
               ?.sort((a, b) => a.step - b.step)
               .map((instruction) => (
-                <RecipeStep instruction={instruction} />
+                <RecipeStep
+                  instruction={instruction}
+                  recipe={recipe}
+                  userId={userId}
+                  newImageUrl={newImageUrl}
+                  setNewImageUrl={setNewImageUrl}
+                  setViewingInstructions={setViewingInstructions}
+                  viewingInstructions={viewingInstructions}
+                />
               ))}
           </div>
         </div>
