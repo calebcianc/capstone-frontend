@@ -126,6 +126,7 @@
 .recipe-instructions-steps {
   min-width: 150px;
   height: 94%;
+  width: 100%;
   padding: 10px;
   border-radius: 16px;
   font-size: medium;
@@ -136,10 +137,10 @@
   box-shadow: none;
 }
 
-/* delete */
 .step-photo {
   border-radius: 16px;
-  width: 100%;
+  max-width: 100%;
+  max-height: 50%;
   object-fit: cover;
   object-position: center;
 }
@@ -319,8 +320,8 @@
 
   .step-photo {
     border-radius: 16px;
-    width: 100%;
-    max-height: 50%;
+    /* width: 100%;
+    max-height: 50%; */
     object-fit: cover;
     object-position: center;
   }

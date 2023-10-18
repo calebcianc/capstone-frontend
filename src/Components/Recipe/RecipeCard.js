@@ -10,20 +10,20 @@ import HourglassTopIcon from "@mui/icons-material/HourglassTop";
 import { Link } from "react-router-dom";
 import "./RecipeCard.css";
 
-const RecipeCard = (props) => {
+const RecipeCard = ({ recipeData }) => {
   return (
-    <Link to={`/recipe/${props.recipeData.id}`} className="no-underline">
-      {console.log(props.recipeData)}
+    <Link to={`/recipe/${recipeData.id}`} className="no-underline">
+      {console.log(recipeData)}
       <Card className="recipe-card">
         <CardMedia
           component="img"
           height="140"
-          image={props.recipeData.recipeImageUrl}
-          alt={props.recipeData.name}
+          image={recipeData.recipeImageUrl}
+          alt={recipeData.name}
         />
         <CardContent>
           <Typography variant="h6" className="recipe-card-name" gutterBottom>
-            {props.recipeData.name}
+            {recipeData.name}
           </Typography>
           <div style={{ display: "flex", alignItems: "center" }}>
             <Typography
@@ -31,8 +31,8 @@ const RecipeCard = (props) => {
               color="var(--neutral-dark)"
               style={{ marginLeft: "8px" }}
             >
-              {props.recipeData.user.name} (
-              {props.recipeData.isPublic ? "Public" : "Private"})
+              {recipeData.user.name} (
+              {recipeData.isPublic ? "Public" : "Private"})
             </Typography>
             <IconButton
               style={{ marginLeft: "auto", color: "var(--accent-color-1)" }}
@@ -45,7 +45,7 @@ const RecipeCard = (props) => {
               color="var(--neutral-dark)"
               component="p"
             >
-              {`${props.recipeData.totalTime} min.`}
+              {`${recipeData.totalTime} min.`}
             </Typography>
           </div>
         </CardContent>

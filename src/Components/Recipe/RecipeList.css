@@ -1,19 +1,17 @@
 .recipe-list-container {
-  padding-top: 64px;
-  padding-bottom: 56px;
+  /* padding-top: 64px; */
+  /* padding-bottom: 56px; */
   overflow: auto;
   max-width: 1025px;
   height: 100%;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 10px;
+  gap: 3%;
 }
 
 @media (min-width: 800px) {
   .recipe-list-container {
-    grid-template-columns: 1fr 1fr; /* On tablets, 2 columns are shown */
-    /* grid-template-areas:
-      "title-photo ingredients"
-      "instructions instructions"; */
+    grid-template-columns: minmax(0, 1fr), minmax(0, 1fr); /* On tablets, 2 columns are shown */
+    grid-template-rows: minmax(0, 1fr), minmax(0, 1fr); /* On tablets, 2 columns are shown */
   }
 }

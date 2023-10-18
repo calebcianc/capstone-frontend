@@ -125,8 +125,7 @@ export default function RecipeStep({
       )}
 
       {/* step */}
-      <br />
-      <p>{instruction.instruction}</p>
+      <p style={{ marginTop: "5px" }}>{instruction.instruction}</p>
     </div>
   );
 }
