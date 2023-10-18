@@ -63,7 +63,7 @@ function App() {
   const [recipeList, setRecipeList] = useState([]);
   useEffect(() => {
     fetchRecipe();
-  }, []);
+  }, [counter]);
 
   const fetchRecipe = async () => {
     const fetchedRecipeList = await axios.get(`${BACKEND_URL}/recipes`);
@@ -134,15 +134,34 @@ function App() {
       <WelcomeModal open={isModalOpen} onClose={() => setIsModalOpen(false)} />
       {/* add condition to show only on first login */}
       {user && isFirstLogin && <FirstLoginModal />}
+
       {/* top nav bar */}
       <Navbar setValue={setValue} />
+
       {/* everything else */}
       <body className="App-body">
+        {/* logins_count: {userAuth0Info?.logins_count} */}
+        {/* User email: {user?.email} */}
         <Routes>
-          <Route path="/" element={<HomePage recipeList={recipeList} />} />
+          <Route
+            path="/"
+            element={
+              <HomePage
+                recipeList={recipeList}
+                counter={counter}
+                setCounter={setCounter}
+              />
+            }
+          />
           <Route
             path="/explore"
-            element={<ExplorePage recipeList={recipeList} />}
+            element={
+              <ExplorePage
+                recipeList={recipeList}
+                counter={counter}
+                setCounter={setCounter}
+              />
+            }
           />
           <Route path="/recipe/:recipeId" element={<RecipePage />} />
           <Route
@@ -158,6 +177,7 @@ function App() {
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </body>
+
       {/* bottom navigation bar */}
       {/* {user && ( */}
       <Box>

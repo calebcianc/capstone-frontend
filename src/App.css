@@ -137,3 +137,10 @@ button.secondary {
 .form-field input[type="submit"]:hover {
   background-color: #0056b3; /* Hover background color */
 }
+
+@media (max-width: 600px) {
+  .App-body {
+    padding-top: 60px;
+    height: calc(var(--vh, 1vh) * 100 - 60px - 56px);
+  }
+}

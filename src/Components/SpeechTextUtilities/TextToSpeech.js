@@ -8,6 +8,11 @@ async function TextToSpeech(text) {
   const blob = await response.blob();
   const audioUrl = URL.createObjectURL(blob);
   const audio = new Audio(audioUrl);
-  audio.play();
+
+  // Return a promise that resolves when the audio ends
+  return new Promise((resolve) => {
+    audio.onended = resolve;
+    audio.play();
+  });
 }
 export default TextToSpeech;

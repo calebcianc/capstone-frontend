@@ -11,16 +11,19 @@ import RecipeStep from "./RecipeStep";
 export default function RecipePage() {
   const [instructionModalopen, setInstructionModalOpen] = useState(false);
   const { recipeId } = useParams();
-
-  // useEffect to fetch recipe from postgres db by recipeId
+  const [userId, setUserId] = useState("");
+  const [newImageUrl, setNewImageUrl] = useState(""); //for instruction photo
+  const [viewingInstructions, setViewingInstructions] = useState(false);
   const [recipe, setRecipe] = useState([]);
+
   useEffect(() => {
     fetchRecipe();
-  }, []);
+  }, [newImageUrl]);
 
   const fetchRecipe = async () => {
     const fetchedRecipe = await axios.get(`${BACKEND_URL}/recipes/${recipeId}`);
     setRecipe(fetchedRecipe.data[0]);
+    setUserId(fetchedRecipe.data[0].userId);
   };
 
   if (!recipe) return <div>Loading...</div>;
@@ -30,18 +33,7 @@ export default function RecipePage() {
       <div className="recipe-container">
         {/* Recipe Title & Photo */}
         <div className="recipe-title-photo">
-          <Typography
-            variant="h4"
-            fontFamily={"Bitter, serif"}
-            fontWeight={"bold"}
-            marginTop={"20px"}
-            marginBottom={"20px"}
-            paddingLeft={"10px"}
-            height={"40px"}
-            gutterBottom
-          >
-            {recipe.name}
-          </Typography>
+          <div className="recipe-title">{recipe.name}</div>
           <img
             src={recipe.recipeImageUrl}
             alt={recipe.name}
@@ -53,7 +45,7 @@ export default function RecipePage() {
         </div>
 
         {/* Ingredients */}
-        <div className="recipe-ingredients">
+        <div className="recipe-ingredients ">
           <div className="recipe-ingredients-header-box">
             <Typography
               variant="h5"
@@ -64,7 +56,7 @@ export default function RecipePage() {
               Ingredients
             </Typography>
           </div>
-          <ul className="ingredients-instructions">
+          <div className="ingredients-list">
             {recipe.ingredients?.map((ingredient) => (
               <li key={ingredient.id} className="ingredient-row">
                 <div className="ingredient-quantity">
@@ -78,9 +70,8 @@ export default function RecipePage() {
                 </div>
               </li>
             ))}
-          </ul>
+          </div>
         </div>
-
         {/* Instructions */}
         <div className="recipe-instructions">
           <div className="recipe-instructions-header-box">
@@ -88,16 +79,25 @@ export default function RecipePage() {
               variant="h5"
               fontFamily={"Bitter, serif"}
               fontWeight={"bold"}
-              marginTop={"10px"}
               height={"40px"}
             >
               Instructions
             </Typography>
           </div>
           <div className="recipe-instructions-steps-box">
-            {recipe.instructions?.map((instruction) => (
-              <RecipeStep instruction={instruction} />
-            ))}
+            {recipe.instructions
+              ?.sort((a, b) => a.step - b.step)
+              .map((instruction) => (
+                <RecipeStep
+                  instruction={instruction}
+                  recipe={recipe}
+                  userId={userId}
+                  newImageUrl={newImageUrl}
+                  setNewImageUrl={setNewImageUrl}
+                  setViewingInstructions={setViewingInstructions}
+                  viewingInstructions={viewingInstructions}
+                />
+              ))}
           </div>
         </div>
 
@@ -121,7 +121,15 @@ export default function RecipePage() {
       <InstructionListModal
         recipe={recipe}
         open={instructionModalopen}
-        onClose={() => setInstructionModalOpen(false)}
+        onClose={() => {
+          setInstructionModalOpen(false);
+          setViewingInstructions(false);
+        }}
+        userId={userId}
+        newImageUrl={newImageUrl}
+        setNewImageUrl={setNewImageUrl}
+        setViewingInstructions={setViewingInstructions}
+        viewingInstructions={viewingInstructions}
       />
     </>
   );

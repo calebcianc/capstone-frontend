@@ -8,16 +8,23 @@ import InstructionCard from "./InstructionCard";
 import IngredientList from "./IngredientList";
 import SpeechToText from "../SpeechTextUtilities/SpeechToText";
 import "../../App.css";
+import "./InstructionListModal.css";
 
-function InstructionListModal({ open, onClose, recipe }) {
+function InstructionListModal({
+  open,
+  onClose,
+  recipe,
+  userId,
+  newImageUrl,
+  setNewImageUrl,
+  viewingInstructions,
+  setViewingInstructions,
+}) {
   const [instructions, setInstructions] = useState(recipe?.instructions || []);
   const [ingredients, setIngredients] = useState(recipe?.ingredients || []);
-  const [currentCardIndex, setCurrentCardIndex] = useState(0);
-  const [viewingInstructions, setViewingInstructions] = useState(false);
-  const [listening, setListening] = useState(false);
+  const [currentCardIndex, setCurrentCardIndex] = useState(1);
 
-  // console.log("instructions", instructions);
-  // console.log("ingredients", ingredients);
+  const [listening, setListening] = useState(false);
 
   useEffect(() => {
     if (recipe?.instructions) {
@@ -29,13 +36,13 @@ function InstructionListModal({ open, onClose, recipe }) {
   }, [recipe]);
 
   const handlePrevious = () => {
-    if (currentCardIndex > 0) {
+    if (currentCardIndex > 1) {
       setCurrentCardIndex((prev) => prev - 1);
     }
   };
 
   const handleNext = () => {
-    if (instructions && currentCardIndex < instructions.length - 1) {
+    if (instructions && currentCardIndex < instructions.length) {
       setCurrentCardIndex((prev) => prev + 1);
     }
   };
@@ -46,119 +53,115 @@ function InstructionListModal({ open, onClose, recipe }) {
     // Start listening when switching to instruction view
     if (!viewingInstructions) {
       setListening(true);
+      setCurrentCardIndex(1);
     } else {
       setListening(false);
     }
   };
 
   return (
-    <div>
-      <Modal open={open} onClose={onClose}>
-        <div
-          style={{
-            position: "relative",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100vh",
-            width: "100%",
-          }}
-        >
-          <div
-            style={{
-              height: "100vh",
-              width: "100%",
-              backgroundColor: "rgba(255, 255, 255)",
-              position: "relative",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            {!viewingInstructions ? (
-              <>
-                <IngredientList
-                  ingredients={ingredients}
-                  handleStartCooking={handleStartCooking}
-                />
-              </>
-            ) : (
-              <>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    marginTop: "60px",
-                  }}
-                >
-                  <Button
-                    onClick={handlePrevious}
-                    disabled={currentCardIndex === 0}
-                  >
-                    <ArrowBackIosIcon />
-                  </Button>
-                  <p style={{ marginLeft: 10, fontSize: "24px" }}>
-                    <span style={{ fontSize: "40px", fontWeight: "bold" }}>
-                      {currentCardIndex + 1}
-                    </span>
-                    /{instructions.length}
-                  </p>
-                  <Button
-                    onClick={handleNext}
-                    disabled={currentCardIndex === instructions.length - 1}
-                    style={{ marginLeft: 10 }}
-                  >
-                    <ArrowForwardIosIcon />
-                  </Button>
-                </div>
-
-                <InstructionCard
-                  instructions={instructions}
-                  currentCardIndex={currentCardIndex}
-                />
-                <Button
-                  style={{ marginBottom: 10 }}
-                  onClick={handleStartCooking}
-                >
-                  Back to ingredient list
-                </Button>
-              </>
-            )}
+    <Modal open={open} onClose={onClose}>
+      <div
+        // styling for modal
+        style={{
+          maxWidth: "1025px",
+          minWidth: "500px",
+          backgroundColor: "rgba(255, 255, 255)",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          padding: "20px",
+          borderRadius: "16px",
+        }}
+        className="instruction-list-modal"
+      >
+        {!viewingInstructions ? (
+          <IngredientList
+            ingredients={ingredients}
+            handleStartCooking={handleStartCooking}
+          />
+        ) : (
+          <>
             <div
               style={{
-                position: "absolute",
-                top: 10,
-                left: 30,
-                right: 10,
                 display: "flex",
-                justifyContent: "space-between",
                 alignItems: "center",
+                justifyContent: "space-between",
+                marginTop: "35px",
               }}
             >
-              {!viewingInstructions ? (
-                <p></p>
-              ) : (
-                <>
-                  <p>Steps</p>{" "}
-                  <SpeechToText
-                    setCurrentCardIndex={setCurrentCardIndex}
-                    totalSteps={recipe?.instructions.length || 0}
-                    instructions={instructions}
-                    listening={listening}
-                    setListening={setListening}
-                  />
-                </>
-              )}
-
-              <Button onClick={onClose}>
-                <CloseIcon />
+              <Button
+                onClick={handlePrevious}
+                disabled={currentCardIndex === 1}
+              >
+                <ArrowBackIosIcon />
+              </Button>
+              <p style={{ marginLeft: 10, fontSize: "24px" }}>
+                <span style={{ fontSize: "40px", fontWeight: "bold" }}>
+                  {currentCardIndex}
+                </span>
+                /{instructions.length}
+              </p>
+              <Button
+                onClick={handleNext}
+                disabled={currentCardIndex === instructions.length}
+                style={{ marginLeft: 10 }}
+              >
+                <ArrowForwardIosIcon />
               </Button>
             </div>
-          </div>
+
+            <InstructionCard
+              instructions={instructions}
+              currentCardIndex={currentCardIndex}
+              userId={userId}
+              newImageUrl={newImageUrl}
+              setNewImageUrl={setNewImageUrl}
+              setInstructions={setInstructions}
+            />
+
+            <Button style={{ marginBottom: 10 }} onClick={handleStartCooking}>
+              Back to ingredient list
+            </Button>
+          </>
+        )}
+
+        {/* speech to text feature + close button */}
+        <div
+          style={{
+            position: "absolute",
+            top: 10,
+            left: 30,
+            right: 10,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          {!viewingInstructions ? (
+            <p></p>
+          ) : (
+            <>
+              <p>Steps</p> {/* for commands during cooking */}
+              <SpeechToText
+                setCurrentCardIndex={setCurrentCardIndex}
+                currentCardIndex={currentCardIndex}
+                totalSteps={recipe?.instructions.length || 0}
+                instructions={instructions}
+                listening={listening}
+                setListening={setListening}
+                onClose={onClose}
+              />
+            </>
+          )}
+
+          <Button onClick={onClose}>
+            <CloseIcon />
+          </Button>
         </div>
-      </Modal>
-    </div>
+      </div>
+    </Modal>
   );
 }
 
