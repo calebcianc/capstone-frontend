@@ -107,7 +107,7 @@ export default function FirstLoginModal() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          Placeholder close modal button (testing)->{" "}
+          Placeholder close modal button (testing){" "}
           <Button onClick={handleClose} variant="contained">
             X
           </Button>

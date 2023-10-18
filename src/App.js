@@ -3,8 +3,6 @@ import { useNavigate, Routes, Route } from "react-router-dom";
 import * as React from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
-import Button from "@mui/material/Button";
-import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
@@ -71,43 +69,22 @@ function App() {
   };
 
   // auth0
-  const { loginWithRedirect, isAuthenticated, user, isLoading, logout } =
-    useAuth0();
+  const { isAuthenticated, user } = useAuth0();
   const [isFirstLogin, setIsFirstLogin] = useState(null);
 
   useEffect(() => {
+    // check if it is first time user login
     isAuthenticated && checkUserInDatabase();
     return;
   }, [isAuthenticated]);
 
   const checkUserInDatabase = async () => {
     let data;
-    data = await axios.get(`http://localhost:3001/users/${user.email}`);
+    data = await axios.get(
+      `http://localhost:3001/users/first-login/${user.email}`
+    );
     setIsFirstLogin(data.data);
   };
-
-  // login
-  const LoginButton = (
-    <Button
-      variant="outlined"
-      onClick={() => loginWithRedirect()}
-      startIcon={<LoginRoundedIcon />}
-      size="large"
-    >
-      {isLoading ? "Loading ..." : "Log In/ Sign Up"}
-    </Button>
-  );
-
-  const LogoutButton = (
-    <Button
-      variant="contained"
-      onClick={() =>
-        logout({ logoutParams: { returnTo: window.location.origin } })
-      }
-    >
-      Logout!
-    </Button>
-  );
 
   // to help set the height of the app to the height of the viewport
   useEffect(() => {
@@ -164,16 +141,7 @@ function App() {
             }
           />
           <Route path="/recipe/:recipeId" element={<RecipePage />} />
-          <Route
-            path="/profile"
-            element={
-              <ProfilePage
-                isAuthenticated={isAuthenticated}
-                LoginButton={LoginButton}
-                LogoutButton={LogoutButton}
-              />
-            }
-          />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </body>
