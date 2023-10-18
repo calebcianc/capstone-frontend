@@ -23,14 +23,7 @@ export default function FirstLoginModal() {
   const [selectedCuisine, setselectedCuisine] = useState([]);
   const [selectedDietaryRestrictions, setSelectedDietaryRestrictions] =
     useState([]);
-  const {
-    // loginWithRedirect,
-    // isAuthenticated,
-    user,
-    // isLoading,
-    // getAccessTokenSilently,
-    // logout,
-  } = useAuth0();
+  const { user } = useAuth0();
 
   const [open, setOpen] = React.useState(true);
   // const handleOpen = () => setOpen(true);
@@ -129,7 +122,6 @@ export default function FirstLoginModal() {
           <div>
             <form onSubmit={handleSubmit}>
               <div className="form-field">
-                {/* <label>Name:</label> */}
                 <input
                   type="text"
                   name="name"
