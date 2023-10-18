@@ -73,19 +73,17 @@ function App() {
   // auth0
   const { loginWithRedirect, isAuthenticated, user, isLoading, logout } =
     useAuth0();
-  const [userAuth0Info, setUserAuth0Info] = useState(null);
+  const [isFirstLogin, setIsFirstLogin] = useState(null);
 
-  // useEffect(() => {
-  //   isAuthenticated && getUserAuth0Info();
-  //   return;
-  // }, [isAuthenticated]);
+  useEffect(() => {
+    isAuthenticated && checkUserInDatabase();
+    return;
+  }, [isAuthenticated]);
 
-  const getUserAuth0Info = async () => {
-    let data = [];
-    data = await axios.get(
-      `http://localhost:3001/users/management/${user.email}`
-    );
-    setUserAuth0Info(data.data[0]);
+  const checkUserInDatabase = async () => {
+    let data;
+    data = await axios.get(`http://localhost:3001/users/${user.email}`);
+    setIsFirstLogin(data.data);
   };
 
   // login
@@ -134,9 +132,8 @@ function App() {
   return (
     <div className="App">
       <WelcomeModal open={isModalOpen} onClose={() => setIsModalOpen(false)} />
-
       {/* add condition to show only on first login */}
-      {/* {user && userAuth0Info?.logins_count === 1 && <FirstLoginModal />} */}
+      {user && isFirstLogin && <FirstLoginModal />}
 
       {/* top nav bar */}
       <Navbar setValue={setValue} />
