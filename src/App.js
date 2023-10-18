@@ -159,37 +159,37 @@ function App() {
         </Routes>
       </body>
       {/* bottom navigation bar */}
-      {user && (
-        <Box>
-          <ThemeProvider theme={theme}>
-            <BottomNavigation
-              className="bottom-navigation"
-              showLabels
-              value={value}
-              onChange={(event, newValue) => {
-                setValue(newValue);
-                switch (newValue) {
-                  case 0:
-                    navigate("/explore");
-                    break;
-                  case 1:
-                    navigate("/");
-                    break;
-                  case 2:
-                    navigate("/profile");
-                    break;
-                  default:
-                    break;
-                }
-              }}
-            >
-              <BottomNavigationAction label="Explore" icon={<PublicIcon />} />
-              <BottomNavigationAction label="Home" icon={<HomeIcon />} />
-              <BottomNavigationAction label="Profile" icon={<PersonIcon />} />
-            </BottomNavigation>
-          </ThemeProvider>
-        </Box>
-      )}
+      {/* {user && ( */}
+      <Box>
+        <ThemeProvider theme={theme}>
+          <BottomNavigation
+            className="bottom-navigation"
+            showLabels
+            value={value}
+            onChange={(event, newValue) => {
+              setValue(newValue);
+              switch (newValue) {
+                case 0:
+                  navigate("/explore");
+                  break;
+                case 1:
+                  navigate("/");
+                  break;
+                case 2:
+                  navigate("/profile");
+                  break;
+                default:
+                  break;
+              }
+            }}
+          >
+            <BottomNavigationAction label="Explore" icon={<PublicIcon />} />
+            <BottomNavigationAction label="Home" icon={<HomeIcon />} />
+            <BottomNavigationAction label="Profile" icon={<PersonIcon />} />
+          </BottomNavigation>
+        </ThemeProvider>
+      </Box>
+      {/* )} */}
     </div>
   );
 }
