@@ -1,6 +1,6 @@
 .recipe-card {
-  width: 500px;
-  max-width: 100%;
+  width: 100%;
+  /* max-width: 100%; */
   background: white;
   border-radius: 16px !important;
 }
@@ -12,6 +12,9 @@
 .recipe-card-name {
   color: var(--secondary-color);
   /* font-family: "Bitter, serif"; */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 1.5rem !important;
   font-weight: bold !important;
 }
