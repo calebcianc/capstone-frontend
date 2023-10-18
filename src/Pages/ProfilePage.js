@@ -53,18 +53,22 @@ export default function ProfilePage() {
       {isAuthenticated && LogoutButton}
       <br />
       <br />
-      Name: {userProfile.name}
-      <br />
-      <br />
-      Email: {userProfile.email}
-      <br />
-      <br />
-      Joined: {userProfile.createdAt.slice(0, 10)}
-      <br /> <br />
-      Cusine Preferences: {userProfile.cusinePreferences}
-      <br /> <br />
-      Dietary Restrictions: {userProfile.dietaryRestrictions}
-      <br />
+      {user && (
+        <div>
+          Name: {userProfile?.name}
+          <br />
+          <br />
+          Email: {userProfile?.email}
+          <br />
+          <br />
+          Joined: {userProfile.createdAt?.slice(0, 10)}
+          <br /> <br />
+          Cusine Preferences: {userProfile?.cusinePreferences}
+          <br /> <br />
+          Dietary Restrictions: {userProfile?.dietaryRestrictions}
+          <br />
+        </div>
+      )}
     </div>
   );
 }
