@@ -13,7 +13,7 @@ import "./RecipeCard.css";
 const RecipeCard = ({ recipeData }) => {
   return (
     <Link to={`/recipe/${recipeData.id}`} className="no-underline">
-      {console.log(recipeData)}
+      {/* {console.log(recipeData)} */}
       <Card className="recipe-card">
         <CardMedia
           component="img"
