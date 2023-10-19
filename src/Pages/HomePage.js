@@ -86,7 +86,13 @@ export default function HomePage({ recipeList, counter, setCounter }) {
           Something Familiar
         </Button>
       </div>
-      <RecipeList recipeList={filteredRecipes} />
+      {filteredRecipes.length > 0 ? (
+        <RecipeList recipeList={filteredRecipes} />
+      ) : (
+        <div className="text-container">
+          Looks like there are no recipes available.
+        </div>
+      )}
       <NewRecipeModal />
     </div>
   );

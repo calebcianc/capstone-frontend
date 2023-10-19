@@ -38,7 +38,7 @@ Neutral Light: Use this for backgrounds, cards, or as an off-white alternative w
 
   padding-top: 64px;
   margin-bottom: 56px;
-  height: calc(var(--vh, 1vh) * 100 - 64px - 56px);
+  /* height: calc(var(--vh, 1vh) * 100 - 64px - 56px); */
 
   /* so the content is kept to a reasonable width and centered */
   max-width: 1025px;
@@ -54,10 +54,11 @@ Neutral Light: Use this for backgrounds, cards, or as an off-white alternative w
 .childDiv {
   position: relative;
   width: 100%;
-  height: calc(var(--vh, 1vh) * 100 - 60px - 56px);
+  /* height: calc(var(--vh, 1vh) * 100 - 60px - 56px); */
+  height: calc(100vh - 64px - 56px - 2px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
