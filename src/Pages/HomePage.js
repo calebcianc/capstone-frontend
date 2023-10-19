@@ -66,7 +66,11 @@ export default function HomePage({ recipeList, counter, setCounter }) {
           style={
             selectedButton === "newlyadded"
               ? { backgroundColor: "#2b2b2b", color: "white" }
-              : { backgroundColor: "white", color: "#2b2b2b" }
+              : {
+                  backgroundColor: "whitesmoke",
+                  color: "#2b2b2b",
+                  border: "1px solid #2b2b2b",
+                }
           }
           endIcon={<FiberNewIcon />}
           onClick={handleNewlyAddedClick}
@@ -78,7 +82,11 @@ export default function HomePage({ recipeList, counter, setCounter }) {
           style={
             selectedButton === "somethingfamiliar"
               ? { backgroundColor: "#2b2b2b", color: "white" }
-              : { backgroundColor: "white", color: "#2b2b2b" }
+              : {
+                  backgroundColor: "whitesmoke",
+                  color: "#2b2b2b",
+                  border: "1px solid #2b2b2b",
+                }
           }
           endIcon={<HomeIcon />}
           onClick={handleSomethingFamiliarClick}
@@ -90,7 +98,9 @@ export default function HomePage({ recipeList, counter, setCounter }) {
         <RecipeList recipeList={filteredRecipes} />
       ) : (
         <div className="text-container">
-          Looks like there are no recipes available.
+          {selectedButton === "newlyAdded"
+            ? "Looks like you have not added any recipes yet - feel free to explore or add one!"
+            : "Looks like you have not cooked any recipes yet~"}
         </div>
       )}
       <NewRecipeModal />

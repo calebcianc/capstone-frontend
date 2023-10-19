@@ -4,6 +4,7 @@ import TextToSpeech from "../Components/SpeechTextUtilities/TextToSpeech";
 
 import RecipeList from "../Components/Recipe/RecipeList";
 import "../App.css";
+import "./HomePage.css";
 
 export default function ExplorePage({ recipeList, counter, setCounter }) {
   const text = "Testing text to speech";
@@ -16,7 +17,7 @@ export default function ExplorePage({ recipeList, counter, setCounter }) {
 
   return (
     <div className="childDiv">
-      <h3>This is the Explore page</h3>
+      <div className="greeting">Try something new today 😋</div>
       <RecipeList recipeList={recipeList} />
 
       {/* <button onClick={() => TextToSpeech(text)}>Test text to speech</button> */}

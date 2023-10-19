@@ -26,7 +26,8 @@ Neutral Light: Use this for backgrounds, cards, or as an off-white alternative w
 
 /* div for body*/
 .App-body {
-  border-color: #2b2b2b;
+  border-color: var(--primary-color);
+  /* #2b2b2b; */
   border-width: 1px;
   border-style: solid;
 
@@ -38,6 +39,8 @@ Neutral Light: Use this for backgrounds, cards, or as an off-white alternative w
 
   padding-top: 64px;
   margin-bottom: 56px;
+  height: calc(100vh - 64px - 56px - 2px);
+
   /* height: calc(var(--vh, 1vh) * 100 - 64px - 56px); */
 
   /* so the content is kept to a reasonable width and centered */
