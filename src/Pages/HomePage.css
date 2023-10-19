@@ -1,0 +1,20 @@
+.greeting {
+  white-space: nowrap;
+  /* overflow: hidden; */
+  text-overflow: ellipsis;
+  font-size: 2rem; /* Adjust the font size as needed */
+  font-family: Bitter, serif;
+  font-weight: bold;
+  margin-top: 2%;
+  margin-left: 2%;
+  margin-bottom: 10px;
+  margin-right: auto;
+  /* padding-left: 10px; */
+}
+
+.buttons-container {
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+  margin: 2% auto;
+}
