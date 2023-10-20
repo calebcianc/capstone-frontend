@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
+  Grid,
+  InputAdornment,
   Box,
   Button,
   Dialog,
@@ -9,9 +11,19 @@ import {
   TextField,
   MenuItem,
   Typography,
+  Checkbox,
+  FormControlLabel,
+  IconButton,
 } from "@mui/material";
 import "./SuggestRecipeModal.css";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import ClearIcon from "@mui/icons-material/Clear";
+import SaveIcon from "@mui/icons-material/Save";
+import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
+import LocalDiningIcon from "@mui/icons-material/LocalDining";
+import LocalCafeIcon from "@mui/icons-material/LocalCafe";
 import { useNavigate } from "react-router-dom";
 import BACKEND_URL from "../../constants";
 
@@ -61,13 +73,49 @@ export default function TypeRecipeModal({
   setOpenTypeRecipeModal,
   setIsLoading,
 }) {
+  const navigate = useNavigate();
   const [mealType, setMealType] = useState("");
   const [cuisineType, setCuisineType] = useState("");
   const [dietaryRestrictions, setDietaryRestrictions] = useState("none");
   const [servings, setServings] = useState(2);
   const [prepTime, setPrepTime] = useState(30);
-  const navigate = useNavigate();
   const [recipeId, setRecipeId] = useState();
+
+  const [name, setName] = useState("");
+  const [isPublic, setIsPublic] = useState(false);
+  const [recipeImage, setRecipeImage] = useState(null);
+  const [ingredients, setIngredients] = useState([
+    { name: "", quantity: "", unitOfMeasurement: "" },
+  ]);
+  const [instructions, setInstructions] = useState([
+    { instruction: "", timeInterval: "", image: null },
+  ]);
+
+  const addIngredient = () => {
+    setIngredients([
+      ...ingredients,
+      { name: "", quantity: "", unitOfMeasurement: "" },
+    ]);
+  };
+
+  const addInstruction = () => {
+    setInstructions([
+      ...instructions,
+      { instruction: "", timeInterval: "", image: null },
+    ]);
+  };
+
+  const removeIngredient = (index) => {
+    const newIngredients = [...ingredients];
+    newIngredients.splice(index, 1);
+    setIngredients(newIngredients);
+  };
+
+  const removeInstruction = (index) => {
+    const newInstructions = [...instructions];
+    newInstructions.splice(index, 1);
+    setInstructions(newInstructions);
+  };
 
   useEffect(() => {
     if (recipeId) {
@@ -118,158 +166,493 @@ export default function TypeRecipeModal({
             color: "#2b2b2b",
             borderRadius: "16px",
             fontWeight: "bold",
+            fontSize: "1.75em",
           }}
         >
-          Key in every detail of your recipe!
+          Key in your recipe!
         </DialogTitle>
 
         <DialogContent style={{ backgroundColor: "#f7f4e8", paddingBottom: 0 }}>
-          {/* Meal Type */}
-          <TextField
-            select
-            fullWidth
-            margin="dense"
-            label="Meal Type"
-            variant="outlined"
-            value={mealType}
-            onChange={(e) => setMealType(e.target.value)}
-            style={{ backgroundColor: "white" }}
-          >
-            <MenuItem value="breakfast">Breakfast</MenuItem>
-            <MenuItem value="lunch">Lunch</MenuItem>
-            <MenuItem value="dinner">Dinner</MenuItem>
-          </TextField>
+          {/* Recipe name */}
+          <div style={{ display: "flex", marginBottom: "6px" }}>
+            <TextField
+              fullWidth
+              margin="dense"
+              label="Recipe Name"
+              variant="outlined"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              style={{ backgroundColor: "white" }}
+            />{" "}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "20%",
+                margin: "8px 0 4px 0",
+                // padding: "5px",
+              }}
+            >
+              <input
+                accept="image/*"
+                style={{ display: "none" }}
+                id="recipe-image-input"
+                type="file"
+                onChange={(e) => setRecipeImage(e.target.files[0])}
+              />
+              <label htmlFor="recipe-image-input">
+                <AddPhotoAlternateIcon style={{ cursor: "pointer" }} />
+              </label>
+              <Typography variant="caption">Add photo</Typography>
+            </div>
+          </div>
 
-          {/* Cuisine Type */}
-          <TextField
-            select
-            fullWidth
-            margin="dense"
-            label="Cuisine Type"
-            variant="outlined"
-            value={cuisineType}
-            onChange={(e) => setCuisineType(e.target.value)}
-            style={{ backgroundColor: "white" }}
-          >
-            <MenuItem value="italian">Italian</MenuItem>
-            <MenuItem value="chinese">Chinese</MenuItem>
-            <MenuItem value="japanese">Japanese</MenuItem>
-            <MenuItem value="mexican">Mexican</MenuItem>
-            <MenuItem value="french">French</MenuItem>
-            <MenuItem value="indian">Indian</MenuItem>
-            <MenuItem value="thai">Thai</MenuItem>
-            <MenuItem value="spanish">Spanish</MenuItem>
-            <MenuItem value="korean">Korean</MenuItem>
-            <MenuItem value="american">American</MenuItem>
-          </TextField>
+          <Grid container spacing={2}>
+            {/* Meal Type */}
+            <Grid item xs={12} sm={4}>
+              <TextField
+                select
+                fullWidth
+                margin="dense"
+                label="Meal Type"
+                variant="outlined"
+                value={mealType}
+                onChange={(e) => setMealType(e.target.value)}
+                style={{ backgroundColor: "white" }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LocalCafeIcon color="action" />
+                    </InputAdornment>
+                  ),
+                }}
+              >
+                <MenuItem value="breakfast">Breakfast</MenuItem>
+                <MenuItem value="lunch">Lunch</MenuItem>
+                <MenuItem value="dinner">Dinner</MenuItem>
+              </TextField>
+            </Grid>
 
-          {/* Dietary Restrictions */}
-          <TextField
-            select
-            fullWidth
-            margin="dense"
-            label="Dietary Restrictions"
-            variant="outlined"
-            value={dietaryRestrictions}
-            onChange={(e) => setDietaryRestrictions(e.target.value)}
-            style={{ backgroundColor: "white" }}
-          >
-            <MenuItem value="none">None</MenuItem>
-            <MenuItem value="vegetarian">Vegetarian</MenuItem>
-            <MenuItem value="vegan">Vegan</MenuItem>
-            <MenuItem value="gluten-free">Gluten-Free</MenuItem>
-            <MenuItem value="dairy-free">Dairy-Free</MenuItem>
-            <MenuItem value="nut-free">Nut-Free</MenuItem>
-            <MenuItem value="halal">Halal</MenuItem>
-            <MenuItem value="kosher">Kosher</MenuItem>
-            <MenuItem value="paleo">Paleo</MenuItem>
-            <MenuItem value="keto">Keto</MenuItem>
-            <MenuItem value="low-carb">Low Carb</MenuItem>
-          </TextField>
+            {/* Cuisine Type */}
+            <Grid item xs={12} sm={4}>
+              <TextField
+                select
+                fullWidth
+                margin="dense"
+                label="Cuisine Type"
+                variant="outlined"
+                value={cuisineType}
+                onChange={(e) => setCuisineType(e.target.value)}
+                style={{ backgroundColor: "white" }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <RestaurantMenuIcon color="action" />
+                    </InputAdornment>
+                  ),
+                }}
+              >
+                <MenuItem value="italian">Italian</MenuItem>
+                <MenuItem value="chinese">Chinese</MenuItem>
+                <MenuItem value="japanese">Japanese</MenuItem>
+                <MenuItem value="mexican">Mexican</MenuItem>
+                <MenuItem value="french">French</MenuItem>
+                <MenuItem value="indian">Indian</MenuItem>
+                <MenuItem value="thai">Thai</MenuItem>
+                <MenuItem value="spanish">Spanish</MenuItem>
+                <MenuItem value="korean">Korean</MenuItem>
+                <MenuItem value="american">American</MenuItem>
+              </TextField>
+            </Grid>
 
+            {/* Dietary Restrictions */}
+            <Grid item xs={12} sm={4}>
+              <TextField
+                select
+                fullWidth
+                margin="dense"
+                label="Dietary Restrictions"
+                variant="outlined"
+                value={dietaryRestrictions}
+                onChange={(e) => setDietaryRestrictions(e.target.value)}
+                style={{ backgroundColor: "white" }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LocalDiningIcon color="action" />
+                    </InputAdornment>
+                  ),
+                }}
+              >
+                <MenuItem value="none">None</MenuItem>
+                <MenuItem value="vegetarian">Vegetarian</MenuItem>
+                <MenuItem value="vegan">Vegan</MenuItem>
+                <MenuItem value="gluten-free">Gluten-Free</MenuItem>
+                <MenuItem value="dairy-free">Dairy-Free</MenuItem>
+                <MenuItem value="nut-free">Nut-Free</MenuItem>
+                <MenuItem value="halal">Halal</MenuItem>
+                <MenuItem value="kosher">Kosher</MenuItem>
+                <MenuItem value="paleo">Paleo</MenuItem>
+                <MenuItem value="keto">Keto</MenuItem>
+                <MenuItem value="low-carb">Low Carb</MenuItem>
+              </TextField>
+            </Grid>
+          </Grid>
+
+          {/* Serving Size and Preparation Time */}
           <Box
             display="flex"
             justifyContent="space-between"
             alignItems="center"
             style={{
               backgroundColor: "white",
-              margin: "8px 0",
-              padding: "6px 0",
+              margin: "10px 0 8px 0",
+              padding: "10px 0 6px 0",
+              // borderRadius: "16px",
             }}
           >
-            <Box flex="0 1 50%" textAlign="left">
+            {/* Serving Size Group */}
+            <Box
+              flex="1"
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
+              style={{
+                borderRight: "1px solid #2b2b2b", // Optional: adds a border between the two groups
+                padding: "0 8px", // Optional: adds some padding
+              }}
+            >
               <Typography
                 variant="h7"
                 style={{
                   color: "#2b2b2b",
-
-                  marginLeft: "8px",
+                  fontWeight: "bold",
+                  marginBottom: "4px", // Adjusts spacing between label and controls
                 }}
               >
                 Serving Size
               </Typography>
+              <Box display="flex" alignItems="center">
+                <IconButton
+                  onClick={() => setServings((prev) => Math.max(1, prev - 1))} // Decrease but not below 1
+                  className="button"
+                >
+                  <RemoveCircleOutlineIcon />
+                </IconButton>
+                <Typography>{servings} pax</Typography>
+                <IconButton
+                  onClick={() => setServings((prev) => prev + 1)} // Increase serving size
+                  className="button"
+                >
+                  <AddCircleOutlineIcon />
+                </IconButton>
+              </Box>
             </Box>
-            <Box display="flex" justifyContent="center" alignItems="center">
-              <Button
-                onClick={() => setServings((prev) => Math.max(1, prev - 1))} // Decrease but not below 1
-                className="button"
-              >
-                -
-              </Button>
-              <Typography>{servings} pax</Typography>
-              <Button
-                onClick={() => setServings((prev) => prev + 1)} // Increase serving size
-                className="button"
-              >
-                +
-              </Button>
-            </Box>
-          </Box>
 
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            style={{
-              backgroundColor: "white",
-              margin: "12px 0 4px 0",
-              padding: "6px 0",
-            }}
-          >
-            <Box flex="0 1 50%" textAlign="left">
+            {/* Preparation Time Group */}
+            <Box
+              flex="1"
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
+              style={{
+                padding: "0 8px", // Optional: adds some padding
+              }}
+            >
               <Typography
                 variant="h7"
                 style={{
                   color: "#2b2b2b",
-                  marginLeft: "8px",
+                  fontWeight: "bold",
+                  marginBottom: "4px", // Adjusts spacing between label and controls
                 }}
               >
                 Preparation Time
               </Typography>
-            </Box>
-            <Box display="flex" justifyContent="center" alignItems="center">
-              <Button
-                onClick={() => setPrepTime((prev) => Math.max(15, prev - 15))} // Decrease by 15 but not below 15
-                className="button"
-              >
-                -
-              </Button>
-              <Typography>{prepTime} mins</Typography>
-              <Button
-                onClick={() => setPrepTime((prev) => prev + 15)} // Increase prep time by 15
-                className="button"
-              >
-                +
-              </Button>
+              <Box display="flex" alignItems="center">
+                <IconButton
+                  onClick={() => setPrepTime((prev) => Math.max(15, prev - 15))} // Decrease by 15 but not below 15
+                  className="button"
+                >
+                  <RemoveCircleOutlineIcon />
+                </IconButton>
+                <Typography>{prepTime} mins</Typography>
+                <IconButton
+                  onClick={() => setPrepTime((prev) => prev + 15)} // Increase prep time by 15
+                  className="button"
+                >
+                  <AddCircleOutlineIcon />
+                </IconButton>
+              </Box>
             </Box>
           </Box>
+
+          {/* List of Ingredients */}
+          <Box>
+            <div
+              style={{
+                fontSize: "1.1em",
+                fontWeight: "bold",
+                padding: "5px 0 5px 8px",
+              }}
+            >
+              Ingredients
+            </div>
+            {ingredients.map((ingredient, index) => (
+              <Box
+                key={index}
+                display="flex"
+                justifyContent="space-between"
+                style={{
+                  backgroundColor: "white",
+                  padding: "8px ",
+                  borderRadius: "4px",
+                  height: "40px",
+                }}
+              >
+                <TextField
+                  label="Name"
+                  variant="outlined"
+                  value={ingredient.name}
+                  onChange={(e) => {
+                    const newIngredients = [...ingredients];
+                    newIngredients[index].name = e.target.value;
+                    setIngredients(newIngredients);
+                  }}
+                  style={{
+                    flex: 1,
+                    marginRight: "8px",
+                    backgroundColor: "white",
+                  }}
+                  InputProps={{
+                    style: { height: 40, padding: "5px" },
+                  }}
+                  InputLabelProps={{
+                    style: { top: "-6px" },
+                  }}
+                />
+                <TextField
+                  label="Quantity"
+                  variant="outlined"
+                  value={ingredient.quantity}
+                  onChange={(e) => {
+                    const newIngredients = [...ingredients];
+                    newIngredients[index].quantity = e.target.value;
+                    setIngredients(newIngredients);
+                  }}
+                  style={{
+                    flex: 1,
+                    marginRight: "8px",
+                    backgroundColor: "white",
+                  }}
+                  InputProps={{
+                    style: { height: 40, padding: "5px" },
+                  }}
+                  InputLabelProps={{
+                    style: { top: "-6px" },
+                  }}
+                />
+                <TextField
+                  label="Unit of Measurement"
+                  variant="outlined"
+                  value={ingredient.unitOfMeasurement}
+                  onChange={(e) => {
+                    const newIngredients = [...ingredients];
+                    newIngredients[index].unitOfMeasurement = e.target.value;
+                    setIngredients(newIngredients);
+                  }}
+                  style={{ flex: 1, backgroundColor: "white" }}
+                  InputProps={{
+                    style: { height: 40, padding: "5px" },
+                  }}
+                  InputLabelProps={{
+                    style: { top: "-6px" },
+                  }}
+                />
+                <IconButton onClick={() => removeIngredient(index)}>
+                  <ClearIcon />
+                </IconButton>
+              </Box>
+            ))}
+          </Box>
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+            }}
+          >
+            <Button
+              style={{
+                marginLeft: "5px",
+                marginBottom: "8px",
+                color: "#2b2b2b",
+                fontSize: "0.7em",
+              }}
+              onClick={addIngredient}
+              color="primary"
+              startIcon=<AddCircleOutlineIcon />
+            >
+              Add ingredient
+            </Button>
+          </div>
+
+          {/* List of Instructions */}
+          <Box>
+            <div
+              style={{
+                fontSize: "1.1em",
+                fontWeight: "bold",
+                padding: "5px 0 5px 8px",
+              }}
+            >
+              Instructions
+            </div>
+            {instructions.map((instruction, index) => (
+              <Box
+                style={{
+                  backgroundColor: "white",
+                  padding: "8px",
+                  borderRadius: "4px",
+                  height: "40px",
+                  display: "flex",
+                }}
+              >
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  justifyContent={"space-between"}
+                >
+                  <TextField
+                    label="Instruction"
+                    variant="outlined"
+                    value={instruction.instruction}
+                    onChange={(e) => {
+                      const newInstructions = [...instructions];
+                      newInstructions[index].instruction = e.target.value;
+                      setInstructions(newInstructions);
+                    }}
+                    style={{ flex: 1, marginRight: "8px" }}
+                    InputProps={{
+                      style: { height: 40, padding: "5px" },
+                    }}
+                    InputLabelProps={{
+                      style: { top: "-6px" },
+                    }}
+                  />
+                  <TextField
+                    label="Time Taken"
+                    variant="outlined"
+                    type="number"
+                    value={instruction.timeInterval}
+                    onChange={(e) => {
+                      const newInstructions = [...instructions];
+                      newInstructions[index].timeInterval = e.target.value;
+                      setInstructions(newInstructions);
+                    }}
+                    style={{ flex: 1, marginRight: "8px" }}
+                    InputProps={{
+                      style: { height: 40, padding: "5px" },
+                    }}
+                    InputLabelProps={{
+                      style: { top: "-6px" },
+                    }}
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <input
+                      accept="image/*"
+                      style={{
+                        display: "none",
+                      }}
+                      id={`instruction-image-input-${index}`}
+                      type="file"
+                      onChange={(e) => {
+                        const newInstructions = [...instructions];
+                        newInstructions[index].image = e.target.files[0];
+                        setInstructions(newInstructions);
+                      }}
+                    />
+                    <label htmlFor={`instruction-image-input-${index}`}>
+                      <AddPhotoAlternateIcon
+                        style={{
+                          cursor: "pointer",
+                          padding: "3px",
+                        }}
+                      />
+                    </label>
+                    <Typography variant="caption">Add photo</Typography>
+                  </div>
+                  <IconButton onClick={() => removeInstruction(index)}>
+                    <ClearIcon />
+                  </IconButton>
+                </Box>
+              </Box>
+            ))}
+          </Box>
+
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+            }}
+          >
+            <Button
+              style={{
+                marginLeft: "5px",
+                marginBottom: "8px",
+                color: "#2b2b2b",
+                fontSize: "0.7em",
+              }}
+              onClick={addInstruction}
+              color="primary"
+              startIcon=<AddCircleOutlineIcon />
+            >
+              Add instruction
+            </Button>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+              width: "100%",
+              marginLeft: "-8px",
+            }}
+          >
+            <FormControlLabel
+              labelPlacement="start"
+              label={
+                <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
+                  Make recipe public?
+                </Typography>
+              }
+              control={
+                <Checkbox
+                  checked={isPublic}
+                  onChange={(e) => setIsPublic(e.target.checked)}
+                  name="isPublic"
+                  color="default"
+                />
+              }
+            />
+          </div>
         </DialogContent>
 
         <DialogActions
           style={{
             backgroundColor: "#f7f4e8",
             borderRadius: "0 0 16px 16px",
-            padding: "16px 24px 16px 24px",
+            padding: "16px 24px 24px 24px",
           }}
         >
           <Button onClick={handleClose} style={{ color: "#e7372d" }}>
@@ -283,10 +666,10 @@ export default function TypeRecipeModal({
               color: "#f7f4e8",
               borderRadius: "16px",
             }}
-            endIcon={<RestartAltIcon />}
+            endIcon={<SaveIcon />}
             disabled={mealType === "" || cuisineType === ""}
           >
-            Generate Recipe
+            Save Recipe
           </Button>
         </DialogActions>
       </Dialog>
