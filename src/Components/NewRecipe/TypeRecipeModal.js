@@ -27,7 +27,7 @@ import LocalCafeIcon from "@mui/icons-material/LocalCafe";
 import { useNavigate } from "react-router-dom";
 import BACKEND_URL from "../../constants";
 
-async function makeOpenAiRequest(data, setIsLoading, setRecipeId, event) {
+async function addRecipeToDatabase(data, setIsLoading, setRecipeId, event) {
   if (event) {
     event.preventDefault();
   }
@@ -41,7 +41,7 @@ async function makeOpenAiRequest(data, setIsLoading, setRecipeId, event) {
     console.log("generate for userid", userId);
     try {
       setIsLoading(true);
-      const response = await fetch(`${BACKEND_URL}/recipes/new`, {
+      const response = await fetch(`${BACKEND_URL}/recipes/addRecipe`, {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(data),
@@ -134,20 +134,16 @@ export default function TypeRecipeModal({
     setDietaryRestrictions("none");
     setServings(2);
     setPrepTime(30);
+    setName("");
+    setIngredients([{ name: "", quantity: "", unitOfMeasurement: "" }]);
+    setInstructions([{ instruction: "", timeInterval: "", image: null }]);
   };
 
   const handleSubmit = (event) => {
     const data = {
-      type: "suggest",
-      input: {
-        mealType,
-        cuisineType,
-        dietaryRestrictions,
-        servings,
-        prepTime,
-      },
+      recipe: { name, prepTime, isPublic, ingredients, instructions },
     };
-    makeOpenAiRequest(data, setIsLoading, setRecipeId, event);
+    addRecipeToDatabase(data, setIsLoading, setRecipeId, event);
     handleClose();
     console.log(JSON.stringify(data));
   };

@@ -1,7 +1,15 @@
 import "./LoadingGif.css";
 import "../NewRecipe/FabIcon.css";
 import React, { useEffect, useState } from "react";
-import { Typography, SpeedDial, SpeedDialAction } from "@mui/material";
+import {
+  Typography,
+  SpeedDial,
+  SpeedDialAction,
+  Dialog,
+  DialogContent,
+  Button,
+  Tooltip,
+} from "@mui/material";
 import SuggestRecipeModal from "./SuggestRecipeModal";
 import PasteRecipeModal from "./PasteRecipeModal";
 import ContentPasteIcon from "@mui/icons-material/ContentPaste";
@@ -11,13 +19,13 @@ import CreateIcon from "@mui/icons-material/Create";
 import { useNavigate } from "react-router-dom";
 import BACKEND_URL from "../../constants";
 import TypeRecipeModal from "./TypeRecipeModal";
+import { useAuth0 } from "@auth0/auth0-react";
+import Backdrop from "@mui/material/Backdrop";
+import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
+import "./NewRecipeModal.css";
 
 //custom hook with issues
 async function makeOpenAiRequest(data, setIsLoading, setRecipeId) {
-  // if (event) {
-  //   event.preventDefault();
-  // }
-
   const accessToken = true;
   const userId = 1;
   data.userId = userId;
@@ -63,33 +71,49 @@ function MySpeedDial({
   setIsLoading,
   setRecipeId,
 }) {
+  const { loginWithRedirect } = useAuth0();
+  const accessToken = false;
+  const [openDialog, setOpenDialog] = useState(false);
   const data = { type: "surprise", input: "" };
   const actions = [
     {
-      icon: <ContentPasteIcon />,
-      name: "Paste Recipe",
-      onClick: () => {
-        setOpenUserInputRecipe(true);
-      },
-    },
-    {
-      icon: <KeyboardIcon />,
-      name: "Suggest Recipe",
-      onClick: () => {
-        setOpenRecipePartialSurprise(true);
-      },
-    },
-    {
       icon: <CreateIcon />,
-      name: "Type Out Recipe",
+      name: "Manual",
       onClick: () => {
         setOpenTypeRecipeModal(true);
       },
     },
     {
-      icon: <AssistantIcon />,
-      name: "Surprise Me",
+      icon: <ContentPasteIcon />,
+      name: "Paste",
       onClick: () => {
+        if (!accessToken) {
+          setOpenDialog(true);
+          return;
+        }
+        setOpenUserInputRecipe(true);
+      },
+    },
+    {
+      icon: <KeyboardIcon />,
+      name: "Suggest",
+      onClick: () => {
+        if (!accessToken) {
+          setOpenDialog(true);
+          return;
+        }
+        setOpenRecipePartialSurprise(true);
+      },
+    },
+
+    {
+      icon: <AssistantIcon />,
+      name: "Surprise",
+      onClick: () => {
+        if (!accessToken) {
+          setOpenDialog(true);
+          return;
+        }
         makeOpenAiRequest(data, setIsLoading, setRecipeId);
       },
     },
@@ -97,6 +121,7 @@ function MySpeedDial({
 
   return (
     <div className="fab-container">
+      {/* <Backdrop open={open} /> */}
       <SpeedDial
         ariaLabel="SpeedDial"
         icon={<img src="/logo512.png" alt="logo" className="fab-icon" />}
@@ -109,6 +134,8 @@ function MySpeedDial({
             key={action.name}
             icon={action.icon}
             tooltipTitle={action.name}
+            tooltipOpen
+            TooltipClasses={{ tooltip: "speed-dial-tooltip" }}
             onClick={action.onClick}
           />
         ))}
@@ -116,6 +143,26 @@ function MySpeedDial({
       <Typography variant="caption" display="block" mt={1}>
         <b>ADD RECIPE</b>
       </Typography>
+
+      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        <DialogContent>
+          <Typography
+            component="h2"
+            id="modal-title"
+            textColor="inherit"
+            mb={2}
+            variant="h6"
+            fontWeight="bold"
+          >
+            Hey there!
+          </Typography>
+          <Typography>Sign up / Log in to use this feature!</Typography>
+          <br />
+          <Button variant="contained" onClick={() => loginWithRedirect()}>
+            Sign Up / Log In
+          </Button>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

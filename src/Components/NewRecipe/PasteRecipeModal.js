@@ -6,6 +6,9 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  FormControlLabel,
+  Checkbox,
+  Typography,
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useNavigate } from "react-router-dom";
@@ -61,6 +64,7 @@ function PasteRecipeModal({
   const [text, setText] = useState("");
   const navigate = useNavigate();
   const [recipeId, setRecipeId] = useState();
+  const [isPublic, setIsPublic] = useState(false);
 
   useEffect(() => {
     if (recipeId) {
@@ -109,6 +113,31 @@ function PasteRecipeModal({
             onChange={(e) => setText(e.target.value)}
             style={{ backgroundColor: "white" }}
           />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+              width: "100%",
+              marginLeft: "-8px",
+            }}
+          >
+            <FormControlLabel
+              labelPlacement="start"
+              label={
+                <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
+                  Make recipe public?
+                </Typography>
+              }
+              control={
+                <Checkbox
+                  checked={isPublic}
+                  onChange={(e) => setIsPublic(e.target.checked)}
+                  name="isPublic"
+                  color="default"
+                />
+              }
+            />
+          </div>
         </DialogContent>
         <DialogActions
           style={{
