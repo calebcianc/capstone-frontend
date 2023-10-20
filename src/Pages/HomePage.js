@@ -14,18 +14,20 @@ export default function HomePage({ recipeList, counter, setCounter }) {
     setCounter(counter + 1);
   }, []);
 
-  const user = "User1";
+  const user = { id: 1, name: "Gordon Ramsey" };
 
   const [filteredRecipes, setFilteredRecipes] = useState(recipeList);
 
   const filterNewlyAdded = () => {
-    const newRecipes = recipeList.filter((recipe) => !recipe.lastCookedDate);
+    const newRecipes = recipeList.filter(
+      (recipe) => !recipe.lastCookedDate && recipe.userId === user.id
+    );
     setFilteredRecipes(newRecipes);
   };
 
   const filterSomethingFamiliar = () => {
     const familiarRecipes = recipeList.filter(
-      (recipe) => recipe.lastCookedDate
+      (recipe) => recipe.lastCookedDate && recipe.userId === user.id
     );
     setFilteredRecipes(familiarRecipes);
   };
@@ -49,7 +51,7 @@ export default function HomePage({ recipeList, counter, setCounter }) {
   return (
     <div className="childDiv">
       <div className="greeting">
-        Hi {user}, what would you like to cook today?
+        Hi {user.name}, what would you like to cook today?
       </div>
       <div className="buttons-container">
         <Button
