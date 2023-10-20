@@ -136,7 +136,7 @@ function InstructionCard({
         {currentInstruction.instruction}
       </div>
 
-      {/* Timer (if provided) */}
+      {/* Timer */}
       {currentInstruction.timeInterval && (
         <div style={{ marginTop: 10, textAlign: "center" }}>
           Duration:{currentInstruction.timeInterval} min

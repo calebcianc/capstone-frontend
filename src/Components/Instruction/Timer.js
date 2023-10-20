@@ -2,14 +2,19 @@ import React, { useState, useEffect } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
+import alarmSound from "./alarm_clock.mp3";
 
 function Timer({ duration }) {
+  // const [timeLeft, setTimeLeft] = useState(10); for testing
   const [timeLeft, setTimeLeft] = useState(duration * 60);
   const [isRunning, setIsRunning] = useState(false);
   const [intervalId, setIntervalId] = useState(null);
+  const [audio] = useState(new Audio(alarmSound));
 
   // Reset timer when duration changes
   useEffect(() => {
+    // setTimeLeft(10); for testing
+
     setTimeLeft(duration * 60);
     setIsRunning(false);
   }, [duration]);
@@ -18,8 +23,15 @@ function Timer({ duration }) {
     if (isRunning) {
       const interval = setInterval(() => {
         setTimeLeft((prevTime) => {
-          if (prevTime > 0) return prevTime - 1;
-          clearInterval(interval);
+          if (prevTime === 1) {
+            // Play the alarm sound when timer reaches 0
+            audio.play();
+            return 0;
+          }
+          if (prevTime > 0) {
+            return prevTime - 1;
+          }
+          clearInterval(interval); // Clear interval when timer reaches 0
           return 0;
         });
       }, 1000);
@@ -28,7 +40,7 @@ function Timer({ duration }) {
 
       return () => clearInterval(interval); // Clear interval on unmount
     }
-  }, [isRunning]);
+  }, [isRunning, audio]);
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
@@ -84,7 +96,7 @@ function Timer({ duration }) {
       <div>
         Time Left: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
       </div>
-      <div>transcript: {transcript}</div>
+      {/* <div>transcript: {transcript}</div> */}
       <button onClick={startTimer}>Start</button>
       <button onClick={pauseTimer}>Pause</button>
       <button onClick={resetTimer}>Reset</button>
