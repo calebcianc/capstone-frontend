@@ -9,6 +9,8 @@ import {
   TextField,
   MenuItem,
   Typography,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import "./SuggestRecipeModal.css";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
@@ -69,6 +71,7 @@ export default function SuggestRecipeModal({
   const [prepTime, setPrepTime] = useState(30);
   const navigate = useNavigate();
   const [recipeId, setRecipeId] = useState();
+  const [isPublic, setIsPublic] = useState(false);
 
   useEffect(() => {
     if (recipeId) {
@@ -99,6 +102,7 @@ export default function SuggestRecipeModal({
         servings,
         prepTime,
       },
+      isPublic,
     };
     makeOpenAiRequest(data, setIsLoading, setRecipeId, event);
     handleClose();
@@ -264,6 +268,32 @@ export default function SuggestRecipeModal({
               </Button>
             </Box>
           </Box>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+              width: "100%",
+              marginLeft: "-8px",
+            }}
+          >
+            <FormControlLabel
+              labelPlacement="start"
+              label={
+                <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
+                  Make recipe public?
+                </Typography>
+              }
+              control={
+                <Checkbox
+                  checked={isPublic}
+                  onChange={(e) => setIsPublic(e.target.checked)}
+                  name="isPublic"
+                  color="default"
+                />
+              }
+            />
+          </div>
         </DialogContent>
 
         <DialogActions
