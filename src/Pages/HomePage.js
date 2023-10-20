@@ -35,15 +35,6 @@ export default function HomePage({ recipeList, counter, setCounter }) {
   }, [recipeList]);
 
   const [selectedButton, setSelectedButton] = useState("newlyadded"); // Default to 'newlyadded'
-  // Conditional styling based on the selected button
-  const newlyAddedStyle =
-    selectedButton === "newlyadded"
-      ? { backgroundColor: "#2b2b2b", color: "#f7f4e8" }
-      : { backgroundColor: "#f7f4e8", color: "#2b2b2b" };
-  const somethingFamiliarStyle =
-    selectedButton === "somethingfamiliar"
-      ? { backgroundColor: "#2b2b2b", color: "#f7f4e8" }
-      : { backgroundColor: "#f7f4e8", color: "#2b2b2b" };
 
   const handleNewlyAddedClick = () => {
     filterNewlyAdded();
