@@ -7,8 +7,10 @@ import PasteRecipeModal from "./PasteRecipeModal";
 import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import KeyboardIcon from "@mui/icons-material/Keyboard";
 import AssistantIcon from "@mui/icons-material/Assistant";
+import CreateIcon from "@mui/icons-material/Create";
 import { useNavigate } from "react-router-dom";
 import BACKEND_URL from "../../constants";
+import TypeRecipeModal from "./TypeRecipeModal";
 
 //custom hook with issues
 async function makeOpenAiRequest(data, setIsLoading, setRecipeId) {
@@ -55,6 +57,7 @@ async function makeOpenAiRequest(data, setIsLoading, setRecipeId) {
 function MySpeedDial({
   setOpenRecipePartialSurprise,
   setOpenUserInputRecipe,
+  setOpenTypeRecipeModal,
   open,
   setOpen,
   setIsLoading,
@@ -74,6 +77,13 @@ function MySpeedDial({
       name: "Suggest Recipe",
       onClick: () => {
         setOpenRecipePartialSurprise(true);
+      },
+    },
+    {
+      icon: <CreateIcon />,
+      name: "Type Out Recipe",
+      onClick: () => {
+        setOpenTypeRecipeModal(true);
       },
     },
     {
@@ -114,6 +124,7 @@ export default function NewRecipeModal() {
   const [open, setOpen] = useState(false);
   const [openRecipePartialSurprise, setOpenRecipePartialSurprise] =
     useState(false);
+  const [openTypeRecipeModal, setOpenTypeRecipeModal] = useState(false);
   const [openUserInputRecipe, setOpenUserInputRecipe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [recipeId, setRecipeId] = useState(null);
@@ -131,6 +142,7 @@ export default function NewRecipeModal() {
       <MySpeedDial
         setOpenRecipePartialSurprise={setOpenRecipePartialSurprise}
         setOpenUserInputRecipe={setOpenUserInputRecipe}
+        setOpenTypeRecipeModal={setOpenTypeRecipeModal}
         open={open}
         setOpen={setOpen}
         setIsLoading={setIsLoading}
@@ -140,6 +152,12 @@ export default function NewRecipeModal() {
       <SuggestRecipeModal
         openRecipePartialSurprise={openRecipePartialSurprise}
         setOpenRecipePartialSurprise={setOpenRecipePartialSurprise}
+        setIsLoading={setIsLoading}
+      />
+
+      <TypeRecipeModal
+        openTypeRecipeModal={openTypeRecipeModal}
+        setOpenTypeRecipeModal={setOpenTypeRecipeModal}
         setIsLoading={setIsLoading}
       />
 
