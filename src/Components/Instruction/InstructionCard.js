@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Timer from "./Timer";
 import CardContent from "@mui/material/CardContent";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import {
@@ -139,6 +140,7 @@ function InstructionCard({
       {currentInstruction.timeInterval && (
         <div style={{ marginTop: 10, textAlign: "center" }}>
           Duration:{currentInstruction.timeInterval} min
+          <Timer duration={currentInstruction.timeInterval} />
         </div>
       )}
     </CardContent>
