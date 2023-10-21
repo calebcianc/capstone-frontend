@@ -111,7 +111,7 @@ function App() {
       <WelcomeModal open={isModalOpen} onClose={() => setIsModalOpen(false)} />
       {/* add condition to show only on first login */}
       {user && isFirstLogin && <FirstLoginModal />}
-
+      <FirstLoginModal />
       {/* top nav bar */}
       <Navbar setValue={setValue} />
 
