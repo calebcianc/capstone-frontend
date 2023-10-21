@@ -1,13 +1,17 @@
-import "../App.css";
-import "./HomePage.css";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
-import RecipeList from "../Components/Recipe/RecipeList";
-import NewRecipeModal from "../Components/NewRecipe/NewRecipeModal";
+// external imports
+import React, { useEffect, useState, useContext } from "react";
 import { Button } from "@mui/material";
 import FiberNewIcon from "@mui/icons-material/FiberNew";
 import HomeIcon from "@mui/icons-material/Home";
+
+// internal imports
+import RecipeList from "../Components/Recipe/RecipeList";
+import NewRecipeModal from "../Components/NewRecipe/NewRecipeModal";
+import { GlobalUseContext } from "../GlobalUseContext";
+
+// CSS imports
+import "../App.css";
+import "./HomePage.css";
 
 export default function HomePage({ recipeList, counter, setCounter }) {
   // counter to force rerender whenever a new recipe is added
@@ -15,8 +19,7 @@ export default function HomePage({ recipeList, counter, setCounter }) {
     setCounter(counter + 1);
   }, []);
 
-  const { user, isAuthenticated } = useAuth0();
-  const [userProfile, setUserProfile] = useState([]);
+  const { userProfile, isAuthenticated } = useContext(GlobalUseContext);
   const [recipeToDisplay, setRecipeToDisplay] = useState(recipeList);
   const [folderRecipes, setFolderRecipes] = useState([]);
   const [folders, setFolders] = useState([]);
@@ -26,29 +29,21 @@ export default function HomePage({ recipeList, counter, setCounter }) {
     filterNewlyAdded();
   }, [recipeList]);
 
-  // onnce authenticated, get user profile and folder recipes
+  // once authenticated, get user profile and folder recipes
   useEffect(() => {
-    isAuthenticated && getUserProfile();
-    isAuthenticated && getFolderRecipes();
+    // isAuthenticated && getFolderRecipes();
     return;
   }, [isAuthenticated]);
 
-  // get user profile
-  const getUserProfile = async () => {
-    let data;
-    data = await axios.get(`http://localhost:3001/users/profile/${user.email}`);
-    setUserProfile(data.data);
-  };
-
   // get folder and recipes
-  const getFolderRecipes = async () => {
-    let data;
-    data = await axios.get(`http://localhost:3001/folders/${user.email}`);
-    setFolderRecipes(data.data);
-    setFolders(
-      data.data.map((folder) => ({ id: folder.id, name: folder.name }))
-    );
-  };
+  // const getFolderRecipes = async () => {
+  //   let data;
+  //   data = await axios.get(`http://localhost:3001/folders/${user.email}`);
+  //   setFolderRecipes(data.data);
+  //   setFolders(
+  //     data.data.map((folder) => ({ id: folder.id, name: folder.name }))
+  //   );
+  // };
 
   // buttons to filter recipes by newly added or something familiar
   const [selectedButton, setSelectedButton] = useState("newlyadded"); // Default to 'newlyadded'
@@ -148,7 +143,7 @@ export default function HomePage({ recipeList, counter, setCounter }) {
         <RecipeList recipeList={recipeToDisplay} />
       ) : (
         <div className="text-container">
-          {selectedButton === "newlyAdded"
+          {selectedButton === "newlyadded"
             ? "Looks like you have not added any recipes yet - feel free to explore or add one!"
             : "Looks like you have not cooked any recipes yet~"}
         </div>

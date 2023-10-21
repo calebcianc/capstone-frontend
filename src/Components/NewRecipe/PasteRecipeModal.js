@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Button,
   TextField,
@@ -13,20 +13,26 @@ import {
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useNavigate } from "react-router-dom";
 import BACKEND_URL from "../../constants";
+import { GlobalUseContext } from "../../GlobalUseContext";
 
 //custom hook with issues
-async function makeOpenAiRequest(data, setIsLoading, setRecipeId, event) {
+async function makeOpenAiRequest(
+  data,
+  setIsLoading,
+  setRecipeId,
+  event,
+  userProfile,
+  isAuthenticated
+) {
   if (event) {
     event.preventDefault();
   }
 
-  const accessToken = true;
-  const userId = 1;
-  data.userId = userId;
+  data.userId = userProfile.id;
   console.log("Sending data: ", data);
 
-  if (accessToken) {
-    console.log("generate for userid", userId);
+  if (isAuthenticated) {
+    console.log("generate for userid", userProfile.id);
     try {
       setIsLoading(true);
       const response = await fetch(`${BACKEND_URL}/recipes/new`, {
@@ -65,6 +71,7 @@ function PasteRecipeModal({
   const navigate = useNavigate();
   const [recipeId, setRecipeId] = useState();
   const [isPublic, setIsPublic] = useState(false);
+  const { userProfile, isAuthenticated } = useContext(GlobalUseContext);
 
   useEffect(() => {
     if (recipeId) {
@@ -74,7 +81,13 @@ function PasteRecipeModal({
 
   const handleSubmit = () => {
     const data = { type: "paste", input: text };
-    makeOpenAiRequest(data, setIsLoading, setRecipeId);
+    makeOpenAiRequest(
+      data,
+      setIsLoading,
+      setRecipeId,
+      userProfile,
+      isAuthenticated
+    );
     handleClose();
     console.log(text);
   };

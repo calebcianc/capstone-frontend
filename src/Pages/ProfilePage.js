@@ -17,9 +17,8 @@ export default function ProfilePage() {
 
   const getUserProfile = async () => {
     let data;
-    data = await axios.get(`http://localhost:3001/users/profile/${user.email}`);
+    data = await axios.get(`http://${BACKEND_URL}/users/profile/${user.email}`);
     setUserProfile(data.data);
-    // console.log(data.data);
   };
 
   // login

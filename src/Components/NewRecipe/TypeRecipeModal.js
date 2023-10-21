@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+// external imports
+import React, { useEffect, useState, useContext } from "react";
 import {
   Grid,
   InputAdornment,
@@ -15,7 +16,6 @@ import {
   FormControlLabel,
   IconButton,
 } from "@mui/material";
-import "./SuggestRecipeModal.css";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
@@ -25,6 +25,8 @@ import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
 import LocalCafeIcon from "@mui/icons-material/LocalCafe";
 import { useNavigate } from "react-router-dom";
+
+// internal imports
 import BACKEND_URL from "../../constants";
 import {
   ref as storageRef,
@@ -32,20 +34,29 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { storage } from "../../firebase";
+import { GlobalUseContext } from "../../GlobalUseContext";
+
+// styles
+import "./SuggestRecipeModal.css";
+
 const STORAGE_PROFILE_FOLDER_NAME = "UserData";
 
-async function addRecipeToDatabase(data, setIsLoading, setRecipeId, event) {
+async function addRecipeToDatabase(
+  data,
+  setIsLoading,
+  setRecipeId,
+  event,
+  userProfile,
+  isAuthenticated
+) {
   if (event) {
     event.preventDefault();
   }
-
-  const accessToken = true;
-  const userId = 1;
-  data.userId = userId;
+  data.userId = userProfile.id;
   console.log("Sending data: ", data);
 
-  if (accessToken) {
-    console.log("generate for userid", userId);
+  if (isAuthenticated) {
+    console.log("generate for userid", userProfile.id);
     try {
       setIsLoading(true);
       const response = await fetch(`${BACKEND_URL}/recipes/addRecipe`, {
@@ -63,7 +74,7 @@ async function addRecipeToDatabase(data, setIsLoading, setRecipeId, event) {
         if (data.recipe.recipePhoto) {
           const fileRef = storageRef(
             storage,
-            `${STORAGE_PROFILE_FOLDER_NAME}/${userId}/recipe/${newRecipeDetails.id}/recipeImage/1`
+            `${STORAGE_PROFILE_FOLDER_NAME}/${userProfile.id}/recipe/${newRecipeDetails.id}/recipeImage/1`
           );
 
           try {
@@ -90,7 +101,7 @@ async function addRecipeToDatabase(data, setIsLoading, setRecipeId, event) {
           if (instruction.image) {
             const fileRef = storageRef(
               storage,
-              `${STORAGE_PROFILE_FOLDER_NAME}/${userId}/recipe/${newRecipeDetails.id}/instructionImage/${instruction.step}/${instruction.image.name}`
+              `${STORAGE_PROFILE_FOLDER_NAME}/${userProfile.id}/recipe/${newRecipeDetails.id}/instructionImage/${instruction.step}/${instruction.image.name}`
             );
 
             try {
@@ -175,6 +186,7 @@ export default function TypeRecipeModal({
   setOpenTypeRecipeModal,
   setIsLoading,
 }) {
+  const { userProfile, isAuthenticated } = useContext(GlobalUseContext);
   const navigate = useNavigate();
   const [mealType, setMealType] = useState("");
   const [cuisineType, setCuisineType] = useState("");
@@ -253,7 +265,14 @@ export default function TypeRecipeModal({
         instructions,
       },
     };
-    addRecipeToDatabase(data, setIsLoading, setRecipeId, event);
+    addRecipeToDatabase(
+      data,
+      setIsLoading,
+      setRecipeId,
+      event,
+      userProfile,
+      isAuthenticated
+    );
     handleClose();
     console.log(JSON.stringify(data));
   };
