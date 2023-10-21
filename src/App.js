@@ -117,17 +117,20 @@ function App() {
 
       {/* everything else */}
       <body className="App-body">
-        {/* logins_count: {userAuth0Info?.logins_count} */}
         {/* User email: {user?.email} */}
         <Routes>
           <Route
             path="/"
             element={
-              <HomePage
-                recipeList={recipeList}
-                counter={counter}
-                setCounter={setCounter}
-              />
+              isAuthenticated ? (
+                <HomePage
+                  recipeList={recipeList}
+                  counter={counter}
+                  setCounter={setCounter}
+                />
+              ) : (
+                "Login for personalised experience"
+              )
             }
           />
           <Route
