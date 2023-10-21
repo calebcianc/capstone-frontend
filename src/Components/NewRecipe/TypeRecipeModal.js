@@ -306,7 +306,6 @@ export default function TypeRecipeModal({
               backgroundColor: "white",
               margin: "10px 0 8px 0",
               padding: "10px 0 6px 0",
-              // borderRadius: "16px",
             }}
           >
             {/* Serving Size Group */}

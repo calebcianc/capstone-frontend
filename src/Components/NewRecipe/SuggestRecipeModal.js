@@ -11,10 +11,18 @@ import {
   Typography,
   FormControlLabel,
   Checkbox,
+  IconButton,
+  Grid,
+  InputAdornment,
 } from "@mui/material";
 import "./SuggestRecipeModal.css";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { useNavigate } from "react-router-dom";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
+import LocalDiningIcon from "@mui/icons-material/LocalDining";
+import LocalCafeIcon from "@mui/icons-material/LocalCafe";
 import BACKEND_URL from "../../constants";
 
 //custom hook with issues
@@ -129,143 +137,184 @@ export default function SuggestRecipeModal({
         </DialogTitle>
 
         <DialogContent style={{ backgroundColor: "#f7f4e8", paddingBottom: 0 }}>
-          {/* Meal Type */}
-          <TextField
-            select
-            fullWidth
-            margin="dense"
-            label="Meal Type"
-            variant="outlined"
-            value={mealType}
-            onChange={(e) => setMealType(e.target.value)}
-            style={{ backgroundColor: "white" }}
-          >
-            <MenuItem value="breakfast">Breakfast</MenuItem>
-            <MenuItem value="lunch">Lunch</MenuItem>
-            <MenuItem value="dinner">Dinner</MenuItem>
-          </TextField>
+          <Grid container spacing={2}>
+            {/* Meal Type */}
+            <Grid item xs={12} sm={4}>
+              <TextField
+                select
+                fullWidth
+                margin="dense"
+                label="Meal Type"
+                variant="outlined"
+                value={mealType}
+                onChange={(e) => setMealType(e.target.value)}
+                style={{ backgroundColor: "white" }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LocalCafeIcon color="action" />
+                    </InputAdornment>
+                  ),
+                }}
+              >
+                <MenuItem value="breakfast">Breakfast</MenuItem>
+                <MenuItem value="lunch">Lunch</MenuItem>
+                <MenuItem value="dinner">Dinner</MenuItem>
+              </TextField>
+            </Grid>
 
-          {/* Cuisine Type */}
-          <TextField
-            select
-            fullWidth
-            margin="dense"
-            label="Cuisine Type"
-            variant="outlined"
-            value={cuisineType}
-            onChange={(e) => setCuisineType(e.target.value)}
-            style={{ backgroundColor: "white" }}
-          >
-            <MenuItem value="italian">Italian</MenuItem>
-            <MenuItem value="chinese">Chinese</MenuItem>
-            <MenuItem value="japanese">Japanese</MenuItem>
-            <MenuItem value="mexican">Mexican</MenuItem>
-            <MenuItem value="french">French</MenuItem>
-            <MenuItem value="indian">Indian</MenuItem>
-            <MenuItem value="thai">Thai</MenuItem>
-            <MenuItem value="spanish">Spanish</MenuItem>
-            <MenuItem value="korean">Korean</MenuItem>
-            <MenuItem value="american">American</MenuItem>
-          </TextField>
+            {/* Cuisine Type */}
+            <Grid item xs={12} sm={4}>
+              <TextField
+                select
+                fullWidth
+                margin="dense"
+                label="Cuisine Type"
+                variant="outlined"
+                value={cuisineType}
+                onChange={(e) => setCuisineType(e.target.value)}
+                style={{ backgroundColor: "white" }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <RestaurantMenuIcon color="action" />
+                    </InputAdornment>
+                  ),
+                }}
+              >
+                <MenuItem value="italian">Italian</MenuItem>
+                <MenuItem value="chinese">Chinese</MenuItem>
+                <MenuItem value="japanese">Japanese</MenuItem>
+                <MenuItem value="mexican">Mexican</MenuItem>
+                <MenuItem value="french">French</MenuItem>
+                <MenuItem value="indian">Indian</MenuItem>
+                <MenuItem value="thai">Thai</MenuItem>
+                <MenuItem value="spanish">Spanish</MenuItem>
+                <MenuItem value="korean">Korean</MenuItem>
+                <MenuItem value="american">American</MenuItem>
+              </TextField>
+            </Grid>
 
-          {/* Dietary Restrictions */}
-          <TextField
-            select
-            fullWidth
-            margin="dense"
-            label="Dietary Restrictions"
-            variant="outlined"
-            value={dietaryRestrictions}
-            onChange={(e) => setDietaryRestrictions(e.target.value)}
-            style={{ backgroundColor: "white" }}
-          >
-            <MenuItem value="none">None</MenuItem>
-            <MenuItem value="vegetarian">Vegetarian</MenuItem>
-            <MenuItem value="vegan">Vegan</MenuItem>
-            <MenuItem value="gluten-free">Gluten-Free</MenuItem>
-            <MenuItem value="dairy-free">Dairy-Free</MenuItem>
-            <MenuItem value="nut-free">Nut-Free</MenuItem>
-            <MenuItem value="halal">Halal</MenuItem>
-            <MenuItem value="kosher">Kosher</MenuItem>
-            <MenuItem value="paleo">Paleo</MenuItem>
-            <MenuItem value="keto">Keto</MenuItem>
-            <MenuItem value="low-carb">Low Carb</MenuItem>
-          </TextField>
+            {/* Dietary Restrictions */}
+            <Grid item xs={12} sm={4}>
+              <TextField
+                select
+                fullWidth
+                margin="dense"
+                label="Dietary Restrictions"
+                variant="outlined"
+                value={dietaryRestrictions}
+                onChange={(e) => setDietaryRestrictions(e.target.value)}
+                style={{ backgroundColor: "white" }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LocalDiningIcon color="action" />
+                    </InputAdornment>
+                  ),
+                }}
+              >
+                <MenuItem value="none">None</MenuItem>
+                <MenuItem value="vegetarian">Vegetarian</MenuItem>
+                <MenuItem value="vegan">Vegan</MenuItem>
+                <MenuItem value="gluten-free">Gluten-Free</MenuItem>
+                <MenuItem value="dairy-free">Dairy-Free</MenuItem>
+                <MenuItem value="nut-free">Nut-Free</MenuItem>
+                <MenuItem value="halal">Halal</MenuItem>
+                <MenuItem value="kosher">Kosher</MenuItem>
+                <MenuItem value="paleo">Paleo</MenuItem>
+                <MenuItem value="keto">Keto</MenuItem>
+                <MenuItem value="low-carb">Low Carb</MenuItem>
+              </TextField>
+            </Grid>
+          </Grid>
 
+          {/* Serving Size and Preparation Time */}
           <Box
             display="flex"
             justifyContent="space-between"
             alignItems="center"
             style={{
               backgroundColor: "white",
-              margin: "8px 0",
-              padding: "6px 0",
+              margin: "10px 0 8px 0",
+              padding: "10px 0 6px 0",
             }}
           >
-            <Box flex="0 1 50%" textAlign="left">
+            {/* Serving Size Group */}
+            <Box
+              flex="1"
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
+              style={{
+                borderRight: "1px solid #2b2b2b", // Optional: adds a border between the two groups
+                padding: "0 8px", // Optional: adds some padding
+              }}
+            >
               <Typography
                 variant="h7"
                 style={{
                   color: "#2b2b2b",
-
-                  marginLeft: "8px",
+                  fontWeight: "bold",
+                  marginBottom: "4px", // Adjusts spacing between label and controls
                 }}
               >
                 Serving Size
               </Typography>
+              <Box display="flex" alignItems="center">
+                <IconButton
+                  onClick={() => setServings((prev) => Math.max(1, prev - 1))} // Decrease but not below 1
+                  className="button"
+                >
+                  <RemoveCircleOutlineIcon />
+                </IconButton>
+                <Typography>{servings} pax</Typography>
+                <IconButton
+                  onClick={() => setServings((prev) => prev + 1)} // Increase serving size
+                  className="button"
+                >
+                  <AddCircleOutlineIcon />
+                </IconButton>
+              </Box>
             </Box>
-            <Box display="flex" justifyContent="center" alignItems="center">
-              <Button
-                onClick={() => setServings((prev) => Math.max(1, prev - 1))} // Decrease but not below 1
-                className="button"
-              >
-                -
-              </Button>
-              <Typography>{servings} pax</Typography>
-              <Button
-                onClick={() => setServings((prev) => prev + 1)} // Increase serving size
-                className="button"
-              >
-                +
-              </Button>
-            </Box>
-          </Box>
 
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            style={{
-              backgroundColor: "white",
-              margin: "12px 0 4px 0",
-              padding: "6px 0",
-            }}
-          >
-            <Box flex="0 1 50%" textAlign="left">
+            {/* Preparation Time Group */}
+            <Box
+              flex="1"
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
+              style={{
+                padding: "0 8px", // Optional: adds some padding
+              }}
+            >
               <Typography
                 variant="h7"
                 style={{
                   color: "#2b2b2b",
-                  marginLeft: "8px",
+                  fontWeight: "bold",
+                  marginBottom: "4px", // Adjusts spacing between label and controls
                 }}
               >
                 Preparation Time
               </Typography>
-            </Box>
-            <Box display="flex" justifyContent="center" alignItems="center">
-              <Button
-                onClick={() => setPrepTime((prev) => Math.max(15, prev - 15))} // Decrease by 15 but not below 15
-                className="button"
-              >
-                -
-              </Button>
-              <Typography>{prepTime} mins</Typography>
-              <Button
-                onClick={() => setPrepTime((prev) => prev + 15)} // Increase prep time by 15
-                className="button"
-              >
-                +
-              </Button>
+              <Box display="flex" alignItems="center">
+                <IconButton
+                  onClick={() => setPrepTime((prev) => Math.max(15, prev - 15))} // Decrease by 15 but not below 15
+                  className="button"
+                >
+                  <RemoveCircleOutlineIcon />
+                </IconButton>
+                <Typography>{prepTime} mins</Typography>
+                <IconButton
+                  onClick={() => setPrepTime((prev) => prev + 15)} // Increase prep time by 15
+                  className="button"
+                >
+                  <AddCircleOutlineIcon />
+                </IconButton>
+              </Box>
             </Box>
           </Box>
 
@@ -300,7 +349,7 @@ export default function SuggestRecipeModal({
           style={{
             backgroundColor: "#f7f4e8",
             borderRadius: "0 0 16px 16px",
-            padding: "16px 24px 16px 24px",
+            padding: "16px 24px 24px 24px",
           }}
         >
           <Button onClick={handleClose} style={{ color: "#e7372d" }}>
