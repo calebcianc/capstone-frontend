@@ -3,6 +3,15 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import alarmSound from "./alarm_clock.mp3";
+import "./Timer.css";
+import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
+// import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+// import PauseIcon from "@material-ui/icons/Pause";
+// import ReplayIcon from "@material-ui/icons/Replay";
+
+import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
+import PauseCircleIcon from "@mui/icons-material/PauseCircle";
+import ReplayIcon from "@mui/icons-material/Replay";
 
 function Timer({ duration }) {
   // const [timeLeft, setTimeLeft] = useState(10); for testing
@@ -93,13 +102,29 @@ function Timer({ duration }) {
 
   return (
     <div>
-      <div>
-        Time Left: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+      <div className={`timer-display ${timeLeft === 0 ? "shake" : ""}`}>
+        <div className="timer-container">
+          <AccessAlarmIcon />
+          <span>
+            {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+          </span>
+
+          <div className="timer-controls">
+            <button onClick={startTimer}>
+              <PlayCircleFilledWhiteIcon style={{ fontSize: 24 }} />
+            </button>
+
+            <button onClick={pauseTimer}>
+              <PauseCircleIcon style={{ fontSize: 24 }} />
+            </button>
+
+            <button onClick={resetTimer}>
+              <ReplayIcon style={{ fontSize: 24 }} />
+            </button>
+          </div>
+        </div>
       </div>
-      <div>transcript: {transcript}</div>
-      <button onClick={startTimer}>Start</button>
-      <button onClick={pauseTimer}>Pause</button>
-      <button onClick={resetTimer}>Reset</button>
+      {/* <div>transcript: {transcript}</div> */}
     </div>
   );
 }
