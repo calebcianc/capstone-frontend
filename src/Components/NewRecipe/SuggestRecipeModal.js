@@ -40,7 +40,7 @@ async function makeOpenAiRequest(
   }
 
   data.userId = userProfile.id;
-  data.cusinePreferences = userProfile.cusinePreferences;
+  data.cuisinePreferences = userProfile.cuisinePreferences;
   data.userDietaryRestrictions = userProfile.dietaryRestrictions;
   console.log("Sending data: ", data);
 
@@ -148,7 +148,7 @@ export default function SuggestRecipeModal({
             fontWeight: "bold",
           }}
         >
-          What'd you like to cook?
+          What would you like to cook?
         </DialogTitle>
 
         <DialogContent style={{ backgroundColor: "#f7f4e8", paddingBottom: 0 }}>

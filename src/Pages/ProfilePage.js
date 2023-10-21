@@ -61,7 +61,7 @@ export default function ProfilePage() {
           <br />
           Joined: {userProfile.createdAt?.slice(0, 10)}
           <br /> <br />
-          Cusine Preferences: {userProfile?.cusinePreferences}
+          Cuisine Preferences: {userProfile?.cuisinePreferences}
           <br /> <br />
           Dietary Restrictions: {userProfile?.dietaryRestrictions}
           <br />

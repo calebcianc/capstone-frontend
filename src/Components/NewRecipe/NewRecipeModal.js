@@ -39,7 +39,7 @@ async function makeOpenAiRequest(
   isAuthenticated
 ) {
   data.userId = userProfile.id;
-  data.cusinePreferences = userProfile.cusinePreferences;
+  data.cuisinePreferences = userProfile.cuisinePreferences;
   data.userDietaryRestrictions = userProfile.dietaryRestrictions;
   console.log("Sending data: ", data);
 
