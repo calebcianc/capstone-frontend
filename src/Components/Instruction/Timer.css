@@ -1,0 +1,79 @@
+.timer-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 25px;
+  background-color: #f2f2f2;
+  border-radius: 50px; /* This will create the rounded effect */
+  margin-bottom: 20px;
+}
+
+.timer-display svg {
+  margin-right: 10px;
+}
+
+@keyframes shakeAnimation {
+  0% {
+    transform: translate(0, 0) rotate(0);
+  }
+  20% {
+    transform: translate(-10px, 0) rotate(-20deg);
+  }
+  40% {
+    transform: translate(10px, 0) rotate(20deg);
+  }
+  60% {
+    transform: translate(-10px, 0) rotate(-20deg);
+  }
+  80% {
+    transform: translate(10px, 0) rotate(20deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0);
+  }
+}
+
+.shake {
+  animation: shakeAnimation 0.5s;
+}
+
+.timer-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.timer-controls {
+  display: none;
+  position: absolute;
+  bottom: 100%; /* Make it appear below the timer-container */
+  left: 0%; /* Start from the middle */
+  transform: translateX(-50%); /* Center the pop-up */
+  flex-direction: column; /* Display the buttons vertically */
+  gap: 0.5rem; /* Spacing between buttons */
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 1rem; /* Some space around the buttons */
+  border-radius: 8px; /* Optional: rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: some shadow for better distinction */
+}
+
+.timer-container:hover .timer-controls {
+  display: flex;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem; /* Some padding for better touch area */
+  transition: background-color 0.3s; /* Optional: smooth hover effect */
+}
+
+button:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Optional: hover effect */
+}
+
+button:focus {
+  outline: none;
+}
