@@ -1,5 +1,6 @@
+import { useContext } from "react";
 import BACKEND_URL from "../../constants";
-import { useNavigate } from "react-router-dom";
+import { GlobalUseContext } from "../../GlobalUseContext";
 
 export default async function makeOpenAiRequest(
   data,
@@ -7,16 +8,11 @@ export default async function makeOpenAiRequest(
   event,
   setRecipeId
 ) {
-  // if (event) {
-  //   event.preventDefault();
-  // }
-
-  const accessToken = true;
-  const userId = 1;
-  data.userId = userId;
+  const { userProfile, isAuthenticated } = useContext(GlobalUseContext);
+  data.userId = userProfile.id;
   console.log("Sending data: ", data);
   setRecipeId(14);
-  if (accessToken) {
+  if (isAuthenticated) {
     console.log("generate for userid", userId);
     try {
       setIsLoading(true);
