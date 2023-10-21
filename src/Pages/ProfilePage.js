@@ -11,7 +11,6 @@ export default function ProfilePage() {
     useAuth0();
 
   useEffect(() => {
-    // check if it is first time user login
     isAuthenticated && getUserProfile();
     return;
   }, [isAuthenticated]);
@@ -20,7 +19,7 @@ export default function ProfilePage() {
     let data;
     data = await axios.get(`http://localhost:3001/users/profile/${user.email}`);
     setUserProfile(data.data);
-    console.log(data.data);
+    // console.log(data.data);
   };
 
   // login
