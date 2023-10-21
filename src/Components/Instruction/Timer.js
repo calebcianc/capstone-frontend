@@ -96,7 +96,7 @@ function Timer({ duration }) {
       <div>
         Time Left: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
       </div>
-      {/* <div>transcript: {transcript}</div> */}
+      <div>transcript: {transcript}</div>
       <button onClick={startTimer}>Start</button>
       <button onClick={pauseTimer}>Pause</button>
       <button onClick={resetTimer}>Reset</button>

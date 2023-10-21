@@ -1,5 +1,14 @@
 import BACKEND_URL from "../../constants";
+
+// Assuming at the top of the file
+let currentAudio = null;
+
 async function TextToSpeech(text) {
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio = null;
+  }
+
   const response = await fetch(`${BACKEND_URL}/synthesize`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -7,12 +16,26 @@ async function TextToSpeech(text) {
   });
   const blob = await response.blob();
   const audioUrl = URL.createObjectURL(blob);
-  const audio = new Audio(audioUrl);
+  currentAudio = new Audio(audioUrl);
+  console.log("New audio set");
 
-  // Return a promise that resolves when the audio ends
   return new Promise((resolve) => {
-    audio.onended = resolve;
-    audio.play();
+    currentAudio.onended = () => {
+      currentAudio = null;
+      resolve();
+    };
+    currentAudio.play();
   });
 }
+
+export function stopTextToSpeech() {
+  if (currentAudio) {
+    console.log("Stopping audio");
+    currentAudio.pause();
+    currentAudio = null;
+  } else {
+    console.log("No audio to stop");
+  }
+}
+
 export default TextToSpeech;

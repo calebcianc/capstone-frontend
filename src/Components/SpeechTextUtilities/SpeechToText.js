@@ -5,7 +5,9 @@ import SpeechRecognition, {
 import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
 import MicOffIcon from "@mui/icons-material/MicOff";
 import { IconButton } from "@mui/material";
-import TextToSpeech from "./TextToSpeech";
+import TextToSpeech, {
+  stopTextToSpeech,
+} from "../SpeechTextUtilities/TextToSpeech";
 
 const SpeechToText = ({
   setCurrentCardIndex,
@@ -30,9 +32,12 @@ const SpeechToText = ({
   }, [currentCardIndex]);
 
   const playCurrentInstruction = () => {
+    console.log("repeat command recognized");
+
     const currentStep = instructions.find(
-      (instr) => instr.id === currentCardIndex
+      (instr) => instr.step === currentCardIndex
     );
+    console.log("Current Step:", currentStep);
 
     if (currentStep) {
       const currentInstruction = currentStep.instruction;
@@ -75,6 +80,13 @@ const SpeechToText = ({
         TextToSpeech("The step popup will now be close. Goodbye!").then(() => {
           onClose();
         });
+      },
+    },
+    {
+      command: ["stop"],
+      callback: () => {
+        console.log("Stop command recognized");
+        stopTextToSpeech();
       },
     },
   ];
