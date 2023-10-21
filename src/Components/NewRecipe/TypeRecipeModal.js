@@ -26,6 +26,13 @@ import LocalDiningIcon from "@mui/icons-material/LocalDining";
 import LocalCafeIcon from "@mui/icons-material/LocalCafe";
 import { useNavigate } from "react-router-dom";
 import BACKEND_URL from "../../constants";
+import {
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
+import { storage } from "../../firebase";
+const STORAGE_PROFILE_FOLDER_NAME = "UserData";
 
 async function addRecipeToDatabase(data, setIsLoading, setRecipeId, event) {
   if (event) {
@@ -52,8 +59,62 @@ async function addRecipeToDatabase(data, setIsLoading, setRecipeId, event) {
       } else {
         console.log("newRecipeDetails", JSON.stringify(newRecipeDetails));
         console.log("newRecipeDetails.id", newRecipeDetails.id);
+
+        if (data.recipe.recipePhoto) {
+          const fileRef = storageRef(
+            storage,
+            `${STORAGE_PROFILE_FOLDER_NAME}/${userId}/recipe/${newRecipeDetails.id}/recipeImage/1`
+          );
+
+          try {
+            const snapshot = await uploadBytes(
+              fileRef,
+              data.recipe.recipePhoto
+            );
+            const recipePhotoUrl = await getDownloadURL(snapshot.ref);
+            console.log("retrieve recipePhotoUrl", recipePhotoUrl);
+
+            // Call the saveImageUrlToPostgreSQL function
+            await saveImageUrlToPostgreSQL(recipePhotoUrl, newRecipeDetails.id);
+          } catch (error) {
+            console.error(
+              "Error uploading file or getting download URL:",
+              error
+            );
+          }
+        }
+
+        // add code below to loop through each instruction and uploading the image to firebase & writing the url to postgresql
+        let stepNumber = 1;
+        for (const instruction of data.recipe.instructions) {
+          if (instruction.image) {
+            const fileRef = storageRef(
+              storage,
+              `${STORAGE_PROFILE_FOLDER_NAME}/${userId}/recipe/${newRecipeDetails.id}/instructionImage/${instruction.step}/${instruction.image.name}`
+            );
+
+            try {
+              const snapshot = await uploadBytes(fileRef, instruction.image);
+              const instructionPhotoUrl = await getDownloadURL(snapshot.ref);
+              console.log("retrieve instructionPhotoUrl", instructionPhotoUrl);
+
+              // Call the saveImageUrlToPostgreSQL function
+              await saveImageUrlToPostgreSQL(
+                instructionPhotoUrl,
+                newRecipeDetails.id,
+                stepNumber
+              );
+            } catch (error) {
+              console.error(
+                "Error uploading file or getting download URL:",
+                error
+              );
+            }
+          }
+          stepNumber++;
+        }
+
         setRecipeId(newRecipeDetails.id);
-        // navigate(`/recipes/${newRecipeDetails.id}`);
       }
       setIsLoading(false);
       return newRecipeDetails;
@@ -65,6 +126,47 @@ async function addRecipeToDatabase(data, setIsLoading, setRecipeId, event) {
     }
   } else {
     alert("Login to create your preferred recipe!");
+  }
+}
+
+async function saveImageUrlToPostgreSQL(imageUrl, recipeId, stepNumber) {
+  try {
+    let response;
+    if (stepNumber) {
+      response = await fetch(
+        `${BACKEND_URL}/instructions/saveImageUrl/${recipeId}/${stepNumber}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            photoUrl: imageUrl,
+          }),
+        }
+      );
+    } else {
+      response = await fetch(
+        `${BACKEND_URL}/recipes/saveImageUrl/${recipeId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            recipeImageUrl: imageUrl,
+          }),
+        }
+      );
+    }
+
+    if (response.ok) {
+      console.log("Image URL saved in PostgreSQL.");
+    } else {
+      console.error("Failed to save image URL in PostgreSQL.");
+    }
+  } catch (error) {
+    console.error("Error saving image URL in PostgreSQL:", error);
   }
 }
 
@@ -82,6 +184,7 @@ export default function TypeRecipeModal({
   const [recipeId, setRecipeId] = useState();
 
   const [name, setName] = useState("");
+  const [recipePhoto, setRecipePhoto] = useState(null);
   const [isPublic, setIsPublic] = useState(false);
   const [recipeImage, setRecipeImage] = useState(null);
   const [ingredients, setIngredients] = useState([
@@ -141,7 +244,14 @@ export default function TypeRecipeModal({
 
   const handleSubmit = (event) => {
     const data = {
-      recipe: { name, prepTime, isPublic, ingredients, instructions },
+      recipe: {
+        name,
+        recipePhoto,
+        prepTime,
+        isPublic,
+        ingredients,
+        instructions,
+      },
     };
     addRecipeToDatabase(data, setIsLoading, setRecipeId, event);
     handleClose();
@@ -196,7 +306,7 @@ export default function TypeRecipeModal({
                 style={{ display: "none" }}
                 id="recipe-image-input"
                 type="file"
-                onChange={(e) => setRecipeImage(e.target.files[0])}
+                onChange={(e) => setRecipePhoto(e.target.files[0])}
               />
               <label htmlFor="recipe-image-input">
                 <AddPhotoAlternateIcon style={{ cursor: "pointer" }} />
