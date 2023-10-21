@@ -72,7 +72,7 @@ function MySpeedDial({
   setRecipeId,
 }) {
   const { loginWithRedirect } = useAuth0();
-  const accessToken = true;
+  const accessToken = false;
   const [openDialog, setOpenDialog] = useState(false);
   const data = { type: "surprise", input: "" };
   const actions = [
