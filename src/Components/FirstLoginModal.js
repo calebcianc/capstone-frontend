@@ -3,6 +3,7 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Button, Modal, Typography, Box, TextField } from "@mui/material";
 import CreatableSelect from "react-select/creatable";
+import BACKEND_URL from "../constants";
 
 const style = {
   position: "absolute",
@@ -26,7 +27,6 @@ export default function FirstLoginModal() {
   const { user } = useAuth0();
 
   const [open, setOpen] = React.useState(true);
-  // const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const handleSubmit = async (e) => {
@@ -34,7 +34,7 @@ export default function FirstLoginModal() {
 
     // add post request
     try {
-      await axios.post(`http://localhost:3001/users`, {
+      await axios.post(`${BACKEND_URL}/users`, {
         name,
         email: user?.email,
         cusinePreferences: selectedCuisine

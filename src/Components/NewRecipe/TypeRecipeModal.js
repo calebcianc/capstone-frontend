@@ -53,6 +53,8 @@ async function addRecipeToDatabase(
     event.preventDefault();
   }
   data.userId = userProfile.id;
+  data.cusinePreferences = userProfile.cusinePreferences;
+  data.userDietaryRestrictions = userProfile.dietaryRestrictions;
   console.log("Sending data: ", data);
 
   if (isAuthenticated) {
