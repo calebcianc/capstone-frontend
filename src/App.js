@@ -136,7 +136,7 @@ function App() {
         {/* top nav bar */}
         <Navbar setValue={setValue} />
         {/* everything else */}
-        <body className="App-body">
+        <div className="App-body">
           <Routes>
             <Route
               path="/"
@@ -171,7 +171,7 @@ function App() {
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
-        </body>
+        </div>
         {/* bottom navigation bar */}
         <Box>
           <ThemeProvider theme={theme}>

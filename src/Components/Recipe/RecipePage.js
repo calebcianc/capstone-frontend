@@ -89,6 +89,7 @@ export default function RecipePage() {
               ?.sort((a, b) => a.step - b.step)
               .map((instruction) => (
                 <RecipeStep
+                  key={instruction.id}
                   instruction={instruction}
                   recipe={recipe}
                   userId={userId}

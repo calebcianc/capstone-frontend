@@ -37,7 +37,7 @@ export default function FirstLoginModal() {
       await axios.post(`${BACKEND_URL}/users`, {
         name,
         email: user?.email,
-        cusinePreferences: selectedCuisine
+        cuisinePreferences: selectedCuisine
           .map((cuisine) => cuisine.label)
           .join(), // wrangle array into string
         dietaryRestrictions: selectedDietaryRestrictions

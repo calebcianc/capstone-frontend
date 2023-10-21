@@ -53,7 +53,7 @@ async function addRecipeToDatabase(
     event.preventDefault();
   }
   data.userId = userProfile.id;
-  data.cusinePreferences = userProfile.cusinePreferences;
+  data.cuisinePreferences = userProfile.cuisinePreferences;
   data.userDietaryRestrictions = userProfile.dietaryRestrictions;
   console.log("Sending data: ", data);
 
@@ -293,7 +293,7 @@ export default function TypeRecipeModal({
             color: "#2b2b2b",
             borderRadius: "16px",
             fontWeight: "bold",
-            fontSize: "1.75em",
+            fontSize: "1.35em",
           }}
         >
           Key in your recipe!
