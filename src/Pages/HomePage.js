@@ -88,6 +88,16 @@ export default function HomePage({ recipeList, counter, setCounter }) {
         </Button>
       </div>
       {filteredRecipes.length > 0 ? (
+        /* <br />
+      <br />
+      Folders
+      <br />
+      <br />
+      <br />
+      <br />
+      Recipe List
+      <br />
+      <br /> */
         <RecipeList recipeList={filteredRecipes} />
       ) : (
         <div className="text-container">

@@ -20,7 +20,7 @@ export default function ProfilePage() {
     let data;
     data = await axios.get(`http://localhost:3001/users/profile/${user.email}`);
     setUserProfile(data.data);
-    console.log(data.data);
+    // console.log(data.data);
   };
 
   // login
