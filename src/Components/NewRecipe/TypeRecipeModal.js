@@ -47,7 +47,8 @@ async function addRecipeToDatabase(
   setRecipeId,
   event,
   userProfile,
-  isAuthenticated
+  isAuthenticated,
+  recipe
 ) {
   if (event) {
     event.preventDefault();
@@ -61,8 +62,13 @@ async function addRecipeToDatabase(
     console.log("generate for userid", userProfile.id);
     try {
       setIsLoading(true);
-      const response = await fetch(`${BACKEND_URL}/recipes/addRecipe`, {
-        method: "POST",
+
+      const url = recipe
+        ? `${BACKEND_URL}/recipes/updateRecipe/${recipe.id}`
+        : `${BACKEND_URL}/recipes/addRecipe`;
+      const method = recipe ? "PUT" : "POST";
+      const response = await fetch(url, {
+        method,
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(data),
       });
@@ -187,6 +193,7 @@ export default function TypeRecipeModal({
   openTypeRecipeModal,
   setOpenTypeRecipeModal,
   setIsLoading,
+  recipe,
 }) {
   const { userProfile, isAuthenticated } = useContext(GlobalUseContext);
   const navigate = useNavigate();
@@ -207,6 +214,19 @@ export default function TypeRecipeModal({
   const [instructions, setInstructions] = useState([
     { instruction: "", timeInterval: "", image: null },
   ]);
+
+  useEffect(() => {
+    if (recipe) {
+      setName(recipe.name);
+      setIngredients(recipe.ingredients);
+      setInstructions(recipe.instructions);
+      setServings(recipe.servingSize);
+      setPrepTime(recipe.totalTime);
+      setCuisineType(recipe.cuisine);
+      setDietaryRestrictions(recipe.dietaryRestrictions);
+      setIsPublic(recipe.isPublic);
+    }
+  }, [recipe]);
 
   const addIngredient = () => {
     setIngredients([
@@ -246,14 +266,15 @@ export default function TypeRecipeModal({
 
   const handleClose = () => {
     setOpenTypeRecipeModal(false);
-    setMealType("");
-    setCuisineType("");
-    setDietaryRestrictions("none");
-    setServings(2);
-    setPrepTime(30);
-    setName("");
-    setIngredients([{ name: "", quantity: "", unitOfMeasurement: "" }]);
-    setInstructions([{ instruction: "", timeInterval: "", image: null }]);
+    if (!recipe) {
+      setName("");
+      setCuisineType("");
+      setDietaryRestrictions("none");
+      setServings(2);
+      setPrepTime(30);
+      setIngredients([{ name: "", quantity: "", unitOfMeasurement: "" }]);
+      setInstructions([{ instruction: "", timeInterval: "", image: null }]);
+    }
   };
 
   const handleSubmit = (event) => {
@@ -273,7 +294,8 @@ export default function TypeRecipeModal({
       setRecipeId,
       event,
       userProfile,
-      isAuthenticated
+      isAuthenticated,
+      recipe
     );
     handleClose();
     console.log(JSON.stringify(data));
@@ -296,7 +318,7 @@ export default function TypeRecipeModal({
             fontSize: "1.35em",
           }}
         >
-          Key in your recipe!
+          {recipe ? "Update your recipe" : "Key in your recipe!"}
         </DialogTitle>
 
         <DialogContent style={{ backgroundColor: "#f7f4e8", paddingBottom: 0 }}>
@@ -338,7 +360,7 @@ export default function TypeRecipeModal({
 
           <Grid container spacing={2}>
             {/* Meal Type */}
-            <Grid item xs={12} sm={4}>
+            {/* <Grid item xs={12} sm={4}>
               <TextField
                 select
                 fullWidth
@@ -360,10 +382,10 @@ export default function TypeRecipeModal({
                 <MenuItem value="lunch">Lunch</MenuItem>
                 <MenuItem value="dinner">Dinner</MenuItem>
               </TextField>
-            </Grid>
+            </Grid> */}
 
             {/* Cuisine Type */}
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 select
                 fullWidth
@@ -395,7 +417,7 @@ export default function TypeRecipeModal({
             </Grid>
 
             {/* Dietary Restrictions */}
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 select
                 fullWidth
@@ -528,7 +550,7 @@ export default function TypeRecipeModal({
             >
               Ingredients
             </div>
-            {ingredients.map((ingredient, index) => (
+            {ingredients?.map((ingredient, index) => (
               <Box
                 key={index}
                 display="flex"
@@ -577,6 +599,8 @@ export default function TypeRecipeModal({
                   }}
                   InputProps={{
                     style: { height: 40, padding: "5px" },
+                    type: "number",
+                    step: "0.01",
                   }}
                   InputLabelProps={{
                     style: { top: "-6px" },
@@ -637,7 +661,7 @@ export default function TypeRecipeModal({
             >
               Instructions
             </div>
-            {instructions.map((instruction, index) => (
+            {instructions?.map((instruction, index) => (
               <Box
                 style={{
                   backgroundColor: "white",
@@ -793,9 +817,9 @@ export default function TypeRecipeModal({
               borderRadius: "16px",
             }}
             endIcon={<SaveIcon />}
-            disabled={mealType === "" || cuisineType === ""}
+            disabled={cuisineType === ""}
           >
-            Save Recipe
+            {recipe ? "Update Recipe" : "Save Recipe"}
           </Button>
         </DialogActions>
       </Dialog>
