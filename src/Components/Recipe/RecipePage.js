@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Box, Fab, Typography, IconButton } from "@mui/material";
+import { Button, Box, Fab, Typography, IconButton } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 // internal imports
@@ -12,6 +12,8 @@ import BACKEND_URL from "../../constants";
 // css imports
 import "./RecipePage.css";
 import "../NewRecipe/FabIcon.css";
+import "../NewRecipe/LoadingGif.css";
+import TypeRecipeModal from "../NewRecipe/TypeRecipeModal";
 
 export default function RecipePage() {
   const [instructionModalopen, setInstructionModalOpen] = useState(false);
@@ -22,6 +24,8 @@ export default function RecipePage() {
   const [recipe, setRecipe] = useState([]);
   const [servings, setServings] = useState(recipe.servingSize || 1);
   const [adjustedIngredients, setAdjustedIngredients] = useState([]);
+  const [openTypeRecipeModal, setOpenTypeRecipeModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     fetchRecipe();
@@ -51,6 +55,22 @@ export default function RecipePage() {
 
   return (
     <>
+      <TypeRecipeModal
+        openTypeRecipeModal={openTypeRecipeModal}
+        setOpenTypeRecipeModal={setOpenTypeRecipeModal}
+        recipe={recipe}
+        setIsLoading={setIsLoading}
+      />
+      {isLoading && (
+        <div className="loading-overlay">
+          <img
+            src="https://cdn.dribbble.com/users/2243442/screenshots/11362056/media/c9432283d2d6ba1a23f2fcd6169f2983.gif"
+            alt="Loading..."
+            style={{ borderRadius: "10px", height: "500px" }}
+          />
+        </div>
+      )}
+
       <div className="recipe-container">
         {/* Recipe Title & Photo */}
         <div className="recipe-title-photo">
@@ -64,13 +84,27 @@ export default function RecipePage() {
 
         {/* Ingredients */}
         <div className="recipe-ingredients ">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              padding: "10px",
+            }}
+          >
+            <Button
+              onClick={() => setOpenTypeRecipeModal(true, recipe)}
+              // style={{ position: "absolute" }}
+            >
+              Update Recipe
+            </Button>
+          </div>
           <Box
             display="flex"
             justifyContent="space-between"
             alignItems="center"
             style={{
               backgroundColor: "white",
-              margin: "58px 10px 8px 10px",
+              margin: "2px 10px 8px 10px",
               padding: "10px",
               borderRadius: "16px",
               border: "1px solid var(--neutral-light)",
