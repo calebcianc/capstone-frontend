@@ -1,12 +1,17 @@
+// external imports
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { Box, Fab, Typography, IconButton } from "@mui/material";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+// internal imports
+import RecipeStep from "./RecipeStep";
 import InstructionListModal from "../Instruction/InstructionListModal";
-import { Fab, Typography } from "@mui/material";
 import BACKEND_URL from "../../constants";
+// css imports
 import "./RecipePage.css";
 import "../NewRecipe/FabIcon.css";
-import RecipeStep from "./RecipeStep";
 
 export default function RecipePage() {
   const [instructionModalopen, setInstructionModalOpen] = useState(false);
@@ -15,6 +20,8 @@ export default function RecipePage() {
   const [newImageUrl, setNewImageUrl] = useState(""); //for instruction photo
   const [viewingInstructions, setViewingInstructions] = useState(false);
   const [recipe, setRecipe] = useState([]);
+  const [servings, setServings] = useState(recipe.servingSize || 1);
+  const [adjustedIngredients, setAdjustedIngredients] = useState([]);
 
   useEffect(() => {
     fetchRecipe();
@@ -25,6 +32,20 @@ export default function RecipePage() {
     setRecipe(fetchedRecipe.data[0]);
     setUserId(fetchedRecipe.data[0].userId);
   };
+
+  useEffect(() => {
+    const adjustedIngredients = recipe.ingredients?.map((ingredient) => {
+      const adjustedQuantity =
+        ingredient.quantity === null
+          ? null
+          : (ingredient.quantity / recipe.servingSize) * servings;
+      return {
+        ...ingredient,
+        quantity: adjustedQuantity,
+      };
+    });
+    setAdjustedIngredients(adjustedIngredients);
+  }, [servings]);
 
   if (!recipe) return <div>Loading...</div>;
 
@@ -39,13 +60,87 @@ export default function RecipePage() {
             alt={recipe.name}
             className="recipe-photo"
           />
-          {/* <Typography variant="caption" style={{ margin: "10px 0px" }}>
-            Total time: {recipe.totalTime} mins
-          </Typography> */}
         </div>
 
         {/* Ingredients */}
         <div className="recipe-ingredients ">
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            style={{
+              backgroundColor: "white",
+              margin: "58px 10px 8px 10px",
+              padding: "10px",
+              borderRadius: "16px",
+              border: "1px solid var(--neutral-light)",
+            }}
+          >
+            {/* Preparation Time Group */}
+            <Box
+              flex="1"
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
+              style={{
+                borderRight: "1px solid #2b2b2b", // Optional: adds a border between the two groups
+                padding: "0 8px", // Optional: adds some padding
+              }}
+            >
+              <Typography
+                variant="h5"
+                fontFamily={"Bitter, serif"}
+                fontWeight={"bold"}
+                // style={{
+                //   // color: "#2b2b2b",
+                //   marginBottom: "4px", // Adjusts spacing between label and controls
+                // }}
+              >
+                Total Time
+              </Typography>
+              <Box display="flex" alignItems="center">
+                <Typography>{recipe.totalTime} mins</Typography>
+              </Box>
+            </Box>
+            {/* Serving Size Group */}
+            <Box
+              flex="1"
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
+              padding={"0 8px"}
+            >
+              <Typography
+                variant="h5"
+                fontFamily={"Bitter, serif"}
+                fontWeight={"bold"}
+                style={{
+                  // color: "#2b2b2b",
+                  height: "32px",
+                  marginBottom: "4px", // Adjusts spacing between label and controls
+                }}
+              >
+                Serving Size
+              </Typography>
+              <Box display="flex" alignItems="center" sx={{ height: "24px" }}>
+                <IconButton
+                  onClick={() => setServings((prev) => Math.max(1, prev - 1))} // Decrease but not below 1
+                  className="button"
+                >
+                  <RemoveCircleOutlineIcon />
+                </IconButton>
+                <Typography>{servings} pax</Typography>
+                <IconButton
+                  onClick={() => setServings((prev) => prev + 1)} // Increase serving size
+                  className="button"
+                >
+                  <AddCircleOutlineIcon />
+                </IconButton>
+              </Box>
+            </Box>
+          </Box>
           <div className="recipe-ingredients-header-box">
             <Typography
               variant="h5"
@@ -57,19 +152,33 @@ export default function RecipePage() {
             </Typography>
           </div>
           <div className="ingredients-list">
-            {recipe.ingredients?.map((ingredient) => (
-              <li key={ingredient.id} className="ingredient-row">
-                <div className="ingredient-quantity">
-                  <span>{ingredient.quantity}</span>
-                  {ingredient.unitOfMeasurement && (
-                    <span> {ingredient.unitOfMeasurement}</span>
-                  )}
-                </div>
-                <div className="ingredient-name">
-                  <span>{ingredient.name}</span>
-                </div>
-              </li>
-            ))}
+            {adjustedIngredients
+              ? adjustedIngredients?.map((ingredient) => (
+                  <li key={ingredient.id} className="ingredient-row">
+                    <div className="ingredient-quantity">
+                      <span>{ingredient.quantity}</span>
+                      {ingredient.unitOfMeasurement && (
+                        <span> {ingredient.unitOfMeasurement}</span>
+                      )}
+                    </div>
+                    <div className="ingredient-name">
+                      <span>{ingredient.name}</span>
+                    </div>
+                  </li>
+                ))
+              : recipe.ingredients?.map((ingredient) => (
+                  <li key={ingredient.id} className="ingredient-row">
+                    <div className="ingredient-quantity">
+                      <span>{ingredient.quantity}</span>
+                      {ingredient.unitOfMeasurement && (
+                        <span> {ingredient.unitOfMeasurement}</span>
+                      )}
+                    </div>
+                    <div className="ingredient-name">
+                      <span>{ingredient.name}</span>
+                    </div>
+                  </li>
+                ))}
           </div>
         </div>
         {/* Instructions */}
@@ -121,6 +230,7 @@ export default function RecipePage() {
       {/* Instruction List Modal */}
       <InstructionListModal
         recipe={recipe}
+        adjustedIngredients={adjustedIngredients}
         open={instructionModalopen}
         onClose={() => {
           setInstructionModalOpen(false);

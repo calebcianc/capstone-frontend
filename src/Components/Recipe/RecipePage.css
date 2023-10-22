@@ -73,7 +73,7 @@
   list-style-type: none;
   border-radius: 16px;
   border: 1px solid var(--neutral-light);
-  background-color: var(--primary-color);
+  /* background-color: var(--primary-color); */
 }
 
 .ingredient-row {
@@ -121,6 +121,7 @@
   border-radius: 26px;
   border: 1px solid var(--neutral-light);
   background-color: var(--primary-color);
+  /* background-color: white; */
 }
 
 .recipe-instructions-steps {
@@ -250,19 +251,21 @@
   .recipe-ingredients-header-box {
     display: flex;
     justify-content: flex-start;
-    margin-top: 55px;
+    /* margin-top: 5px; */
     padding-left: 10px;
+    padding-top: 10px;
   }
 
   .ingredients-list {
     font-size: medium;
     padding: 10px;
     margin: 0 10px;
-    height: 64%;
+    height: 44.5%;
     list-style-type: none;
     border-radius: 16px;
-    border: 1px solid var(--neutral-light);
-    background-color: var(--primary-color);
+    /* border: 1px solid var(--neutral-light); */
+    /* background-color: var(--primary-color); */
+    background-color: white;
   }
 
   .ingredient-row {
