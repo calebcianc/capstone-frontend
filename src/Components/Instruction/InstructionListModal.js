@@ -19,9 +19,10 @@ function InstructionListModal({
   setNewImageUrl,
   viewingInstructions,
   setViewingInstructions,
+  adjustedIngredients,
 }) {
   const [instructions, setInstructions] = useState(recipe?.instructions || []);
-  const [ingredients, setIngredients] = useState(recipe?.ingredients || []);
+  const [ingredients, setIngredients] = useState(adjustedIngredients || []);
   const [currentCardIndex, setCurrentCardIndex] = useState(1);
 
   const [listening, setListening] = useState(false);
@@ -31,9 +32,9 @@ function InstructionListModal({
       setInstructions(recipe.instructions);
     }
     if (recipe?.ingredients) {
-      setIngredients(recipe.ingredients);
+      setIngredients(adjustedIngredients);
     }
-  }, [recipe]);
+  }, [recipe, adjustedIngredients]);
 
   const handlePrevious = () => {
     if (currentCardIndex > 1) {
