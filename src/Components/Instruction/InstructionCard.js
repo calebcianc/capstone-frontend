@@ -23,6 +23,39 @@ function InstructionCard({
     (instr) => instr.step === currentCardIndex
   );
 
+  useEffect(() => {
+    //to update last cook date only if user is auth and user is owner of recipe
+    if (currentCardIndex === instructions.length) {
+      // Update lastCookDate in the database
+      updateLastCookDate();
+    }
+  }, [currentCardIndex, instructions.length]);
+
+  async function updateLastCookDate() {
+    const currentDate = new Date().toISOString();
+    try {
+      const response = await fetch(
+        `${BACKEND_URL}/recipes/updateLastCookDate/${currentInstruction.recipeId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            lastCookedDate: currentDate,
+          }),
+        }
+      );
+      if (response.ok) {
+        console.log("Last cook date updated successfully.");
+      } else {
+        console.error("Failed to update last cook date.");
+      }
+    } catch (error) {
+      console.error("Error updating last cook date:", error);
+    }
+  }
+
   const handleImageChange = async (e) => {
     const selectedFile = e.target.files[0];
 
