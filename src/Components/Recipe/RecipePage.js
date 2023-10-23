@@ -28,6 +28,7 @@ export default function RecipePage() {
   const [openTypeRecipeModal, setOpenTypeRecipeModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [counter, setCounter] = useState(0);
+  const [isDataFetched, setIsDataFetched] = useState(false);
 
   useEffect(() => {
     fetchRecipe();
@@ -37,21 +38,24 @@ export default function RecipePage() {
     const fetchedRecipe = await axios.get(`${BACKEND_URL}/recipes/${recipeId}`);
     setRecipe(fetchedRecipe.data[0]);
     setUserId(fetchedRecipe.data[0].userId);
+    setIsDataFetched(true);
   };
 
   useEffect(() => {
-    const adjustedIngredients = recipe.ingredients?.map((ingredient) => {
-      const adjustedQuantity =
-        ingredient.quantity === null
-          ? null
-          : (ingredient.quantity / recipe.servingSize) * servings;
-      return {
-        ...ingredient,
-        quantity: adjustedQuantity,
-      };
-    });
-    setAdjustedIngredients(adjustedIngredients);
-  }, [servings]);
+    if (isDataFetched) {
+      const adjustedIngredients = recipe.ingredients?.map((ingredient) => {
+        const adjustedQuantity =
+          ingredient.quantity === null
+            ? null
+            : (ingredient.quantity / recipe.servingSize) * servings;
+        return {
+          ...ingredient,
+          quantity: adjustedQuantity,
+        };
+      });
+      setAdjustedIngredients(adjustedIngredients);
+    }
+  }, [servings, isDataFetched]);
 
   if (!recipe) return <div>Loading...</div>;
 
