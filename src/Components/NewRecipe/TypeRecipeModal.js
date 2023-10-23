@@ -48,7 +48,8 @@ async function addRecipeToDatabase(
   event,
   userProfile,
   isAuthenticated,
-  recipe
+  recipe,
+  setCounter
 ) {
   if (event) {
     event.preventDefault();
@@ -132,7 +133,7 @@ async function addRecipeToDatabase(
           }
           stepNumber++;
         }
-
+        setCounter((prev) => prev + 1);
         setRecipeId(newRecipeDetails.id);
       }
       setIsLoading(false);
@@ -194,6 +195,7 @@ export default function TypeRecipeModal({
   setOpenTypeRecipeModal,
   setIsLoading,
   recipe,
+  setCounter,
 }) {
   const { userProfile, isAuthenticated } = useContext(GlobalUseContext);
   const navigate = useNavigate();
@@ -260,9 +262,9 @@ export default function TypeRecipeModal({
     }
   }, [recipeId]);
 
-  useEffect(() => {
-    console.log(mealType, cuisineType, dietaryRestrictions, servings, prepTime);
-  }, [mealType, cuisineType, dietaryRestrictions, servings, prepTime]);
+  // useEffect(() => {
+  //   console.log(mealType, cuisineType, dietaryRestrictions, servings, prepTime);
+  // }, [mealType, cuisineType, dietaryRestrictions, servings, prepTime]);
 
   const handleClose = () => {
     setOpenTypeRecipeModal(false);
@@ -284,6 +286,8 @@ export default function TypeRecipeModal({
         recipePhoto,
         prepTime,
         isPublic,
+        cuisineType,
+        dietaryRestrictions,
         ingredients,
         instructions,
       },
@@ -295,7 +299,8 @@ export default function TypeRecipeModal({
       event,
       userProfile,
       isAuthenticated,
-      recipe
+      recipe,
+      setCounter
     );
     handleClose();
     console.log(JSON.stringify(data));
@@ -403,16 +408,16 @@ export default function TypeRecipeModal({
                   ),
                 }}
               >
-                <MenuItem value="italian">Italian</MenuItem>
-                <MenuItem value="chinese">Chinese</MenuItem>
-                <MenuItem value="japanese">Japanese</MenuItem>
-                <MenuItem value="mexican">Mexican</MenuItem>
-                <MenuItem value="french">French</MenuItem>
-                <MenuItem value="indian">Indian</MenuItem>
-                <MenuItem value="thai">Thai</MenuItem>
-                <MenuItem value="spanish">Spanish</MenuItem>
-                <MenuItem value="korean">Korean</MenuItem>
-                <MenuItem value="american">American</MenuItem>
+                <MenuItem value="Italian">Italian</MenuItem>
+                <MenuItem value="Chinese">Chinese</MenuItem>
+                <MenuItem value="Japanese">Japanese</MenuItem>
+                <MenuItem value="Mexican">Mexican</MenuItem>
+                <MenuItem value="French">French</MenuItem>
+                <MenuItem value="Indian">Indian</MenuItem>
+                <MenuItem value="Thai">Thai</MenuItem>
+                <MenuItem value="Spanish">Spanish</MenuItem>
+                <MenuItem value="Korean">Korean</MenuItem>
+                <MenuItem value="American">American</MenuItem>
               </TextField>
             </Grid>
 
@@ -435,17 +440,17 @@ export default function TypeRecipeModal({
                   ),
                 }}
               >
-                <MenuItem value="none">None</MenuItem>
-                <MenuItem value="vegetarian">Vegetarian</MenuItem>
-                <MenuItem value="vegan">Vegan</MenuItem>
-                <MenuItem value="gluten-free">Gluten-Free</MenuItem>
-                <MenuItem value="dairy-free">Dairy-Free</MenuItem>
-                <MenuItem value="nut-free">Nut-Free</MenuItem>
-                <MenuItem value="halal">Halal</MenuItem>
-                <MenuItem value="kosher">Kosher</MenuItem>
-                <MenuItem value="paleo">Paleo</MenuItem>
-                <MenuItem value="keto">Keto</MenuItem>
-                <MenuItem value="low-carb">Low Carb</MenuItem>
+                <MenuItem value="None">None</MenuItem>
+                <MenuItem value="Vegetarian">Vegetarian</MenuItem>
+                <MenuItem value="Vegan">Vegan</MenuItem>
+                <MenuItem value="Gluten-free">Gluten-Free</MenuItem>
+                <MenuItem value="Dairy-free">Dairy-Free</MenuItem>
+                <MenuItem value="Nut-free">Nut-Free</MenuItem>
+                <MenuItem value="Halal">Halal</MenuItem>
+                <MenuItem value="Kosher">Kosher</MenuItem>
+                <MenuItem value="Paleo">Paleo</MenuItem>
+                <MenuItem value="Keto">Keto</MenuItem>
+                <MenuItem value="Low-carb">Low Carb</MenuItem>
               </TextField>
             </Grid>
           </Grid>

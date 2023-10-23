@@ -26,10 +26,11 @@ export default function RecipePage() {
   const [adjustedIngredients, setAdjustedIngredients] = useState([]);
   const [openTypeRecipeModal, setOpenTypeRecipeModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [counter, setCounter] = useState(0);
 
   useEffect(() => {
     fetchRecipe();
-  }, [newImageUrl]);
+  }, [newImageUrl, recipeId, counter]);
 
   const fetchRecipe = async () => {
     const fetchedRecipe = await axios.get(`${BACKEND_URL}/recipes/${recipeId}`);
@@ -60,6 +61,7 @@ export default function RecipePage() {
         setOpenTypeRecipeModal={setOpenTypeRecipeModal}
         recipe={recipe}
         setIsLoading={setIsLoading}
+        setCounter={setCounter}
       />
       {isLoading && (
         <div className="loading-overlay">
