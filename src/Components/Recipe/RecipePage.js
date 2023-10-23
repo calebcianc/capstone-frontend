@@ -5,6 +5,7 @@ import axios from "axios";
 import { Button, Box, Fab, Typography, IconButton } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import EditIcon from "@mui/icons-material/Edit";
 // internal imports
 import RecipeStep from "./RecipeStep";
 import InstructionListModal from "../Instruction/InstructionListModal";
@@ -91,11 +92,17 @@ export default function RecipePage() {
               display: "flex",
               justifyContent: "flex-end",
               padding: "10px",
+              height: "11%",
             }}
           >
             <Button
               onClick={() => setOpenTypeRecipeModal(true, recipe)}
-              // style={{ position: "absolute" }}
+              style={{
+                backgroundColor: "var(--primary-color",
+                color: "var(--neutral-dark)",
+              }}
+              // variant="contained"
+              startIcon={<EditIcon />}
             >
               Update Recipe
             </Button>
@@ -110,6 +117,7 @@ export default function RecipePage() {
               padding: "10px",
               borderRadius: "16px",
               border: "1px solid var(--neutral-light)",
+              height: "15%",
             }}
           >
             {/* Preparation Time Group */}
