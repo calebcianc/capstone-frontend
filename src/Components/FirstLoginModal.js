@@ -3,7 +3,7 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Button, Modal, Typography, Box, TextField } from "@mui/material";
 import CreatableSelect from "react-select/creatable";
-import BACKEND_URL from "../constants";
+import { BACKEND_URL } from "../constants";
 
 const style = {
   position: "absolute",

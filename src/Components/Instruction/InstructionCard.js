@@ -8,7 +8,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { storage } from "../../firebase";
-import BACKEND_URL from "../../constants";
+import { BACKEND_URL } from "../../constants";
 const STORAGE_PROFILE_FOLDER_NAME = "UserData";
 
 function InstructionCard({

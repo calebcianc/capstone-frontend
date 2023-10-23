@@ -8,7 +8,7 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 // internal imports
 import RecipeStep from "./RecipeStep";
 import InstructionListModal from "../Instruction/InstructionListModal";
-import BACKEND_URL from "../../constants";
+import { BACKEND_URL } from "../../constants";
 // css imports
 import "./RecipePage.css";
 import "../NewRecipe/FabIcon.css";

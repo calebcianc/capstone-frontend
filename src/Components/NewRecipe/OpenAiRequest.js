@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import BACKEND_URL from "../../constants";
+import { BACKEND_URL } from "../../constants";
 import { GlobalUseContext } from "../../GlobalUseContext";
 
 export default async function makeOpenAiRequest(

@@ -13,7 +13,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 
 // Internal Modules, Components, and Constants
-import BACKEND_URL from "./constants";
+import { BACKEND_URL } from "./constants";
 import { GlobalUseContext } from "./GlobalUseContext";
 import HomePage from "./Pages/HomePage";
 import ErrorPage from "./Pages/ErrorPage";

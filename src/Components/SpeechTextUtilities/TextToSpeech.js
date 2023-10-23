@@ -1,4 +1,4 @@
-import BACKEND_URL from "../../constants";
+import { BACKEND_URL } from "../../constants";
 
 // Assuming at the top of the file
 let currentAudio = null;
