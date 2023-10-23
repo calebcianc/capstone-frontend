@@ -254,16 +254,17 @@
     /* margin-top: 5px; */
     padding-left: 10px;
     padding-top: 10px;
+    height: 11%;
   }
 
   .ingredients-list {
     font-size: medium;
     padding: 10px;
     margin: 0 10px;
-    height: 44.5%;
+    height: 38%;
     list-style-type: none;
     border-radius: 16px;
-    /* border: 1px solid var(--neutral-light); */
+    border: 1px solid var(--neutral-light);
     /* background-color: var(--primary-color); */
     background-color: white;
   }
