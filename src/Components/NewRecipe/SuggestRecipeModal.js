@@ -24,7 +24,7 @@ import LocalDiningIcon from "@mui/icons-material/LocalDining";
 import LocalCafeIcon from "@mui/icons-material/LocalCafe";
 import { GlobalUseContext } from "../../GlobalUseContext";
 import "./SuggestRecipeModal.css";
-import BACKEND_URL from "../../constants";
+import { BACKEND_URL } from "../../constants";
 
 //custom hook with issues
 async function makeOpenAiRequest(

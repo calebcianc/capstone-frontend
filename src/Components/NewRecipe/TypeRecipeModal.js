@@ -27,7 +27,7 @@ import LocalCafeIcon from "@mui/icons-material/LocalCafe";
 import { useNavigate } from "react-router-dom";
 
 // internal imports
-import BACKEND_URL from "../../constants";
+import { BACKEND_URL } from "../../constants";
 import {
   ref as storageRef,
   uploadBytes,

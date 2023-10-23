@@ -20,7 +20,7 @@ import Backdrop from "@mui/material/Backdrop";
 // Internal Modules, Components, and Constants
 import SuggestRecipeModal from "./SuggestRecipeModal";
 import PasteRecipeModal from "./PasteRecipeModal";
-import BACKEND_URL from "../../constants";
+import { BACKEND_URL } from "../../constants";
 import TypeRecipeModal from "./TypeRecipeModal";
 import { GlobalUseContext } from "../../GlobalUseContext";
 import AuthDialog from "../Auth/AuthDialog";

@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useNavigate } from "react-router-dom";
-import BACKEND_URL from "../../constants";
+import { BACKEND_URL } from "../../constants";
 import { GlobalUseContext } from "../../GlobalUseContext";
 
 //custom hook with issues

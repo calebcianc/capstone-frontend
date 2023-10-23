@@ -3,7 +3,7 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import Button from "@mui/material/Button";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
-import BACKEND_URL from "../constants";
+import { BACKEND_URL } from "../constants";
 
 export default function ProfilePage() {
   const [userProfile, setUserProfile] = useState([]);

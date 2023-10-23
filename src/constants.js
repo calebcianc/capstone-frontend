@@ -1,2 +1,4 @@
-const BACKEND_URL = "http://localhost:3001";
-export default BACKEND_URL;
+export const BACKEND_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://cheftalk-db.fly.dev"
+    : "http://localhost:3000";
