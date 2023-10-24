@@ -18,6 +18,7 @@ function InstructionCard({
   newImageUrl,
   setNewImageUrl,
   setInstructions,
+  setCounter,
 }) {
   const currentInstruction = instructions.find(
     (instr) => instr.step === currentCardIndex
@@ -46,6 +47,7 @@ function InstructionCard({
           }),
         }
       );
+      setCounter((prev) => prev + 1);
       if (response.ok) {
         console.log("Last cook date updated successfully.");
       } else {
