@@ -41,6 +41,14 @@ export default function RecipePage() {
     setIsDataFetched(true);
   };
 
+  function formatDateToDDMMYYYY(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getUTCDate()).padStart(2, "0");
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // January is 0
+    const year = date.getUTCFullYear();
+    return `${day}/${month}/${year}`;
+  }
+
   useEffect(() => {
     if (isDataFetched) {
       const adjustedIngredients = recipe.ingredients?.map((ingredient) => {
@@ -99,6 +107,17 @@ export default function RecipePage() {
               height: "11%",
             }}
           >
+            {recipe.lastCookedDate && ( //to add in user auth as well
+              <Button
+                style={{
+                  backgroundColor: "var(--primary-color)",
+                  color: "var(--neutral-dark)",
+                }}
+              >
+                Last Cooked: {formatDateToDDMMYYYY(recipe.lastCookedDate)}
+              </Button>
+            )}
+
             <Button
               onClick={() => setOpenTypeRecipeModal(true, recipe)}
               style={{
@@ -289,6 +308,7 @@ export default function RecipePage() {
         setNewImageUrl={setNewImageUrl}
         setViewingInstructions={setViewingInstructions}
         viewingInstructions={viewingInstructions}
+        setCounter={setCounter}
       />
     </>
   );

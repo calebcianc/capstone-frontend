@@ -20,6 +20,7 @@ function InstructionListModal({
   viewingInstructions,
   setViewingInstructions,
   adjustedIngredients,
+  setCounter,
 }) {
   const [instructions, setInstructions] = useState(recipe?.instructions || []);
   const [ingredients, setIngredients] = useState(adjustedIngredients || []);
@@ -120,6 +121,7 @@ function InstructionListModal({
               newImageUrl={newImageUrl}
               setNewImageUrl={setNewImageUrl}
               setInstructions={setInstructions}
+              setCounter={setCounter}
             />
 
             <Button style={{ marginBottom: 10 }} onClick={handleStartCooking}>
