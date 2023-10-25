@@ -59,7 +59,7 @@ export default function ProfilePage() {
           Email: {userProfile?.email}
           <br />
           <br />
-          Joined: {userProfile.createdAt?.slice(0, 10)}
+          Joined: {userProfile?.createdAt?.slice(0, 10)}
           <br /> <br />
           Cuisine Preferences: {userProfile?.cuisinePreferences}
           <br /> <br />

@@ -23,29 +23,11 @@ export default function HomePage({ recipeList, counter, setCounter }) {
 
   const { userProfile, isAuthenticated } = useContext(GlobalUseContext);
   const [recipeToDisplay, setRecipeToDisplay] = useState(recipeList);
-  const [folderRecipes, setFolderRecipes] = useState([]);
-  const [folders, setFolders] = useState([]);
 
   // home page renders newly added recipes by default
   useEffect(() => {
     filterNewlyAdded();
   }, [recipeList]);
-
-  // once authenticated, get user profile and folder recipes
-  useEffect(() => {
-    // isAuthenticated && getFolderRecipes();
-    return;
-  }, [isAuthenticated]);
-
-  // get folder and recipes
-  // const getFolderRecipes = async () => {
-  //   let data;
-  //   data = await axios.get(`http://localhost:3001/folders/${user.email}`);
-  //   setFolderRecipes(data.data);
-  //   setFolders(
-  //     data.data.map((folder) => ({ id: folder.id, name: folder.name }))
-  //   );
-  // };
 
   // buttons to filter recipes by newly added or something familiar
   const [selectedButton, setSelectedButton] = useState("newlyadded"); // Default to 'newlyadded'
@@ -76,23 +58,6 @@ export default function HomePage({ recipeList, counter, setCounter }) {
       : recipeList;
     setRecipeToDisplay(familiarRecipes);
   };
-
-  // code relating to folder recipes below
-
-  // filter recipe list on user filter selection
-  // const [filteredRecipes, setFilteredRecipes] = useState(recipeList);
-
-  // const [filteredFolderRecipes, setfilteredFolderRecipes] = useState([]);
-  // const filterFolderRecipes = (id) => {
-  //   const selectedFolderRecipes = folderRecipes.filter(
-  //     (folderRecipe) => folderRecipe.id === id
-  //   );
-  //   setRecipeToDisplay(selectedFolderRecipes[0].recipes);
-  // };
-  // const handleFolderClick = (id) => {
-  //   filterFolderRecipes(id);
-  //   // setSelectedButton("newlyadded"); // Update selected button state
-  // };
 
   return (
     <div className="childDiv">
@@ -133,18 +98,6 @@ export default function HomePage({ recipeList, counter, setCounter }) {
           Something Familiar
         </Button>
       </div>
-      {/* commented out folder buttons for now */}
-      {/* Folders
-      <br />
-      {folders.map((folder) => (
-        <Button
-          key={folder.id}
-          variant="contained"
-          onClick={() => handleFolderClick(folder.id)}
-        >
-          {folder.name}
-        </Button>
-      ))} */}
       {recipeToDisplay.length > 0 ? (
         <RecipeList recipeList={recipeToDisplay} />
       ) : (
