@@ -1,19 +1,29 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
+import { storage } from "../firebase";
+import {
+  getDownloadURL,
+  ref as storageRef,
+  uploadBytesResumable,
+} from "firebase/storage";
 import Button from "@mui/material/Button";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import BACKEND_URL from "../constants";
 
 export default function ProfilePage() {
+  const STORAGE_USERUPLOADS_REF = "UserData/";
+
   const [userProfile, setUserProfile] = useState([]);
+  const [showChangeDisplay, setShowChangeDisplay] = useState(false);
+  const [togglePhotoRefresh, setTogglePhotoRefresh] = useState(false);
   const { loginWithRedirect, isAuthenticated, user, isLoading, logout } =
     useAuth0();
 
   useEffect(() => {
     isAuthenticated && getUserProfile();
     return;
-  }, [isAuthenticated]);
+  }, [isAuthenticated, togglePhotoRefresh]);
 
   const getUserProfile = async () => {
     let data;
@@ -45,6 +55,54 @@ export default function ProfilePage() {
     </Button>
   );
 
+  const handleChangeDisplayButton = () => {
+    setShowChangeDisplay(true);
+  };
+
+  const [fileInputValue, setFileInputValue] = useState("");
+  const [fileInputFile, setFileInputFile] = useState("");
+
+  const handlePostSubmit = (e) => {
+    e.preventDefault();
+
+    const fullStorageRef = storageRef(
+      storage,
+      STORAGE_USERUPLOADS_REF +
+        `${userProfile.id}/profile/` +
+        fileInputFile.name
+    );
+
+    const uploadTask = uploadBytesResumable(fullStorageRef, fileInputFile);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {},
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        // get photo url
+        getDownloadURL(uploadTask.snapshot.ref, fileInputFile.name).then(
+          (url) => {
+            setUserPicture(url);
+            setFileInputFile(null);
+            setFileInputValue("");
+            setShowChangeDisplay(false);
+          }
+        );
+      }
+    );
+  };
+
+  const setUserPicture = async (url) => {
+    // save photo url to db and toggle photo refresh
+    await axios.put(`http://localhost:3001/users/profile/photo`, {
+      email: user.email,
+      profilePictureUrl: url,
+    });
+    setTogglePhotoRefresh(!togglePhotoRefresh);
+  };
+
   return (
     <div>
       <h3>This is the Profile page</h3>
@@ -54,6 +112,47 @@ export default function ProfilePage() {
       <br />
       {user && (
         <div>
+          {/* {console.log(user)} */}
+          <img
+            src={
+              userProfile.profilePictureUrl
+                ? userProfile.profilePictureUrl
+                : user.picture
+            }
+            alt="Profile"
+            width="100"
+            height="100"
+          />
+          <br />
+          {!showChangeDisplay ? (
+            <Button variant="contained" onClick={handleChangeDisplayButton}>
+              Change Display Picture
+            </Button>
+          ) : (
+            <div>
+              <form className="Review-Container" onSubmit={handlePostSubmit}>
+                {/* photo upload */}
+                <div className="inputContainer">
+                  <label>
+                    <input
+                      className="inputTag"
+                      type="file"
+                      value={fileInputValue}
+                      onChange={(e) => {
+                        setFileInputFile(e.target.files[0]);
+                        setFileInputValue(e.target.file);
+                      }}
+                    />
+                  </label>
+                </div>
+                <Button type="submit" variant="contained">
+                  Update
+                </Button>
+              </form>
+            </div>
+          )}
+          <br />
+          <br />
           Name: {userProfile?.name}
           <br />
           <br />
