@@ -1,4 +1,4 @@
-import BACKEND_URL from "../../constants";
+import { BACKEND_URL } from "../../constants";
 import { useNavigate } from "react-router-dom";
 
 export default async function makeOpenAiRequest(

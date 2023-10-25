@@ -17,7 +17,7 @@ import KeyboardIcon from "@mui/icons-material/Keyboard";
 import AssistantIcon from "@mui/icons-material/Assistant";
 import CreateIcon from "@mui/icons-material/Create";
 import { useNavigate } from "react-router-dom";
-import BACKEND_URL from "../../constants";
+import { BACKEND_URL } from "../../constants";
 import TypeRecipeModal from "./TypeRecipeModal";
 import { useAuth0 } from "@auth0/auth0-react";
 import Backdrop from "@mui/material/Backdrop";

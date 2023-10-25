@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import InstructionListModal from "../Instruction/InstructionListModal";
 import { Fab, Typography } from "@mui/material";
-import BACKEND_URL from "../../constants";
+import { BACKEND_URL } from "../../constants";
 import "./RecipePage.css";
 import "../NewRecipe/FabIcon.css";
 import RecipeStep from "./RecipeStep";

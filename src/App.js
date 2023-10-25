@@ -19,7 +19,7 @@ import WelcomeModal from "./Components/WelcomeModal";
 import FirstLoginModal from "./Components/FirstLoginModal";
 import Navbar from "./Components/Navbar";
 import RecipePage from "./Components/Recipe/RecipePage";
-import BACKEND_URL from "./constants";
+import { BACKEND_URL } from "./constants";
 
 function App() {
   const [value, setValue] = useState(1);

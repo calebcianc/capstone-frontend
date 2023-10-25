@@ -25,7 +25,7 @@ import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
 import LocalCafeIcon from "@mui/icons-material/LocalCafe";
 import { useNavigate } from "react-router-dom";
-import BACKEND_URL from "../../constants";
+import { BACKEND_URL } from "../../constants";
 
 async function addRecipeToDatabase(data, setIsLoading, setRecipeId, event) {
   if (event) {

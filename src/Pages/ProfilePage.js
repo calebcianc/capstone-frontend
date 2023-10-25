@@ -9,21 +9,25 @@ import {
 } from "firebase/storage";
 import Button from "@mui/material/Button";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
-import BACKEND_URL from "../constants";
+import { BACKEND_URL } from "../constants";
+import EditCuisinePreferences from "../Components/Profile/EditCuisinePreferences";
 
 export default function ProfilePage() {
   const STORAGE_USERUPLOADS_REF = "UserData/";
 
   const [userProfile, setUserProfile] = useState([]);
   const [showChangeDisplay, setShowChangeDisplay] = useState(false);
-  const [togglePhotoRefresh, setTogglePhotoRefresh] = useState(false);
+  const [toggleProfileRefresh, setToggleProfileRefresh] = useState(false);
+  const [toggleShowEdit, setToggleShowEdit] = useState(true);
+  const [toggleShowSubmit, setToggleShowSubmit] = useState(false);
+
   const { loginWithRedirect, isAuthenticated, user, isLoading, logout } =
     useAuth0();
 
   useEffect(() => {
     isAuthenticated && getUserProfile();
     return;
-  }, [isAuthenticated, togglePhotoRefresh]);
+  }, [isAuthenticated, toggleProfileRefresh]);
 
   const getUserProfile = async () => {
     let data;
@@ -100,7 +104,7 @@ export default function ProfilePage() {
       email: user.email,
       profilePictureUrl: url,
     });
-    setTogglePhotoRefresh(!togglePhotoRefresh);
+    setToggleProfileRefresh(!toggleProfileRefresh);
   };
 
   return (
@@ -162,6 +166,28 @@ export default function ProfilePage() {
           Joined: {userProfile.createdAt?.slice(0, 10)}
           <br /> <br />
           Cusine Preferences: {userProfile?.cusinePreferences}
+          {userProfile.cusinePreferences && toggleShowSubmit && (
+            <EditCuisinePreferences
+              preloadCuisinePreferences={userProfile?.cusinePreferences}
+              userId={userProfile?.id}
+              toggleProfileRefresh={toggleProfileRefresh}
+              setToggleProfileRefresh={setToggleProfileRefresh}
+              setToggleShowEdit={setToggleShowEdit}
+              toggleShowSubmit={toggleShowSubmit}
+              setToggleShowSubmit={setToggleShowSubmit}
+            />
+          )}{" "}
+          {toggleShowEdit && (
+            <Button
+              variant="contained"
+              onClick={() => {
+                setToggleShowEdit(!toggleShowEdit);
+                setToggleShowSubmit(!toggleShowSubmit);
+              }}
+            >
+              Edit
+            </Button>
+          )}
           <br /> <br />
           Dietary Restrictions: {userProfile?.dietaryRestrictions}
           <br />

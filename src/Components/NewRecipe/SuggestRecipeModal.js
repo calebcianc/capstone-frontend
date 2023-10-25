@@ -23,7 +23,7 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
 import LocalCafeIcon from "@mui/icons-material/LocalCafe";
-import BACKEND_URL from "../../constants";
+import { BACKEND_URL } from "../../constants";
 
 //custom hook with issues
 async function makeOpenAiRequest(data, setIsLoading, setRecipeId, event) {
