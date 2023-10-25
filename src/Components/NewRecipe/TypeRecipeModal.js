@@ -577,7 +577,7 @@ export default function TypeRecipeModal({
                     setIngredients(newIngredients);
                   }}
                   style={{
-                    flex: 1,
+                    flex: 2,
                     marginRight: "8px",
                     backgroundColor: "white",
                   }}
@@ -690,7 +690,7 @@ export default function TypeRecipeModal({
                       newInstructions[index].instruction = e.target.value;
                       setInstructions(newInstructions);
                     }}
-                    style={{ flex: 1, marginRight: "8px" }}
+                    style={{ flex: 3, marginRight: "8px" }}
                     InputProps={{
                       style: { height: 40, padding: "5px" },
                     }}
