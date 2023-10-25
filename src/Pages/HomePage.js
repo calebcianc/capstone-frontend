@@ -17,6 +17,8 @@ export default function HomePage({ recipeList, counter, setCounter }) {
   // counter to force rerender whenever a new recipe is added
   useEffect(() => {
     setCounter(counter + 1);
+    console.log("======> recipeList", recipeList);
+    console.log("======> userProfile", userProfile);
   }, []);
 
   const { userProfile, isAuthenticated } = useContext(GlobalUseContext);
@@ -58,40 +60,44 @@ export default function HomePage({ recipeList, counter, setCounter }) {
 
   // functions to filter recipes by newly added or something familiar
   const filterNewlyAdded = () => {
-    const newRecipes = recipeList.filter(
-      (recipe) => !recipe.lastCookedDate && recipe.userId === userProfile.id
-    );
+    const newRecipes = userProfile
+      ? recipeList.filter(
+          (recipe) => !recipe.lastCookedDate && recipe.userId === userProfile.id
+        )
+      : recipeList;
     setRecipeToDisplay(newRecipes);
   };
 
   const filterSomethingFamiliar = () => {
-    const familiarRecipes = recipeList.filter(
-      (recipe) => recipe.lastCookedDate && recipe.userId === userProfile.id
-    );
+    const familiarRecipes = userProfile
+      ? recipeList.filter(
+          (recipe) => recipe.lastCookedDate && recipe.userId === userProfile.id
+        )
+      : recipeList;
     setRecipeToDisplay(familiarRecipes);
   };
 
   // code relating to folder recipes below
 
   // filter recipe list on user filter selection
-  const [filteredRecipes, setFilteredRecipes] = useState(recipeList);
+  // const [filteredRecipes, setFilteredRecipes] = useState(recipeList);
 
-  const [filteredFolderRecipes, setfilteredFolderRecipes] = useState([]);
-  const filterFolderRecipes = (id) => {
-    const selectedFolderRecipes = folderRecipes.filter(
-      (folderRecipe) => folderRecipe.id === id
-    );
-    setRecipeToDisplay(selectedFolderRecipes[0].recipes);
-  };
-  const handleFolderClick = (id) => {
-    filterFolderRecipes(id);
-    // setSelectedButton("newlyadded"); // Update selected button state
-  };
+  // const [filteredFolderRecipes, setfilteredFolderRecipes] = useState([]);
+  // const filterFolderRecipes = (id) => {
+  //   const selectedFolderRecipes = folderRecipes.filter(
+  //     (folderRecipe) => folderRecipe.id === id
+  //   );
+  //   setRecipeToDisplay(selectedFolderRecipes[0].recipes);
+  // };
+  // const handleFolderClick = (id) => {
+  //   filterFolderRecipes(id);
+  //   // setSelectedButton("newlyadded"); // Update selected button state
+  // };
 
   return (
     <div className="childDiv">
       <div className="greeting">
-        Hi {userProfile.name}, what would you like to cook today?
+        Hi {userProfile?.name}, what would you like to cook today?
       </div>
       <div className="buttons-container">
         <Button

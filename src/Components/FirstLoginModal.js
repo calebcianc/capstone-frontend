@@ -19,7 +19,7 @@ const style = {
   p: 4,
 };
 
-export default function FirstLoginModal() {
+export default function FirstLoginModal({ setCounter }) {
   const [name, setName] = useState("");
   const [selectedCuisine, setSelectedCuisine] = useState([]);
   const [selectedDietaryRestrictions, setSelectedDietaryRestrictions] =
@@ -48,6 +48,7 @@ export default function FirstLoginModal() {
       setName("");
       setSelectedCuisine([]);
       setSelectedDietaryRestrictions([]);
+      setCounter((prev) => prev + 1);
       handleClose();
     } catch (e) {
       console.log(e.message);
