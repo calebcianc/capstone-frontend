@@ -88,7 +88,7 @@ function App() {
     if (user) {
       getUserProfile();
     }
-  }, [user]);
+  }, [user, counter]);
 
   // check if it is first time user login
   useEffect(() => {
@@ -132,7 +132,7 @@ function App() {
           onClose={() => setIsModalOpen(false)}
         />
         {/* add condition to show only on first login */}
-        {user && isFirstLogin && <FirstLoginModal />}
+        {user && isFirstLogin && <FirstLoginModal setCounter={setCounter} />}
         {/* top nav bar */}
         <Navbar setValue={setValue} />
         {/* everything else */}
