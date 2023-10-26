@@ -122,6 +122,7 @@ function InstructionListModal({
               setNewImageUrl={setNewImageUrl}
               setInstructions={setInstructions}
               setCounter={setCounter}
+              recipe={recipe}
             />
 
             <Button style={{ marginBottom: 10 }} onClick={handleStartCooking}>
