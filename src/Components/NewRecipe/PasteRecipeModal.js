@@ -20,9 +20,9 @@ async function makeOpenAiRequest(
   data,
   setIsLoading,
   setRecipeId,
-  event,
   userProfile,
-  isAuthenticated
+  isAuthenticated,
+  event
 ) {
   if (event) {
     event.preventDefault();
@@ -81,14 +81,15 @@ function PasteRecipeModal({
     }
   }, [recipeId]);
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
     const data = { type: "paste", input: text };
     makeOpenAiRequest(
       data,
       setIsLoading,
       setRecipeId,
       userProfile,
-      isAuthenticated
+      isAuthenticated,
+      event
     );
     handleClose();
     console.log(text);
