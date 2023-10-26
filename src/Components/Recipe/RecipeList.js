@@ -4,7 +4,7 @@ import "./RecipeList.css";
 const RecipeList = (props) => {
   const recipeList = props.recipeList?.map((recipe, ind) => {
     return (
-      <div key={ind}>
+      <div key={recipe.id}>
         <RecipeCard recipeData={recipe} />
       </div>
     );
