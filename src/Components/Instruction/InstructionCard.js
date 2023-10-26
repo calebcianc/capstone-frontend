@@ -27,8 +27,6 @@ function InstructionCard({
   );
 
   const { userProfile, isAuthenticated } = useContext(GlobalUseContext);
-  console.log("instructions card", userProfile.id);
-  console.log("instructions card", isAuthenticated);
 
   useEffect(() => {
     if (
