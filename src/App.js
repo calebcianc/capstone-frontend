@@ -23,7 +23,6 @@ import WelcomeModal from "./Components/WelcomeModal";
 import FirstLoginModal from "./Components/FirstLoginModal";
 import Navbar from "./Components/Navbar";
 import RecipePage from "./Components/Recipe/RecipePage";
-
 // Styles
 import "./App.css";
 
