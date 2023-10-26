@@ -107,7 +107,7 @@ export default function HomePage({ recipeList, counter, setCounter }) {
             : "Looks like you have not cooked any recipes yet~"}
         </div>
       )}
-      <NewRecipeModal />
+      <NewRecipeModal setCounter={setCounter} />
     </div>
   );
 }
