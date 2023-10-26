@@ -23,7 +23,6 @@ import WelcomeModal from "./Components/WelcomeModal";
 import FirstLoginModal from "./Components/FirstLoginModal";
 import Navbar from "./Components/Navbar";
 import RecipePage from "./Components/Recipe/RecipePage";
-import { BACKEND_URL } from "./constants";
 // Styles
 import "./App.css";
 
