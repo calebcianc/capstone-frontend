@@ -12,6 +12,7 @@ import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import { BACKEND_URL } from "../constants";
 import EditCuisinePreferences from "../Components/Profile/EditCuisinePreferences";
 import EditDietaryRestrictions from "../Components/Profile/EditDietaryRestrictions";
+
 export default function ProfilePage() {
   const STORAGE_USERUPLOADS_REF = "UserData/";
 
@@ -33,9 +34,8 @@ export default function ProfilePage() {
 
   const getUserProfile = async () => {
     let data;
-    data = await axios.get(`http://localhost:3001/users/profile/${user.email}`);
+    data = await axios.get(`${BACKEND_URL}/users/profile/${user.email}`);
     setUserProfile(data.data);
-    // console.log(data.data);
   };
 
   // login

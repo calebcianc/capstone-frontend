@@ -1,6 +1,5 @@
-import "./LoadingGif.css";
-import "../NewRecipe/FabIcon.css";
-import React, { useEffect, useState } from "react";
+// Libraries and Frameworks
+import React, { useEffect, useState, useContext } from "react";
 import {
   Typography,
   SpeedDial,
@@ -10,29 +9,42 @@ import {
   Button,
   Tooltip,
 } from "@mui/material";
-import SuggestRecipeModal from "./SuggestRecipeModal";
-import PasteRecipeModal from "./PasteRecipeModal";
 import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import KeyboardIcon from "@mui/icons-material/Keyboard";
 import AssistantIcon from "@mui/icons-material/Assistant";
 import CreateIcon from "@mui/icons-material/Create";
 import { useNavigate } from "react-router-dom";
-import { BACKEND_URL } from "../../constants";
-import TypeRecipeModal from "./TypeRecipeModal";
 import { useAuth0 } from "@auth0/auth0-react";
 import Backdrop from "@mui/material/Backdrop";
-import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
+
+// Internal Modules, Components, and Constants
+import SuggestRecipeModal from "./SuggestRecipeModal";
+import PasteRecipeModal from "./PasteRecipeModal";
+import { BACKEND_URL } from "../../constants";
+import TypeRecipeModal from "./TypeRecipeModal";
+import { GlobalUseContext } from "../../GlobalUseContext";
+import AuthDialog from "../Auth/AuthDialog";
+
+// Styles
+import "./LoadingGif.css";
 import "./NewRecipeModal.css";
+import "../NewRecipe/FabIcon.css";
 
 //custom hook with issues
-async function makeOpenAiRequest(data, setIsLoading, setRecipeId) {
-  const accessToken = true;
-  const userId = 1;
-  data.userId = userId;
+async function makeOpenAiRequest(
+  data,
+  setIsLoading,
+  setRecipeId,
+  userProfile,
+  isAuthenticated
+) {
+  data.userId = userProfile.id;
+  data.cuisinePreferences = userProfile.cuisinePreferences;
+  data.userDietaryRestrictions = userProfile.dietaryRestrictions;
   console.log("Sending data: ", data);
 
-  if (accessToken) {
-    console.log("generate for userid", userId);
+  if (isAuthenticated) {
+    console.log("generate for userid", userProfile.id);
     try {
       setIsLoading(true);
       const response = await fetch(`${BACKEND_URL}/recipes/new`, {
@@ -71,8 +83,8 @@ function MySpeedDial({
   setIsLoading,
   setRecipeId,
 }) {
+  const { userProfile, isAuthenticated } = useContext(GlobalUseContext);
   const { loginWithRedirect } = useAuth0();
-  const accessToken = true;
   const [openDialog, setOpenDialog] = useState(false);
   const data = { type: "surprise", input: "" };
   const actions = [
@@ -80,6 +92,10 @@ function MySpeedDial({
       icon: <CreateIcon />,
       name: "Manual",
       onClick: () => {
+        if (!isAuthenticated) {
+          setOpenDialog(true);
+          return;
+        }
         setOpenTypeRecipeModal(true);
       },
     },
@@ -87,7 +103,7 @@ function MySpeedDial({
       icon: <ContentPasteIcon />,
       name: "Paste",
       onClick: () => {
-        if (!accessToken) {
+        if (!isAuthenticated) {
           setOpenDialog(true);
           return;
         }
@@ -98,7 +114,7 @@ function MySpeedDial({
       icon: <KeyboardIcon />,
       name: "Suggest",
       onClick: () => {
-        if (!accessToken) {
+        if (!isAuthenticated) {
           setOpenDialog(true);
           return;
         }
@@ -110,11 +126,17 @@ function MySpeedDial({
       icon: <AssistantIcon />,
       name: "Surprise",
       onClick: () => {
-        if (!accessToken) {
+        if (!isAuthenticated) {
           setOpenDialog(true);
           return;
         }
-        makeOpenAiRequest(data, setIsLoading, setRecipeId);
+        makeOpenAiRequest(
+          data,
+          setIsLoading,
+          setRecipeId,
+          userProfile,
+          isAuthenticated
+        );
       },
     },
   ];
@@ -144,25 +166,7 @@ function MySpeedDial({
         <b>ADD RECIPE</b>
       </Typography>
 
-      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-        <DialogContent>
-          <Typography
-            component="h2"
-            id="modal-title"
-            textColor="inherit"
-            mb={2}
-            variant="h6"
-            fontWeight="bold"
-          >
-            Hey there!
-          </Typography>
-          <Typography>Sign up / Log in to use this feature!</Typography>
-          <br />
-          <Button variant="contained" onClick={() => loginWithRedirect()}>
-            Sign Up / Log In
-          </Button>
-        </DialogContent>
-      </Dialog>
+      <AuthDialog openDialog={openDialog} setOpenDialog={setOpenDialog} />
     </div>
   );
 }

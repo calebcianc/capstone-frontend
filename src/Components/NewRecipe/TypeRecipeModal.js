@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+// external imports
+import React, { useEffect, useState, useContext } from "react";
 import {
   Grid,
   InputAdornment,
@@ -15,7 +16,6 @@ import {
   FormControlLabel,
   IconButton,
 } from "@mui/material";
-import "./SuggestRecipeModal.css";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
@@ -25,24 +25,51 @@ import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
 import LocalCafeIcon from "@mui/icons-material/LocalCafe";
 import { useNavigate } from "react-router-dom";
-import { BACKEND_URL } from "../../constants";
 
-async function addRecipeToDatabase(data, setIsLoading, setRecipeId, event) {
+// internal imports
+import { BACKEND_URL } from "../../constants";
+import {
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
+import { storage } from "../../firebase";
+import { GlobalUseContext } from "../../GlobalUseContext";
+
+// styles
+import "./SuggestRecipeModal.css";
+
+const STORAGE_PROFILE_FOLDER_NAME = "UserData";
+
+async function addRecipeToDatabase(
+  data,
+  setIsLoading,
+  setRecipeId,
+  event,
+  userProfile,
+  isAuthenticated,
+  recipe,
+  setCounter
+) {
   if (event) {
     event.preventDefault();
   }
-
-  const accessToken = true;
-  const userId = 1;
-  data.userId = userId;
+  data.userId = userProfile.id;
+  data.cuisinePreferences = userProfile.cuisinePreferences;
+  data.userDietaryRestrictions = userProfile.dietaryRestrictions;
   console.log("Sending data: ", data);
 
-  if (accessToken) {
-    console.log("generate for userid", userId);
+  if (isAuthenticated) {
+    console.log("generate for userid", userProfile.id);
     try {
       setIsLoading(true);
-      const response = await fetch(`${BACKEND_URL}/recipes/addRecipe`, {
-        method: "POST",
+
+      const url = recipe
+        ? `${BACKEND_URL}/recipes/updateRecipe/${recipe.id}`
+        : `${BACKEND_URL}/recipes/addRecipe`;
+      const method = recipe ? "PUT" : "POST";
+      const response = await fetch(url, {
+        method,
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(data),
       });
@@ -52,8 +79,62 @@ async function addRecipeToDatabase(data, setIsLoading, setRecipeId, event) {
       } else {
         console.log("newRecipeDetails", JSON.stringify(newRecipeDetails));
         console.log("newRecipeDetails.id", newRecipeDetails.id);
+
+        if (data.recipe.recipePhoto) {
+          const fileRef = storageRef(
+            storage,
+            `${STORAGE_PROFILE_FOLDER_NAME}/${userProfile.id}/recipe/${newRecipeDetails.id}/recipeImage/1`
+          );
+
+          try {
+            const snapshot = await uploadBytes(
+              fileRef,
+              data.recipe.recipePhoto
+            );
+            const recipePhotoUrl = await getDownloadURL(snapshot.ref);
+            console.log("retrieve recipePhotoUrl", recipePhotoUrl);
+
+            // Call the saveImageUrlToPostgreSQL function
+            await saveImageUrlToPostgreSQL(recipePhotoUrl, newRecipeDetails.id);
+          } catch (error) {
+            console.error(
+              "Error uploading file or getting download URL:",
+              error
+            );
+          }
+        }
+
+        // add code below to loop through each instruction and uploading the image to firebase & writing the url to postgresql
+        let stepNumber = 1;
+        for (const instruction of data.recipe.instructions) {
+          if (instruction.image) {
+            const fileRef = storageRef(
+              storage,
+              `${STORAGE_PROFILE_FOLDER_NAME}/${userProfile.id}/recipe/${newRecipeDetails.id}/instructionImage/${instruction.step}/${instruction.image.name}`
+            );
+
+            try {
+              const snapshot = await uploadBytes(fileRef, instruction.image);
+              const instructionPhotoUrl = await getDownloadURL(snapshot.ref);
+              console.log("retrieve instructionPhotoUrl", instructionPhotoUrl);
+
+              // Call the saveImageUrlToPostgreSQL function
+              await saveImageUrlToPostgreSQL(
+                instructionPhotoUrl,
+                newRecipeDetails.id,
+                stepNumber
+              );
+            } catch (error) {
+              console.error(
+                "Error uploading file or getting download URL:",
+                error
+              );
+            }
+          }
+          stepNumber++;
+        }
+        setCounter((prev) => prev + 1);
         setRecipeId(newRecipeDetails.id);
-        // navigate(`/recipes/${newRecipeDetails.id}`);
       }
       setIsLoading(false);
       return newRecipeDetails;
@@ -68,11 +149,55 @@ async function addRecipeToDatabase(data, setIsLoading, setRecipeId, event) {
   }
 }
 
+async function saveImageUrlToPostgreSQL(imageUrl, recipeId, stepNumber) {
+  try {
+    let response;
+    if (stepNumber) {
+      response = await fetch(
+        `${BACKEND_URL}/instructions/saveImageUrl/${recipeId}/${stepNumber}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            photoUrl: imageUrl,
+          }),
+        }
+      );
+    } else {
+      response = await fetch(
+        `${BACKEND_URL}/recipes/saveImageUrl/${recipeId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            recipeImageUrl: imageUrl,
+          }),
+        }
+      );
+    }
+
+    if (response.ok) {
+      console.log("Image URL saved in PostgreSQL.");
+    } else {
+      console.error("Failed to save image URL in PostgreSQL.");
+    }
+  } catch (error) {
+    console.error("Error saving image URL in PostgreSQL:", error);
+  }
+}
+
 export default function TypeRecipeModal({
   openTypeRecipeModal,
   setOpenTypeRecipeModal,
   setIsLoading,
+  recipe,
+  setCounter,
 }) {
+  const { userProfile, isAuthenticated } = useContext(GlobalUseContext);
   const navigate = useNavigate();
   const [mealType, setMealType] = useState("");
   const [cuisineType, setCuisineType] = useState("");
@@ -82,6 +207,7 @@ export default function TypeRecipeModal({
   const [recipeId, setRecipeId] = useState();
 
   const [name, setName] = useState("");
+  const [recipePhoto, setRecipePhoto] = useState(null);
   const [isPublic, setIsPublic] = useState(false);
   const [recipeImage, setRecipeImage] = useState(null);
   const [ingredients, setIngredients] = useState([
@@ -90,6 +216,19 @@ export default function TypeRecipeModal({
   const [instructions, setInstructions] = useState([
     { instruction: "", timeInterval: "", image: null },
   ]);
+
+  useEffect(() => {
+    if (recipe) {
+      setName(recipe.name);
+      setIngredients(recipe.ingredients);
+      setInstructions(recipe.instructions);
+      setServings(recipe.servingSize);
+      setPrepTime(recipe.totalTime);
+      setCuisineType(recipe.cuisine);
+      setDietaryRestrictions(recipe.dietaryRestrictions);
+      setIsPublic(recipe.isPublic);
+    }
+  }, [recipe]);
 
   const addIngredient = () => {
     setIngredients([
@@ -123,27 +262,46 @@ export default function TypeRecipeModal({
     }
   }, [recipeId]);
 
-  useEffect(() => {
-    console.log(mealType, cuisineType, dietaryRestrictions, servings, prepTime);
-  }, [mealType, cuisineType, dietaryRestrictions, servings, prepTime]);
+  // useEffect(() => {
+  //   console.log(mealType, cuisineType, dietaryRestrictions, servings, prepTime);
+  // }, [mealType, cuisineType, dietaryRestrictions, servings, prepTime]);
 
   const handleClose = () => {
     setOpenTypeRecipeModal(false);
-    setMealType("");
-    setCuisineType("");
-    setDietaryRestrictions("none");
-    setServings(2);
-    setPrepTime(30);
-    setName("");
-    setIngredients([{ name: "", quantity: "", unitOfMeasurement: "" }]);
-    setInstructions([{ instruction: "", timeInterval: "", image: null }]);
+    if (!recipe) {
+      setName("");
+      setCuisineType("");
+      setDietaryRestrictions("none");
+      setServings(2);
+      setPrepTime(30);
+      setIngredients([{ name: "", quantity: "", unitOfMeasurement: "" }]);
+      setInstructions([{ instruction: "", timeInterval: "", image: null }]);
+    }
   };
 
   const handleSubmit = (event) => {
     const data = {
-      recipe: { name, prepTime, isPublic, ingredients, instructions },
+      recipe: {
+        name,
+        recipePhoto,
+        prepTime,
+        isPublic,
+        cuisineType,
+        dietaryRestrictions,
+        ingredients,
+        instructions,
+      },
     };
-    addRecipeToDatabase(data, setIsLoading, setRecipeId, event);
+    addRecipeToDatabase(
+      data,
+      setIsLoading,
+      setRecipeId,
+      event,
+      userProfile,
+      isAuthenticated,
+      recipe,
+      setCounter
+    );
     handleClose();
     console.log(JSON.stringify(data));
   };
@@ -162,10 +320,10 @@ export default function TypeRecipeModal({
             color: "#2b2b2b",
             borderRadius: "16px",
             fontWeight: "bold",
-            fontSize: "1.75em",
+            fontSize: "1.35em",
           }}
         >
-          Key in your recipe!
+          {recipe ? "Update your recipe" : "Key in your recipe!"}
         </DialogTitle>
 
         <DialogContent style={{ backgroundColor: "#f7f4e8", paddingBottom: 0 }}>
@@ -196,7 +354,7 @@ export default function TypeRecipeModal({
                 style={{ display: "none" }}
                 id="recipe-image-input"
                 type="file"
-                onChange={(e) => setRecipeImage(e.target.files[0])}
+                onChange={(e) => setRecipePhoto(e.target.files[0])}
               />
               <label htmlFor="recipe-image-input">
                 <AddPhotoAlternateIcon style={{ cursor: "pointer" }} />
@@ -207,7 +365,7 @@ export default function TypeRecipeModal({
 
           <Grid container spacing={2}>
             {/* Meal Type */}
-            <Grid item xs={12} sm={4}>
+            {/* <Grid item xs={12} sm={4}>
               <TextField
                 select
                 fullWidth
@@ -229,10 +387,10 @@ export default function TypeRecipeModal({
                 <MenuItem value="lunch">Lunch</MenuItem>
                 <MenuItem value="dinner">Dinner</MenuItem>
               </TextField>
-            </Grid>
+            </Grid> */}
 
             {/* Cuisine Type */}
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 select
                 fullWidth
@@ -250,21 +408,21 @@ export default function TypeRecipeModal({
                   ),
                 }}
               >
-                <MenuItem value="italian">Italian</MenuItem>
-                <MenuItem value="chinese">Chinese</MenuItem>
-                <MenuItem value="japanese">Japanese</MenuItem>
-                <MenuItem value="mexican">Mexican</MenuItem>
-                <MenuItem value="french">French</MenuItem>
-                <MenuItem value="indian">Indian</MenuItem>
-                <MenuItem value="thai">Thai</MenuItem>
-                <MenuItem value="spanish">Spanish</MenuItem>
-                <MenuItem value="korean">Korean</MenuItem>
-                <MenuItem value="american">American</MenuItem>
+                <MenuItem value="Italian">Italian</MenuItem>
+                <MenuItem value="Chinese">Chinese</MenuItem>
+                <MenuItem value="Japanese">Japanese</MenuItem>
+                <MenuItem value="Mexican">Mexican</MenuItem>
+                <MenuItem value="French">French</MenuItem>
+                <MenuItem value="Indian">Indian</MenuItem>
+                <MenuItem value="Thai">Thai</MenuItem>
+                <MenuItem value="Spanish">Spanish</MenuItem>
+                <MenuItem value="Korean">Korean</MenuItem>
+                <MenuItem value="American">American</MenuItem>
               </TextField>
             </Grid>
 
             {/* Dietary Restrictions */}
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 select
                 fullWidth
@@ -282,17 +440,17 @@ export default function TypeRecipeModal({
                   ),
                 }}
               >
-                <MenuItem value="none">None</MenuItem>
-                <MenuItem value="vegetarian">Vegetarian</MenuItem>
-                <MenuItem value="vegan">Vegan</MenuItem>
-                <MenuItem value="gluten-free">Gluten-Free</MenuItem>
-                <MenuItem value="dairy-free">Dairy-Free</MenuItem>
-                <MenuItem value="nut-free">Nut-Free</MenuItem>
-                <MenuItem value="halal">Halal</MenuItem>
-                <MenuItem value="kosher">Kosher</MenuItem>
-                <MenuItem value="paleo">Paleo</MenuItem>
-                <MenuItem value="keto">Keto</MenuItem>
-                <MenuItem value="low-carb">Low Carb</MenuItem>
+                <MenuItem value="None">None</MenuItem>
+                <MenuItem value="Vegetarian">Vegetarian</MenuItem>
+                <MenuItem value="Vegan">Vegan</MenuItem>
+                <MenuItem value="Gluten-free">Gluten-Free</MenuItem>
+                <MenuItem value="Dairy-free">Dairy-Free</MenuItem>
+                <MenuItem value="Nut-free">Nut-Free</MenuItem>
+                <MenuItem value="Halal">Halal</MenuItem>
+                <MenuItem value="Kosher">Kosher</MenuItem>
+                <MenuItem value="Paleo">Paleo</MenuItem>
+                <MenuItem value="Keto">Keto</MenuItem>
+                <MenuItem value="Low-carb">Low Carb</MenuItem>
               </TextField>
             </Grid>
           </Grid>
@@ -397,7 +555,7 @@ export default function TypeRecipeModal({
             >
               Ingredients
             </div>
-            {ingredients.map((ingredient, index) => (
+            {ingredients?.map((ingredient, index) => (
               <Box
                 key={index}
                 display="flex"
@@ -419,7 +577,7 @@ export default function TypeRecipeModal({
                     setIngredients(newIngredients);
                   }}
                   style={{
-                    flex: 1,
+                    flex: 2,
                     marginRight: "8px",
                     backgroundColor: "white",
                   }}
@@ -446,6 +604,8 @@ export default function TypeRecipeModal({
                   }}
                   InputProps={{
                     style: { height: 40, padding: "5px" },
+                    type: "number",
+                    step: "0.01",
                   }}
                   InputLabelProps={{
                     style: { top: "-6px" },
@@ -506,7 +666,7 @@ export default function TypeRecipeModal({
             >
               Instructions
             </div>
-            {instructions.map((instruction, index) => (
+            {instructions?.map((instruction, index) => (
               <Box
                 style={{
                   backgroundColor: "white",
@@ -530,7 +690,7 @@ export default function TypeRecipeModal({
                       newInstructions[index].instruction = e.target.value;
                       setInstructions(newInstructions);
                     }}
-                    style={{ flex: 1, marginRight: "8px" }}
+                    style={{ flex: 3, marginRight: "8px" }}
                     InputProps={{
                       style: { height: 40, padding: "5px" },
                     }}
@@ -662,9 +822,9 @@ export default function TypeRecipeModal({
               borderRadius: "16px",
             }}
             endIcon={<SaveIcon />}
-            disabled={mealType === "" || cuisineType === ""}
+            disabled={cuisineType === ""}
           >
-            Save Recipe
+            {recipe ? "Update Recipe" : "Save Recipe"}
           </Button>
         </DialogActions>
       </Dialog>

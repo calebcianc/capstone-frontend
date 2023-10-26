@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -15,29 +16,36 @@ import {
   Grid,
   InputAdornment,
 } from "@mui/material";
-import "./SuggestRecipeModal.css";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import { useNavigate } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
 import LocalCafeIcon from "@mui/icons-material/LocalCafe";
+import { GlobalUseContext } from "../../GlobalUseContext";
+import "./SuggestRecipeModal.css";
 import { BACKEND_URL } from "../../constants";
 
 //custom hook with issues
-async function makeOpenAiRequest(data, setIsLoading, setRecipeId, event) {
+async function makeOpenAiRequest(
+  data,
+  setIsLoading,
+  setRecipeId,
+  event,
+  userProfile,
+  isAuthenticated
+) {
   if (event) {
     event.preventDefault();
   }
 
-  const accessToken = true;
-  const userId = 1;
-  data.userId = userId;
+  data.userId = userProfile.id;
+  data.cuisinePreferences = userProfile.cuisinePreferences;
+  data.userDietaryRestrictions = userProfile.dietaryRestrictions;
   console.log("Sending data: ", data);
 
-  if (accessToken) {
-    console.log("generate for userid", userId);
+  if (isAuthenticated) {
+    console.log("generate for userid", userProfile.id);
     try {
       setIsLoading(true);
       const response = await fetch(`${BACKEND_URL}/recipes/new`, {
@@ -52,7 +60,6 @@ async function makeOpenAiRequest(data, setIsLoading, setRecipeId, event) {
         console.log("newRecipeDetails", JSON.stringify(newRecipeDetails));
         console.log("newRecipeDetails.id", newRecipeDetails.id);
         setRecipeId(newRecipeDetails.id);
-        // navigate(`/recipes/${newRecipeDetails.id}`);
       }
       setIsLoading(false);
       return newRecipeDetails;
@@ -72,14 +79,15 @@ export default function SuggestRecipeModal({
   setOpenRecipePartialSurprise,
   setIsLoading,
 }) {
+  const navigate = useNavigate();
   const [mealType, setMealType] = useState("");
   const [cuisineType, setCuisineType] = useState("");
   const [dietaryRestrictions, setDietaryRestrictions] = useState("none");
   const [servings, setServings] = useState(2);
   const [prepTime, setPrepTime] = useState(30);
-  const navigate = useNavigate();
   const [recipeId, setRecipeId] = useState();
   const [isPublic, setIsPublic] = useState(false);
+  const { userProfile, isAuthenticated } = useContext(GlobalUseContext);
 
   useEffect(() => {
     if (recipeId) {
@@ -112,7 +120,14 @@ export default function SuggestRecipeModal({
       },
       isPublic,
     };
-    makeOpenAiRequest(data, setIsLoading, setRecipeId, event);
+    makeOpenAiRequest(
+      data,
+      setIsLoading,
+      setRecipeId,
+      event,
+      userProfile,
+      isAuthenticated
+    );
     handleClose();
     console.log(JSON.stringify(data));
   };
@@ -133,7 +148,7 @@ export default function SuggestRecipeModal({
             fontWeight: "bold",
           }}
         >
-          What'd you like to cook?
+          What would you like to cook?
         </DialogTitle>
 
         <DialogContent style={{ backgroundColor: "#f7f4e8", paddingBottom: 0 }}>

@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
-import AglioOlioRecipe from "../Test/AglioOlioRecipe";
-import TextToSpeech from "../Components/SpeechTextUtilities/TextToSpeech";
-
 import RecipeList from "../Components/Recipe/RecipeList";
 import "../App.css";
 import "./HomePage.css";
 
 export default function ExplorePage({ recipeList, counter, setCounter }) {
-  const text = "Testing text to speech";
+  const user = { id: 1, name: "test" };
 
   // filter recipes by isPublic
   const [filteredRecipes, setFilteredRecipes] = useState(recipeList);
   const filterPublicRecipes = () => {
-    const newRecipes = recipeList.filter((recipe) => recipe.isPublic === true);
+    const newRecipes = recipeList.filter(
+      (recipe) => recipe.isPublic === true && recipe.userId !== user.id
+    );
     setFilteredRecipes(newRecipes);
   };
 

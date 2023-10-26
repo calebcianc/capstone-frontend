@@ -1,4 +1,7 @@
-const BACKEND_URL = "http://localhost:3001";
+const BACKEND_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://cheftalk.fly.dev"
+    : "http://localhost:3000";
 
 const CUISINELIST = [
   "none",
@@ -28,3 +31,4 @@ const DIETARYLIST = [
 ];
 
 export { BACKEND_URL, CUISINELIST, DIETARYLIST };
+
