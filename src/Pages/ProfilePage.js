@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import { BACKEND_URL } from "../constants";
 import EditCuisinePreferences from "../Components/Profile/EditCuisinePreferences";
-
+import EditDietaryRestrictions from "../Components/Profile/EditDietaryRestrictions";
 export default function ProfilePage() {
   const STORAGE_USERUPLOADS_REF = "UserData/";
 
@@ -20,6 +20,8 @@ export default function ProfilePage() {
   const [toggleProfileRefresh, setToggleProfileRefresh] = useState(false);
   const [toggleShowEdit, setToggleShowEdit] = useState(true);
   const [toggleShowSubmit, setToggleShowSubmit] = useState(false);
+  const [toggleShowEdit1, setToggleShowEdit1] = useState(true);
+  const [toggleShowSubmit1, setToggleShowSubmit1] = useState(false);
 
   const { loginWithRedirect, isAuthenticated, user, isLoading, logout } =
     useAuth0();
@@ -191,6 +193,28 @@ export default function ProfilePage() {
           <br /> <br />
           Dietary Restrictions: {userProfile?.dietaryRestrictions}
           <br />
+          {userProfile.dietaryRestrictions && toggleShowSubmit1 && (
+            <EditDietaryRestrictions
+              preloadDietaryRestrictions={userProfile?.dietaryRestrictions}
+              userId={userProfile?.id}
+              toggleProfileRefresh={toggleProfileRefresh}
+              setToggleProfileRefresh={setToggleProfileRefresh}
+              setToggleShowEdit={setToggleShowEdit1}
+              toggleShowSubmit={toggleShowSubmit1}
+              setToggleShowSubmit={setToggleShowSubmit1}
+            />
+          )}{" "}
+          {toggleShowEdit1 && (
+            <Button
+              variant="contained"
+              onClick={() => {
+                setToggleShowEdit1(!toggleShowEdit1);
+                setToggleShowSubmit1(!toggleShowSubmit1);
+              }}
+            >
+              Edit
+            </Button>
+          )}
         </div>
       )}
     </div>

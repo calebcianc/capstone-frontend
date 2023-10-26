@@ -13,4 +13,18 @@ const CUISINELIST = [
   "american",
 ];
 
-export { BACKEND_URL, CUISINELIST };
+const DIETARYLIST = [
+  "none",
+  "vegetarian",
+  "vegan",
+  "gluten-free",
+  "dairy-free",
+  "nut-free",
+  "halal",
+  "kosher",
+  "paleo",
+  "keto",
+  "low-carb",
+];
+
+export { BACKEND_URL, CUISINELIST, DIETARYLIST };

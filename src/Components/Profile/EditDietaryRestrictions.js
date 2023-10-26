@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Button } from "@mui/material";
 import CreatableSelect from "react-select/creatable";
-import { BACKEND_URL, CUISINELIST } from "../../constants";
+import { BACKEND_URL, DIETARYLIST } from "../../constants";
 
-const EditCuisinePreferences = (props) => {
-  const [cuisinePreferences, setCuisinePreferences] = useState(
-    props.preloadCuisinePreferences
+const EditDietaryRestrictions = (props) => {
+  const [dietaryRestrictions, setDietaryRestrictions] = useState(
+    props.preloadDietaryRestrictions
       .split(",")
-      .map((cuisinePreferences, ind) => ({
+      .map((dietaryRestrictions, ind) => ({
         value: ind,
-        label: cuisinePreferences,
+        label: dietaryRestrictions,
       }))
   );
 
@@ -22,10 +22,10 @@ const EditCuisinePreferences = (props) => {
       // console.log(cuisinePreferences.map((cuisine) => cuisine.label).join());
       // console.log(props.userId);
 
-      await axios.put(`${BACKEND_URL}/users/profile/cusine-preferences`, {
+      await axios.put(`${BACKEND_URL}/users/profile/dietary-restrictions`, {
         userId: props.userId,
-        cusinePreferences: cuisinePreferences
-          .map((cuisine) => cuisine.label)
+        dietaryRestrictions: dietaryRestrictions
+          .map((diet) => diet.label)
           .join(), // wrangle array into string
       });
 
@@ -37,9 +37,9 @@ const EditCuisinePreferences = (props) => {
     }
   };
 
-  const cuisineOptions = CUISINELIST.map((cuisine, ind) => ({
+  const dietaryOptions = DIETARYLIST.map((diet, ind) => ({
     value: ind,
-    label: cuisine,
+    label: diet,
   }));
 
   // Make text black in Select field
@@ -56,10 +56,10 @@ const EditCuisinePreferences = (props) => {
         isMulti
         isClearable
         styles={selectFieldStyles}
-        options={cuisineOptions}
-        value={cuisinePreferences}
-        onChange={(cuisine) => {
-          setCuisinePreferences(cuisine);
+        options={dietaryOptions}
+        value={dietaryRestrictions}
+        onChange={(diet) => {
+          setDietaryRestrictions(diet);
         }}
       />
       <Button type="submit" variant="contained">
@@ -69,4 +69,4 @@ const EditCuisinePreferences = (props) => {
   );
 };
 
-export default EditCuisinePreferences;
+export default EditDietaryRestrictions;
