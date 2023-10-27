@@ -87,6 +87,7 @@ function UserDetails({
                 style={{
                   backgroundColor: "var(--primary-color)",
                   color: "var(--neutral-dark)",
+                  border: "1px solid #2b2b2b",
                 }}
                 startIcon={<EditIcon />}
               >

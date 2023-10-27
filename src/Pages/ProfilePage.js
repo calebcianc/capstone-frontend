@@ -8,6 +8,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { BACKEND_URL } from "../constants";
 import UserDetails from "../Components/Profile/UserDetails";
 import UserDashboard from "../Components/Profile/UserDashboard";
+import CookbookHistory from "../Components/Profile/CookbookHistory";
 import "./ProfilePage.css";
 
 export default function ProfilePage() {
@@ -62,41 +63,41 @@ export default function ProfilePage() {
 
   return (
     <div className="childDiv">
-      <div
-        className="greeting"
-        style={{ display: "flex", justifyContent: "space-between" }}
-      >
+      <div className="greeting" style={{ display: "flex" }}>
         <div>Profile Page</div>
         <div>{isAuthenticated ? LogoutButton : LoginButton}</div>
       </div>
-      {isAuthenticated
-        ? user && (
-            <div className="profileChildDiv">
-              <UserDetails
-                style={{ flexGrow: 1 }}
-                userProfile={userProfile}
-                user={user}
-                toggleProfileRefresh={toggleProfileRefresh}
-                setToggleProfileRefresh={setToggleProfileRefresh}
-              />
+      {isAuthenticated ? (
+        <div className="profileChildDiv">
+          <UserDetails
+            style={{ flexGrow: 1 }}
+            userProfile={userProfile}
+            user={user}
+            toggleProfileRefresh={toggleProfileRefresh}
+            setToggleProfileRefresh={setToggleProfileRefresh}
+          />
 
-              <UserDashboard
-                style={{ flexGrow: 1 }}
-                userProfile={userProfile}
-                toggleShowSubmit={toggleShowSubmit}
-                setToggleShowSubmit={setToggleShowSubmit}
-                toggleShowEdit={toggleShowEdit}
-                setToggleShowEdit={setToggleShowEdit}
-                toggleProfileRefresh={toggleProfileRefresh}
-                setToggleProfileRefresh={setToggleProfileRefresh}
-                toggleShowSubmit1={toggleShowSubmit1}
-                setToggleShowSubmit1={setToggleShowSubmit1}
-                toggleShowEdit1={toggleShowEdit1}
-                setToggleShowEdit1={setToggleShowEdit1}
-              />
-            </div>
-          )
-        : null}
+          <UserDashboard
+            style={{ flexGrow: 1 }}
+            userProfile={userProfile}
+            toggleShowSubmit={toggleShowSubmit}
+            setToggleShowSubmit={setToggleShowSubmit}
+            toggleShowEdit={toggleShowEdit}
+            setToggleShowEdit={setToggleShowEdit}
+            toggleProfileRefresh={toggleProfileRefresh}
+            setToggleProfileRefresh={setToggleProfileRefresh}
+            toggleShowSubmit1={toggleShowSubmit1}
+            setToggleShowSubmit1={setToggleShowSubmit1}
+            toggleShowEdit1={toggleShowEdit1}
+            setToggleShowEdit1={setToggleShowEdit1}
+          />
+        </div>
+      ) : (
+        <div className="text-container">
+          {" "}
+          "Looks like you have not logged in"
+        </div>
+      )}
     </div>
   );
 }
