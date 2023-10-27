@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 import {
   Box,
   Button,
@@ -17,6 +18,8 @@ import {
   InputAdornment,
   List,
   ListItem,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
@@ -31,10 +34,14 @@ export default function AddToCookbookModal({
   recipeId,
 }) {
   const { userProfile, isAuthenticated } = useContext(GlobalUseContext);
+  const { enqueueSnackbar } = useSnackbar(); // Hook from notistack
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   const [cookbooks, setCookbooks] = useState([
-    { name: "Cookbook 1", checked: false },
-    { name: "Cookbook 2", checked: false },
+    { name: "Cookbook 1", checked: false, id: null },
+    { name: "Cookbook 2", checked: false, id: null },
     // ... other cookbooks
   ]);
   const [newCookbookName, setNewCookbookName] = useState("");
@@ -46,7 +53,10 @@ export default function AddToCookbookModal({
   };
 
   const handleAddNewCookbook = () => {
-    setCookbooks([...cookbooks, { name: newCookbookName, checked: true }]);
+    setCookbooks([
+      ...cookbooks,
+      { name: newCookbookName, checked: true, id: null },
+    ]);
     setNewCookbookName(""); // Reset the new cookbook name field
   };
 
@@ -57,10 +67,8 @@ export default function AddToCookbookModal({
       setIsAdded(false);
     }
     const checkedCookbooks = cookbooks.filter((cookbook) => cookbook.checked);
-    const newCookbook = { name: newCookbookName };
     const requestBody = {
       checkedCookbooks,
-      newCookbook,
     };
     // Perform the POST/PUT request to your server with the selected cookbooks
     try {
@@ -73,12 +81,19 @@ export default function AddToCookbookModal({
         }
       );
       const responseData = await response.json();
-      // render toast if successful
-      // generate code for toast here
-
       console.log(responseData);
+      // enqueueSnackbar(responseData.message, { variant: "success" });
+      setSnackbarMessage(responseData.message);
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
     } catch (error) {
       console.error("Error updating cookbooks:", error);
+      // enqueueSnackbar("Error updating cookbooks", {
+      //   variant: "error",
+      // });
+      setSnackbarMessage("Error updating cookbooks");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
     }
 
     setOpen(false);
@@ -104,6 +119,7 @@ export default function AddToCookbookModal({
           .map((cookbook) => ({
             name: cookbook.name,
             checked: cookbook.name === "Added from Explore" ? true : false,
+            id: cookbook.id,
           }));
         setCookbooks(cookbooksData);
       } catch (error) {
@@ -113,81 +129,103 @@ export default function AddToCookbookModal({
     fetchUserCookbooks();
   }, []);
 
-  return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle
-        style={{
-          backgroundColor: "#f7f4e8",
-          color: "#2b2b2b",
-          borderRadius: "16px",
-          fontWeight: "bold",
-        }}
-      >
-        Add to cookbook
-      </DialogTitle>
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
 
-      <DialogContent style={{ backgroundColor: "#f7f4e8", paddingBottom: 0 }}>
-        <List>
-          {cookbooks.map((cookbook, index) => (
-            <ListItem
-              key={index}
-              style={{ backgroundColor: "white", margin: "2px 0" }}
-            >
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={cookbook.checked}
-                    onChange={() => handleCheckboxToggle(index)}
-                    name={cookbook.name}
-                    color="default"
-                  />
-                }
-                label={cookbook.name}
+    setSnackbarOpen(false);
+  };
+
+  return (
+    <>
+      <Dialog open={open} onClose={onClose}>
+        <DialogTitle
+          style={{
+            backgroundColor: "#f7f4e8",
+            color: "#2b2b2b",
+            borderRadius: "16px",
+            fontWeight: "bold",
+          }}
+        >
+          Add to cookbook
+        </DialogTitle>
+        <DialogContent style={{ backgroundColor: "#f7f4e8", paddingBottom: 0 }}>
+          <List>
+            {cookbooks.map((cookbook, index) => (
+              <ListItem
+                key={index}
+                style={{ backgroundColor: "white", margin: "2px 0" }}
+              >
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={cookbook.checked}
+                      onChange={() => handleCheckboxToggle(index)}
+                      name={cookbook.name}
+                      color="default"
+                    />
+                  }
+                  label={cookbook.name}
+                />
+              </ListItem>
+            ))}
+            <ListItem style={{ backgroundColor: "white", margin: "2px 0" }}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                placeholder="New Cookbook"
+                value={newCookbookName}
+                onChange={(e) => setNewCookbookName(e.target.value)}
+                InputProps={{
+                  endAdornment: (
+                    <IconButton onClick={handleAddNewCookbook}>
+                      <AddCircleOutlineIcon color="action" />
+                    </IconButton>
+                  ),
+                }}
               />
             </ListItem>
-          ))}
-          <ListItem style={{ backgroundColor: "white", margin: "2px 0" }}>
-            <TextField
-              fullWidth
-              variant="outlined"
-              placeholder="New Cookbook"
-              value={newCookbookName}
-              onChange={(e) => setNewCookbookName(e.target.value)}
-              InputProps={{
-                endAdornment: (
-                  <IconButton onClick={handleAddNewCookbook}>
-                    <AddCircleOutlineIcon color="action" />
-                  </IconButton>
-                ),
-              }}
-            />
-          </ListItem>
-        </List>
-      </DialogContent>
-
-      <DialogActions
-        style={{
-          backgroundColor: "#f7f4e8",
-          borderRadius: "0 0 16px 16px",
-          padding: "16px 24px 24px 24px",
-        }}
-      >
-        <Button onClick={onClose} style={{ color: "#e7372d" }}>
-          Cancel
-        </Button>
-        <Button
-          onClick={handleSubmit}
-          variant="contained"
+          </List>
+        </DialogContent>
+        <DialogActions
           style={{
-            backgroundColor: "#2b2b2b",
-            color: "#f7f4e8",
-            borderRadius: "16px",
+            backgroundColor: "#f7f4e8",
+            borderRadius: "0 0 16px 16px",
+            padding: "16px 24px 24px 24px",
           }}
-          endIcon={<BookmarkAddIcon />}
         >
-          Add
-        </Button>
-      </DialogActions>
-    </Dialog>
+          <Button onClick={onClose} style={{ color: "#e7372d" }}>
+            Cancel
+          </Button>
+          <Button
+            onClick={handleSubmit}
+            variant="contained"
+            style={{
+              backgroundColor: "#2b2b2b",
+              color: "#f7f4e8",
+              borderRadius: "16px",
+            }}
+            endIcon={<BookmarkAddIcon />}
+          >
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+    </>
   );
 }

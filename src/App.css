@@ -63,6 +63,7 @@ Neutral Light: Use this for backgrounds, cards, or as an off-white alternative w
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  /* overflow: auto; */
 }
 
 .bottom-navigation {

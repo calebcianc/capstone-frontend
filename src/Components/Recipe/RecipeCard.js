@@ -10,12 +10,15 @@ import {
 import HourglassTopIcon from "@mui/icons-material/HourglassTop";
 import AddToCookbookButton from "../Cookbook/AddToCookbookButton";
 import "./RecipeCard.css";
+import "../Cookbook/CookbookList.css";
 
-const RecipeCard = ({ recipeData }) => {
+const RecipeCard = ({ recipeData, type }) => {
   const location = useLocation();
 
   return (
-    <Card className="recipe-card">
+    <Card
+      className={type === "cookbook" ? "cookbook-recipe-card" : "recipe-card"}
+    >
       <Link to={`/recipe/${recipeData.id}`} className="no-underline">
         <CardMedia
           component="img"

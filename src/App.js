@@ -164,6 +164,7 @@ function App() {
                   recipeList={recipeList}
                   counter={counter}
                   setCounter={setCounter}
+                  userProfile={userProfile}
                 />
               }
             />

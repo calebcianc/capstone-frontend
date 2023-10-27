@@ -1,0 +1,63 @@
+.cookbook-list-container {
+  max-width: 1025px;
+  width: 96%;
+  overflow: auto;
+}
+
+.cookbook-card-container {
+  max-width: 1025px;
+  width: 96%;
+  min-height: 46%;
+  /* height: 78%; */
+
+  margin: 10px 0px 10px 0px;
+  /* padding: 20px; */
+  overflow: auto;
+
+  /* border: 2px solid var(--neutral-light); */
+  /* border-radius: 36px; */
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  text-align: left;
+}
+
+.cookbook-card-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.cookbook-recipe-list-container {
+  max-width: 1025px;
+  /* width: 100%; */
+  /* height: 100%; */
+
+  /* margin: 10px 20px 20px 20px; */
+  /* padding: 10px; */
+  margin-bottom: 10px;
+  overflow: auto;
+
+  /* border: 2px solid var(--neutral-light); */
+  border-radius: 26px;
+
+  display: flex;
+  gap: 2%;
+}
+
+.cookbook-recipe-card {
+  /* height: 100%;
+  width: 100%; */
+  max-width: 300px;
+  background: white;
+  border-radius: 16px !important;
+  box-shadow: none;
+}
+
+/* @media (min-width: 800px) {
+  .cookbook-list-container {
+    grid-template-columns: minmax(0, 1fr), minmax(0, 1fr); 
+    grid-template-rows: minmax(0, 1fr), minmax(0, 1fr); 
+  }
+} */
