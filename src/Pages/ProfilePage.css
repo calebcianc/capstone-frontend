@@ -1,0 +1,59 @@
+.profileChildDiv {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 64px - 56px - 2px);
+  display: flex;
+  flex-direction: row;
+}
+
+.dashboard-container {
+  max-width: 1025px;
+  width: 100%;
+  height: 78%;
+  margin: 10px 20px 20px 20px;
+  padding: 20px;
+
+  overflow: auto;
+  border: 2px solid var(--neutral-light);
+  border-radius: 36px;
+
+  text-align: left;
+  font-size: 20px;
+  /* display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3%; */
+}
+
+.profile-container {
+  max-width: 1025px;
+  width: 100%;
+  height: 78%;
+  margin: 10px 20px 20px 20px;
+  padding: 20px;
+
+  overflow: auto;
+  border: 2px solid var(--neutral-light);
+  border-radius: 36px;
+
+  text-align: left;
+  font-size: 20px;
+}
+
+.profile-picture {
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 2px solid var(--main-light);
+  background-size: "cover";
+  background-position: "50% 50%";
+  margin-right: 10px;
+  padding: 20px;
+}
+
+@media (min-width: 800px) {
+  .list-container {
+    grid-template-columns: minmax(0, 1fr), minmax(0, 1fr); /* On tablets, 2 columns are shown */
+    grid-template-rows: minmax(0, 1fr), minmax(0, 1fr); /* On tablets, 2 columns are shown */
+  }
+}
