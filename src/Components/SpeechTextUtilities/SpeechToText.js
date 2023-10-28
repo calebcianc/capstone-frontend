@@ -120,6 +120,7 @@ const SpeechToText = ({
       <IconButton onClick={() => setListening((prev) => !prev)}>
         {listening ? <KeyboardVoiceIcon /> : <MicOffIcon />}
       </IconButton>
+      {/* {transcript} */}
     </div>
   );
 };

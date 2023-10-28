@@ -1,19 +1,22 @@
 // external imports
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Button, Box, Fab, Typography, IconButton } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import EditIcon from "@mui/icons-material/Edit";
+
 // internal imports
 import RecipeStep from "./RecipeStep";
 import InstructionListModal from "../Instruction/InstructionListModal";
 import { BACKEND_URL } from "../../constants";
+
 // css imports
 import "./RecipePage.css";
 import "../NewRecipe/FabIcon.css";
 import "../NewRecipe/LoadingGif.css";
+import { GlobalUseContext } from "../../GlobalUseContext";
 import TypeRecipeModal from "../NewRecipe/TypeRecipeModal";
 
 export default function RecipePage() {
@@ -29,6 +32,7 @@ export default function RecipePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [counter, setCounter] = useState(0);
   const [isDataFetched, setIsDataFetched] = useState(false);
+  const { userProfile, isAuthenticated } = useContext(GlobalUseContext);
 
   useEffect(() => {
     fetchRecipe();
@@ -107,16 +111,18 @@ export default function RecipePage() {
               height: "11%",
             }}
           >
-            {recipe.lastCookedDate && ( //to add in user auth as well
-              <Button
-                style={{
-                  backgroundColor: "var(--primary-color)",
-                  color: "var(--neutral-dark)",
-                }}
-              >
-                Last Cooked: {formatDateToDDMMYYYY(recipe.lastCookedDate)}
-              </Button>
-            )}
+            {recipe.lastCookedDate &&
+              isAuthenticated &&
+              userProfile.id === recipe.creatorId && (
+                <Button
+                  style={{
+                    backgroundColor: "var(--primary-color)",
+                    color: "var(--neutral-dark)",
+                  }}
+                >
+                  Last Cooked: {formatDateToDDMMYYYY(recipe.lastCookedDate)}
+                </Button>
+              )}
 
             <Button
               onClick={() => setOpenTypeRecipeModal(true, recipe)}

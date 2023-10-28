@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import Timer from "./Timer";
 import CardContent from "@mui/material/CardContent";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
@@ -9,6 +9,7 @@ import {
 } from "firebase/storage";
 import { storage } from "../../firebase";
 import { BACKEND_URL } from "../../constants";
+import { GlobalUseContext } from "../../GlobalUseContext";
 const STORAGE_PROFILE_FOLDER_NAME = "UserData";
 
 function InstructionCard({
@@ -19,14 +20,20 @@ function InstructionCard({
   setNewImageUrl,
   setInstructions,
   setCounter,
+  recipe,
 }) {
   const currentInstruction = instructions.find(
     (instr) => instr.step === currentCardIndex
   );
 
+  const { userProfile, isAuthenticated } = useContext(GlobalUseContext);
+
   useEffect(() => {
-    //to update last cook date only if user is auth and user is owner of recipe
-    if (currentCardIndex === instructions.length) {
+    if (
+      isAuthenticated &&
+      userProfile.id === recipe.creatorId &&
+      currentCardIndex === instructions.length
+    ) {
       // Update lastCookDate in the database
       updateLastCookDate();
     }

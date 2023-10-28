@@ -23,7 +23,6 @@ import WelcomeModal from "./Components/WelcomeModal";
 import FirstLoginModal from "./Components/FirstLoginModal";
 import Navbar from "./Components/Navbar";
 import RecipePage from "./Components/Recipe/RecipePage";
-
 // Styles
 import "./App.css";
 
@@ -169,7 +168,16 @@ function App() {
               }
             />
             <Route path="/recipe/:recipeId" element={<RecipePage />} />
-            <Route path="/profile" element={<ProfilePage />} />
+            <Route
+              path="/profile"
+              element={
+                <ProfilePage
+                  recipeList={recipeList}
+                  counter={counter}
+                  setCounter={setCounter}
+                />
+              }
+            />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </div>
