@@ -8,31 +8,51 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { BACKEND_URL } from "../constants";
 import UserDetails from "../Components/Profile/UserDetails";
 import UserDashboard from "../Components/Profile/UserDashboard";
-import CookbookHistory from "../Components/Profile/CookbookHistory";
 import "./ProfilePage.css";
 
-export default function ProfilePage() {
+export default function ProfilePage({ recipeList, counter, setCounter }) {
   const [userProfile, setUserProfile] = useState([]);
-
   const [toggleProfileRefresh, setToggleProfileRefresh] = useState(false);
   const [toggleShowEdit, setToggleShowEdit] = useState(true);
   const [toggleShowSubmit, setToggleShowSubmit] = useState(false);
   const [toggleShowEdit1, setToggleShowEdit1] = useState(true);
   const [toggleShowSubmit1, setToggleShowSubmit1] = useState(false);
-
+  const [userRecipe, setUserRecipe] = useState([]);
   const { loginWithRedirect, isAuthenticated, user, isLoading, logout } =
     useAuth0();
 
+  const filterUserLastCook = () => {
+    return userProfile
+      ? recipeList.filter(
+          (recipe) => recipe.lastCookedDate && recipe.userId === userProfile.id
+        )
+      : [];
+  };
+
   useEffect(() => {
-    isAuthenticated && getUserProfile();
+    console.log("Effect triggered!");
+    if (isAuthenticated) {
+      getUserProfile();
+    }
     return;
   }, [isAuthenticated, toggleProfileRefresh]);
 
   const getUserProfile = async () => {
-    let data;
-    data = await axios.get(`${BACKEND_URL}/users/profile/${user.email}`);
-    setUserProfile(data.data);
+    try {
+      const data = await axios.get(
+        `${BACKEND_URL}/users/profile/${user.email}`
+      );
+      setUserProfile(data.data);
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+    }
   };
+  useEffect(() => {
+    if (userProfile) {
+      const lastCookedRecipes = filterUserLastCook();
+      setUserRecipe(lastCookedRecipes);
+    }
+  }, [userProfile, counter]);
 
   // login
   const LoginButton = (
@@ -63,7 +83,7 @@ export default function ProfilePage() {
 
   return (
     <div className="childDiv">
-      <div className="greeting" style={{ display: "flex" }}>
+      <div className="greeting">
         <div>Profile Page</div>
         <div>{isAuthenticated ? LogoutButton : LoginButton}</div>
       </div>
@@ -90,6 +110,7 @@ export default function ProfilePage() {
             setToggleShowSubmit1={setToggleShowSubmit1}
             toggleShowEdit1={toggleShowEdit1}
             setToggleShowEdit1={setToggleShowEdit1}
+            userRecipe={userRecipe}
           />
         </div>
       ) : (

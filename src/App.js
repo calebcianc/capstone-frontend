@@ -167,7 +167,16 @@ function App() {
               }
             />
             <Route path="/recipe/:recipeId" element={<RecipePage />} />
-            <Route path="/profile" element={<ProfilePage />} />
+            <Route
+              path="/profile"
+              element={
+                <ProfilePage
+                  recipeList={recipeList}
+                  counter={counter}
+                  setCounter={setCounter}
+                />
+              }
+            />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </div>
