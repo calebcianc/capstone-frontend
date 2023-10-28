@@ -8,6 +8,7 @@ import {
   IconButton,
 } from "@mui/material";
 import HourglassTopIcon from "@mui/icons-material/HourglassTop";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AddToCookbookButton from "../Cookbook/AddToCookbookButton";
 import "./RecipeCard.css";
 import "../Cookbook/CookbookList.css";
@@ -40,16 +41,17 @@ const RecipeCard = ({ recipeData, type }) => {
           <Typography
             variant="body1"
             color="var(--neutral-dark)"
-            style={{ marginLeft: "8px" }}
+            style={{ marginLeft: "8px", display: "flex", alignItems: "center" }}
           >
-            {recipeData.user.name} ({recipeData.isPublic ? "Public" : "Private"}
-            )
+            <AccountCircleIcon style={{ marginRight: "5px" }} />{" "}
+            {recipeData.user.name}
+            {/* ({recipeData.isPublic ? "Public" : "Private"}) */}
           </Typography>
 
           <div
             style={{
               display: "flex",
-              justifyContent: "space-between",
+              justifyContent: "flex-end",
               alignItems: "center",
               marginLeft: "auto",
               minWidth: "35%",
