@@ -18,3 +18,18 @@
   font-size: 1.5rem !important;
   font-weight: bold !important;
 }
+
+.recipe-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* margin-bottom: 10px; */
+}
+
+.icon-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: small;
+  margin-bottom: 16px;
+}

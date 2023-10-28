@@ -16,13 +16,15 @@ const RecipeList = ({ recipeList, type }) => {
       className={
         type === "cookbook"
           ? "cookbook-recipe-list-container"
+          : mappedRecipeList.length === 0
+          ? "no-recipe-message"
           : "recipe-list-container"
       }
     >
       {mappedRecipeList}
 
       {mappedRecipeList.length === 0
-        ? "Oops! Looks like there's no recipes here."
+        ? "Oops! Looks like no recipes match your preferences completely."
         : null}
     </div>
   );
