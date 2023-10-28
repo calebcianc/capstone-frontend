@@ -11,6 +11,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import RecipeStep from "./RecipeStep";
 import InstructionListModal from "../Instruction/InstructionListModal";
 import { BACKEND_URL } from "../../constants";
+import AuthDialog from "../Auth/AuthDialog";
 
 // css imports
 import "./RecipePage.css";
@@ -18,6 +19,7 @@ import "../NewRecipe/FabIcon.css";
 import "../NewRecipe/LoadingGif.css";
 import { GlobalUseContext } from "../../GlobalUseContext";
 import TypeRecipeModal from "../NewRecipe/TypeRecipeModal";
+import AddToCookbookButton from "../Cookbook/AddToCookbookButton";
 
 export default function RecipePage() {
   const [instructionModalopen, setInstructionModalOpen] = useState(false);
@@ -33,6 +35,7 @@ export default function RecipePage() {
   const [counter, setCounter] = useState(0);
   const [isDataFetched, setIsDataFetched] = useState(false);
   const { userProfile, isAuthenticated } = useContext(GlobalUseContext);
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     fetchRecipe();
@@ -123,9 +126,15 @@ export default function RecipePage() {
                   Last Cooked: {formatDateToDDMMYYYY(recipe.lastCookedDate)}
                 </Button>
               )}
-
+            <AddToCookbookButton recipeId={recipe.id} />
             <Button
-              onClick={() => setOpenTypeRecipeModal(true, recipe)}
+              onClick={() => {
+                if (!isAuthenticated) {
+                  setOpenDialog(true);
+                  return;
+                }
+                setOpenTypeRecipeModal(true, recipe);
+              }}
               style={{
                 backgroundColor: "var(--primary-color",
                 color: "var(--neutral-dark)",
@@ -316,6 +325,8 @@ export default function RecipePage() {
         viewingInstructions={viewingInstructions}
         setCounter={setCounter}
       />
+
+      <AuthDialog openDialog={openDialog} setOpenDialog={setOpenDialog} />
     </>
   );
 }

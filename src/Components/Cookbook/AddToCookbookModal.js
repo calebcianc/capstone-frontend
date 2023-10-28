@@ -71,29 +71,31 @@ export default function AddToCookbookModal({
       checkedCookbooks,
     };
     // Perform the POST/PUT request to your server with the selected cookbooks
-    try {
-      const response = await fetch(
-        `${BACKEND_URL}/cookbooks/${userProfile.id}/${recipeId}`,
-        {
-          method: "PUT",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify(requestBody),
-        }
-      );
-      const responseData = await response.json();
-      console.log(responseData);
-      // enqueueSnackbar(responseData.message, { variant: "success" });
-      setSnackbarMessage(responseData.message);
-      setSnackbarSeverity("success");
-      setSnackbarOpen(true);
-    } catch (error) {
-      console.error("Error updating cookbooks:", error);
-      // enqueueSnackbar("Error updating cookbooks", {
-      //   variant: "error",
-      // });
-      setSnackbarMessage("Error updating cookbooks");
-      setSnackbarSeverity("error");
-      setSnackbarOpen(true);
+    if (isAuthenticated) {
+      try {
+        const response = await fetch(
+          `${BACKEND_URL}/cookbooks/${userProfile.id}/${recipeId}`,
+          {
+            method: "PUT",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify(requestBody),
+          }
+        );
+        const responseData = await response.json();
+        console.log(responseData);
+        // enqueueSnackbar(responseData.message, { variant: "success" });
+        setSnackbarMessage(responseData.message);
+        setSnackbarSeverity("success");
+        setSnackbarOpen(true);
+      } catch (error) {
+        console.error("Error updating cookbooks:", error);
+        // enqueueSnackbar("Error updating cookbooks", {
+        //   variant: "error",
+        // });
+        setSnackbarMessage("Error updating cookbooks");
+        setSnackbarSeverity("error");
+        setSnackbarOpen(true);
+      }
     }
 
     setOpen(false);
@@ -126,7 +128,7 @@ export default function AddToCookbookModal({
         console.error("Error fetching user cookbooks:", error);
       }
     };
-    fetchUserCookbooks();
+    isAuthenticated && fetchUserCookbooks();
   }, []);
 
   const handleSnackbarClose = (event, reason) => {

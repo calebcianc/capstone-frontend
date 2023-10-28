@@ -11,6 +11,7 @@ import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import PublicIcon from "@mui/icons-material/Public";
 import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
 
 // Internal Modules, Components, and Constants
 import { BACKEND_URL } from "./constants";
@@ -207,7 +208,10 @@ function App() {
               }}
             >
               <BottomNavigationAction label="Explore" icon={<PublicIcon />} />
-              <BottomNavigationAction label="Home" icon={<HomeIcon />} />
+              <BottomNavigationAction
+                label="Cookbooks"
+                icon={<MenuBookIcon />}
+              />
               <BottomNavigationAction label="Profile" icon={<PersonIcon />} />
             </BottomNavigation>
           </ThemeProvider>

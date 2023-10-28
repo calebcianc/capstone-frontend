@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
-
 import Button from "@mui/material/Button";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -60,10 +59,10 @@ export default function ProfilePage({ recipeList, counter, setCounter }) {
       variant="contained"
       style={{ backgroundColor: "#2b2b2b", color: "white" }}
       onClick={() => loginWithRedirect()}
-      startIcon={<LoginRoundedIcon />}
+      // startIcon={<LoginRoundedIcon />}
       size="large"
     >
-      {isLoading ? "Loading ..." : "Log In/ Sign Up"}
+      {isLoading ? "Loading ..." : "Sign up / Log in"}
     </Button>
   );
 
@@ -82,7 +81,6 @@ export default function ProfilePage({ recipeList, counter, setCounter }) {
   );
 
   return (
-
     <div className="childDiv">
       <div className="greeting">
         <div>Profile Page</div>
@@ -118,7 +116,6 @@ export default function ProfilePage({ recipeList, counter, setCounter }) {
         <div className="text-container">
           {" "}
           "Looks like you have not logged in"
-
         </div>
       )}
     </div>

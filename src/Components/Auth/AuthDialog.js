@@ -20,7 +20,11 @@ const AuthDialog = ({ openDialog, setOpenDialog }) => {
         </Typography>
         <Typography>Sign up / Log in to use this feature!</Typography>
         <br />
-        <Button variant="contained" onClick={() => loginWithRedirect()}>
+        <Button
+          variant="contained"
+          style={{ backgroundColor: "#2b2b2b", color: "white" }}
+          onClick={() => loginWithRedirect()}
+        >
           Sign Up / Log In
         </Button>
       </DialogContent>
