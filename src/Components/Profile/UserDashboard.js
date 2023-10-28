@@ -16,73 +16,106 @@ function UserDashboard({
   setToggleShowSubmit1,
   toggleShowEdit1,
   setToggleShowEdit1,
+  userRecipe,
 }) {
+  function formatDateToDDMMYYYY(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getUTCDate()).padStart(2, "0");
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // January is 0
+    const year = date.getUTCFullYear();
+    return `${day}/${month}/${year}`;
+  }
+  console.log("userRecipe", userRecipe);
+
   return (
-    <div className="dashboard-container">
+    <div>
       <div className="preference-container">
-        Cusine Preferences:
-        {userProfile?.cusinePreferences} <br />
-        {userProfile.cusinePreferences && toggleShowSubmit && (
-          <EditCuisinePreferences
-            preloadCuisinePreferences={userProfile?.cusinePreferences}
-            userId={userProfile?.id}
-            toggleProfileRefresh={toggleProfileRefresh}
-            setToggleProfileRefresh={setToggleProfileRefresh}
-            setToggleShowEdit={setToggleShowEdit}
-            toggleShowSubmit={toggleShowSubmit}
-            setToggleShowSubmit={setToggleShowSubmit}
-          />
-        )}{" "}
-        {toggleShowEdit && (
-          <Button
-            onClick={() => {
-              setToggleShowEdit(!toggleShowEdit);
-              setToggleShowSubmit(!toggleShowSubmit);
-            }}
-            style={{
-              backgroundColor: "var(--primary-color)",
-              color: "var(--neutral-dark)",
-              border: "1px solid #2b2b2b",
-            }}
-            startIcon={<EditIcon />}
-          >
-            {" "}
-            Edit
-          </Button>
-        )}
+        <div className="preference-text">
+          <div className="preference-title">Cusine Preferences:</div>
+          <div>{userProfile?.cusinePreferences}</div>
+        </div>
+        <div>
+          {userProfile.cusinePreferences && toggleShowSubmit && (
+            <EditCuisinePreferences
+              preloadCuisinePreferences={userProfile?.cusinePreferences}
+              userId={userProfile?.id}
+              toggleProfileRefresh={toggleProfileRefresh}
+              setToggleProfileRefresh={setToggleProfileRefresh}
+              setToggleShowEdit={setToggleShowEdit}
+              toggleShowSubmit={toggleShowSubmit}
+              setToggleShowSubmit={setToggleShowSubmit}
+            />
+          )}
+          {toggleShowEdit && (
+            <Button
+              onClick={() => {
+                setToggleShowEdit(!toggleShowEdit);
+                setToggleShowSubmit(!toggleShowSubmit);
+              }}
+              style={{
+                backgroundColor: "var(--primary-color)",
+                color: "var(--neutral-dark)",
+                border: "1px solid #2b2b2b",
+              }}
+              startIcon={<EditIcon />}
+            >
+              Edit
+            </Button>
+          )}
+        </div>
       </div>
       <div className="preference-container">
-        Dietary Restrictions: {userProfile?.dietaryRestrictions}
-        <br />
-        {userProfile.dietaryRestrictions && toggleShowSubmit1 && (
-          <EditDietaryRestrictions
-            preloadDietaryRestrictions={userProfile?.dietaryRestrictions}
-            userId={userProfile?.id}
-            toggleProfileRefresh={toggleProfileRefresh}
-            setToggleProfileRefresh={setToggleProfileRefresh}
-            setToggleShowEdit={setToggleShowEdit1}
-            toggleShowSubmit={toggleShowSubmit1}
-            setToggleShowSubmit={setToggleShowSubmit1}
-          />
-        )}
-        {toggleShowEdit1 && (
-          <Button
-            onClick={() => {
-              setToggleShowEdit1(!toggleShowEdit1);
-              setToggleShowSubmit1(!toggleShowSubmit1);
-            }}
-            style={{
-              backgroundColor: "var(--primary-color)",
-              color: "var(--neutral-dark)",
-              border: "1px solid #2b2b2b",
-            }}
-            startIcon={<EditIcon />}
-          >
-            Edit
-          </Button>
-        )}
+        <div className="preference-text">
+          <div className="preference-title">Dietary Restrictions:</div>
+          <div>{userProfile?.dietaryRestrictions}</div>
+        </div>
+        <div>
+          {userProfile.dietaryRestrictions && toggleShowSubmit1 && (
+            <EditDietaryRestrictions
+              preloadDietaryRestrictions={userProfile?.dietaryRestrictions}
+              userId={userProfile?.id}
+              toggleProfileRefresh={toggleProfileRefresh}
+              setToggleProfileRefresh={setToggleProfileRefresh}
+              setToggleShowEdit={setToggleShowEdit1}
+              toggleShowSubmit={toggleShowSubmit1}
+              setToggleShowSubmit={setToggleShowSubmit1}
+            />
+          )}
+          {toggleShowEdit1 && (
+            <Button
+              onClick={() => {
+                setToggleShowEdit1(!toggleShowEdit1);
+                setToggleShowSubmit1(!toggleShowSubmit1);
+              }}
+              style={{
+                backgroundColor: "var(--primary-color)",
+                color: "var(--neutral-dark)",
+                border: "1px solid #2b2b2b",
+              }}
+              startIcon={<EditIcon />}
+            >
+              Edit
+            </Button>
+          )}
+        </div>
       </div>
-      <div className="cookbook-container ">cookbook history</div>
+      <div className="cookbook-container">
+        <div className="preference-text">
+          <div className="preference-title"> CookBookHistory</div>
+
+          <div style={{ fontSize: "13px" }}>
+            {userProfile && userRecipe.length > 0 ? (
+              userRecipe.map((recipe, index) => (
+                <div key={index}>
+                  {recipe.name} - {formatDateToDDMMYYYY(recipe.lastCookedDate)}
+                </div>
+              ))
+            ) : (
+              <div>There are no last cooked items</div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
