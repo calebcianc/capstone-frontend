@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSnackbar } from "notistack";
 import {
   Box,
   Button,
@@ -32,79 +31,22 @@ export default function AddToCookbookModal({
   setOpen,
   setIsAdded,
   recipeId,
+  cookbooksByRecipe,
 }) {
   const { userProfile, isAuthenticated } = useContext(GlobalUseContext);
-  const { enqueueSnackbar } = useSnackbar(); // Hook from notistack
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const navigate = useNavigate();
 
-  const [cookbooks, setCookbooks] = useState([
-    { name: "Cookbook 1", checked: false, id: null },
-    { name: "Cookbook 2", checked: false, id: null },
-    // ... other cookbooks
-  ]);
+  const [cookbooks, setCookbooks] = useState([]);
   const [newCookbookName, setNewCookbookName] = useState("");
 
-  const handleCheckboxToggle = (index) => {
-    const newCookbooks = [...cookbooks];
-    newCookbooks[index].checked = !newCookbooks[index].checked;
-    setCookbooks(newCookbooks);
-  };
-
-  const handleAddNewCookbook = () => {
-    setCookbooks([
-      ...cookbooks,
-      { name: newCookbookName, checked: true, id: null },
-    ]);
-    setNewCookbookName(""); // Reset the new cookbook name field
-  };
-
-  const handleSubmit = async () => {
-    if (cookbooks.some((cookbook) => cookbook.checked)) {
-      setIsAdded(true);
-    } else {
-      setIsAdded(false);
-    }
-    const checkedCookbooks = cookbooks.filter((cookbook) => cookbook.checked);
-    const requestBody = {
-      checkedCookbooks,
-    };
-    // Perform the POST/PUT request to your server with the selected cookbooks
-    if (isAuthenticated) {
-      try {
-        const response = await fetch(
-          `${BACKEND_URL}/cookbooks/${userProfile.id}/${recipeId}`,
-          {
-            method: "PUT",
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify(requestBody),
-          }
-        );
-        const responseData = await response.json();
-        console.log(responseData);
-        // enqueueSnackbar(responseData.message, { variant: "success" });
-        setSnackbarMessage(responseData.message);
-        setSnackbarSeverity("success");
-        setSnackbarOpen(true);
-      } catch (error) {
-        console.error("Error updating cookbooks:", error);
-        // enqueueSnackbar("Error updating cookbooks", {
-        //   variant: "error",
-        // });
-        setSnackbarMessage("Error updating cookbooks");
-        setSnackbarSeverity("error");
-        setSnackbarOpen(true);
-      }
-    }
-
-    setOpen(false);
-  };
-
-  const onClose = (e) => {
-    e.preventDefault();
-    setOpen(false);
-  };
+  // console.log to check what's inside cookbooks
+  useEffect(() => {
+    console.log("cookbooks", JSON.stringify(cookbooks));
+    console.log("cookbooksByRecipe", cookbooksByRecipe);
+  }, [cookbooks]);
 
   // on render, fetch user's cookbooks from server
   useEffect(() => {
@@ -116,21 +58,136 @@ export default function AddToCookbookModal({
           `${BACKEND_URL}/cookbooks/${userProfile.id}`
         );
         const data = await response.json();
-        const cookbooksData = data
-          .filter((cookbook) => cookbook.name !== "Personally created")
-          .map((cookbook) => ({
+        if (!cookbooksByRecipe || cookbooksByRecipe?.length === 0) {
+          const cookbooksData = data
+            .filter((cookbook) => cookbook.name !== "Personally created")
+            .map((cookbook) => ({
+              name: cookbook.name,
+              checked: cookbook.name === "Added from Explore" ? true : false,
+              id: cookbook.id,
+            }));
+          setCookbooks(cookbooksData);
+        } else {
+          const cookbooksData = data.map((cookbook) => ({
             name: cookbook.name,
-            checked: cookbook.name === "Added from Explore" ? true : false,
+            checked: cookbooksByRecipe.includes(cookbook.id),
             id: cookbook.id,
           }));
-        setCookbooks(cookbooksData);
+          setCookbooks(cookbooksData);
+        }
       } catch (error) {
         console.error("Error fetching user cookbooks:", error);
       }
     };
     isAuthenticated && fetchUserCookbooks();
-  }, []);
+  }, [cookbooksByRecipe]);
 
+  // set isAdded to true if recipe is already in a cookbook
+  useEffect(() => {
+    if (cookbooksByRecipe && cookbooksByRecipe.length > 0) {
+      setIsAdded(true);
+    }
+    console.log("cookbooks", cookbooks);
+    console.log("cookbooksByRecipe", cookbooksByRecipe);
+  }, [cookbooksByRecipe]);
+
+  // code to send requests to the backend to update the recipe_cookbooks table
+  const handleSubmit = async () => {
+    // code to change the icon to bookmark added
+    if (cookbooks.some((cookbook) => cookbook.checked)) {
+      setIsAdded(true);
+    } else {
+      setIsAdded(false);
+    }
+
+    const checkedCookbooks =
+      !cookbooksByRecipe || cookbooksByRecipe.length === 0
+        ? cookbooks.filter((cookbook) => cookbook.checked)
+        : cookbooks;
+    // cookbooks.map((cookbook) => ({
+    //     id: cookbook.id,
+    //     checked:
+    //       cookbook.checked || cookbooksByRecipe.includes(cookbook.id),
+    //   }));
+
+    const requestBody = {
+      checkedCookbooks,
+    };
+    let url = `${BACKEND_URL}/cookbooks/${userProfile.id}/${recipeId}`;
+    let method = "PUT";
+
+    if (cookbooksByRecipe && cookbooksByRecipe.length > 0) {
+      url = `${BACKEND_URL}/cookbooks/updateRecipeCookbooks/${recipeId}`;
+      method = "POST";
+    }
+
+    // Perform the POST/PUT request to your server with the selected cookbooks
+    if (isAuthenticated) {
+      try {
+        const response = await fetch(url, {
+          method,
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify(requestBody),
+        });
+        const responseData = await response.json();
+        console.log(responseData);
+
+        if (!cookbooksByRecipe) {
+          const duplicateRecipeId = responseData.duplicateRecipeId;
+          navigate(`/recipe/${duplicateRecipeId}`);
+        }
+        setSnackbarMessage(responseData.message);
+        setSnackbarSeverity("success");
+        setSnackbarOpen(true);
+      } catch (error) {
+        console.error("Error updating cookbooks:", error);
+
+        setSnackbarMessage("Error updating cookbooks");
+        setSnackbarSeverity("error");
+        setSnackbarOpen(true);
+      }
+    }
+
+    setNewCookbookName(""); // Reset the new cookbook name field
+    setOpen(false);
+  };
+
+  // code to handle checkbox toggle
+  const handleCheckboxToggle = (index) => {
+    const newCookbooks = [...cookbooks];
+    newCookbooks[index].checked = !newCookbooks[index].checked;
+    setCookbooks(newCookbooks);
+  };
+
+  // code to handle adding a new cookbook to the list
+  const handleAddNewCookbook = () => {
+    const cookbookNameExists = cookbooks.some(
+      (cookbook) =>
+        cookbook.name.toLowerCase() === newCookbookName.toLowerCase()
+    );
+
+    if (!cookbookNameExists) {
+      setCookbooks([
+        ...cookbooks,
+        { name: newCookbookName, checked: true, id: null },
+      ]);
+      console.log("cookbooks", cookbooks);
+      setNewCookbookName(""); // Reset the new cookbook name field
+    } else {
+      setSnackbarMessage("Cookbook name already exists");
+      setSnackbarSeverity("warning");
+      setSnackbarOpen(true);
+    }
+  };
+
+  // code to handle closing the modal
+  const onClose = (e) => {
+    e.preventDefault();
+    setNewCookbookName(""); // Reset the new cookbook name field
+    setOpen(false);
+  };
+
+  // code to handle closing the snackbar
   const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -166,6 +223,10 @@ export default function AddToCookbookModal({
                       onChange={() => handleCheckboxToggle(index)}
                       name={cookbook.name}
                       color="default"
+                      disabled={
+                        cookbook.name === "Personally created" ||
+                        cookbook.name === "Added from Explore"
+                      }
                     />
                   }
                   label={cookbook.name}
@@ -181,7 +242,10 @@ export default function AddToCookbookModal({
                 onChange={(e) => setNewCookbookName(e.target.value)}
                 InputProps={{
                   endAdornment: (
-                    <IconButton onClick={handleAddNewCookbook}>
+                    <IconButton
+                      onClick={handleAddNewCookbook}
+                      disabled={newCookbookName.trim() === ""}
+                    >
                       <AddCircleOutlineIcon color="action" />
                     </IconButton>
                   ),
@@ -210,7 +274,7 @@ export default function AddToCookbookModal({
             }}
             endIcon={<BookmarkAddIcon />}
           >
-            Add
+            {!cookbooksByRecipe ? "Add" : "Update"}
           </Button>
         </DialogActions>
       </Dialog>

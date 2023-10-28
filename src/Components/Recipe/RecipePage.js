@@ -36,9 +36,11 @@ export default function RecipePage() {
   const [isDataFetched, setIsDataFetched] = useState(false);
   const { userProfile, isAuthenticated } = useContext(GlobalUseContext);
   const [openDialog, setOpenDialog] = useState(false);
+  const [cookbooksByRecipe, setCookbooksByRecipe] = useState([]);
 
   useEffect(() => {
     fetchRecipe();
+    fetchCookbooksByRecipeId();
   }, [newImageUrl, recipeId, counter]);
 
   const fetchRecipe = async () => {
@@ -46,6 +48,26 @@ export default function RecipePage() {
     setRecipe(fetchedRecipe.data[0]);
     setUserId(fetchedRecipe.data[0].userId);
     setIsDataFetched(true);
+  };
+
+  const fetchCookbooksByRecipeId = async () => {
+    try {
+      const response = await fetch(
+        `${BACKEND_URL}/cookbooks/byRecipe/${recipeId}/${userProfile.id}`
+      );
+      console.log("url:", `${BACKEND_URL}/cookbooks/byRecipe/${recipeId}`);
+      // Check if the request was successful
+      if (!response.ok) {
+        console.error("Failed to fetch cookbooks:", response.statusText);
+        return;
+      }
+
+      const fetchedCookbooks = await response.json();
+      console.log("fetchedCookbooks", fetchedCookbooks);
+      setCookbooksByRecipe(fetchedCookbooks);
+    } catch (error) {
+      console.error("Error fetching cookbooks:", error);
+    }
   };
 
   function formatDateToDDMMYYYY(dateString) {
@@ -56,6 +78,7 @@ export default function RecipePage() {
     return `${day}/${month}/${year}`;
   }
 
+  // code that changes quantity of ingredients based on serving size
   useEffect(() => {
     if (isDataFetched) {
       const adjustedIngredients = recipe.ingredients?.map((ingredient) => {
@@ -126,7 +149,10 @@ export default function RecipePage() {
                   Last Cooked: {formatDateToDDMMYYYY(recipe.lastCookedDate)}
                 </Button>
               )}
-            <AddToCookbookButton recipeId={recipe.id} />
+            <AddToCookbookButton
+              recipeId={recipe.id}
+              cookbooksByRecipe={cookbooksByRecipe}
+            />
             <Button
               onClick={() => {
                 if (!isAuthenticated) {
@@ -142,7 +168,7 @@ export default function RecipePage() {
               // variant="contained"
               startIcon={<EditIcon />}
             >
-              Update Recipe
+              Update
             </Button>
           </div>
           <Box
