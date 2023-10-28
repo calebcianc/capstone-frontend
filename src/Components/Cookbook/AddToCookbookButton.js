@@ -16,7 +16,12 @@ export default function AddToCookbookButton({ recipeId }) {
     <>
       <div
         onClick={handleOpen}
-        style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          cursor: "pointer",
+          marginRight: "15px",
+        }}
       >
         {isAdded ? (
           <>
@@ -37,7 +42,7 @@ export default function AddToCookbookButton({ recipeId }) {
               color="var(--neutral-dark)"
               component="p"
             >
-              Add to Cookbook
+              Add
             </Typography>
           </>
         )}{" "}
