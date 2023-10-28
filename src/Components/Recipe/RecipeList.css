@@ -15,6 +15,19 @@
   gap: 3%;
 }
 
+.no-recipe-message {
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  font-family: Bitter, serif;
+  font-weight: bold;
+}
+
 @media (min-width: 800px) {
   .recipe-list-container {
     grid-template-columns: minmax(0, 1fr), minmax(0, 1fr); /* On tablets, 2 columns are shown */
