@@ -10,8 +10,6 @@ export default function ExplorePage({
   setCounter,
   userProfile,
 }) {
-  const user = { id: 1, name: "test" };
-
   // fetch addedRecipes from user table
 
   // filter recipes by isPublic
@@ -34,7 +32,7 @@ export default function ExplorePage({
     const newRecipes = recipeList.filter(
       (recipe) =>
         recipe.isPublic === true &&
-        recipe.userId !== user.id &&
+        recipe.userId !== userProfile.id &&
         !addedRecipeOriginalIds.includes(recipe.id)
     );
 

@@ -50,7 +50,7 @@
 .cookbook-recipe-card {
   /* height: 100%;
   width: 100%; */
-  max-width: 300px;
+  width: 300px;
   background: white;
   border-radius: 16px !important;
   box-shadow: none;
