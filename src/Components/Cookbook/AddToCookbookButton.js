@@ -6,7 +6,7 @@ import AddToCookbookModal from "./AddToCookbookModal";
 import AuthDialog from "../Auth/AuthDialog";
 import { GlobalUseContext } from "../../GlobalUseContext";
 
-export default function AddToCookbookButton({ recipeId }) {
+export default function AddToCookbookButton({ recipeId, cookbooksByRecipe }) {
   const [open, setOpen] = useState(false);
   const [isAdded, setIsAdded] = useState(false); // TODO: replace with actual logic
   const { userProfile, isAuthenticated } = useContext(GlobalUseContext);
@@ -61,6 +61,7 @@ export default function AddToCookbookButton({ recipeId }) {
         setOpen={setOpen}
         setIsAdded={setIsAdded}
         recipeId={recipeId}
+        cookbooksByRecipe={cookbooksByRecipe}
       />
       <AuthDialog openDialog={openDialog} setOpenDialog={setOpenDialog} />
     </>
