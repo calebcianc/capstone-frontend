@@ -133,9 +133,9 @@ async function addRecipeToDatabase(
           }
           stepNumber++;
         }
-        setCounter((prev) => prev + 1);
         setRecipeId(newRecipeDetails.id);
       }
+      setCounter((prev) => prev + 1);
       setIsLoading(false);
       return newRecipeDetails;
     } catch (error) {

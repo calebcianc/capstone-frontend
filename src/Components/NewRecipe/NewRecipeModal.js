@@ -171,7 +171,7 @@ function MySpeedDial({
   );
 }
 
-export default function NewRecipeModal() {
+export default function NewRecipeModal({ setCounter }) {
   const [open, setOpen] = useState(false);
   const [openRecipePartialSurprise, setOpenRecipePartialSurprise] =
     useState(false);
@@ -210,6 +210,7 @@ export default function NewRecipeModal() {
         openTypeRecipeModal={openTypeRecipeModal}
         setOpenTypeRecipeModal={setOpenTypeRecipeModal}
         setIsLoading={setIsLoading}
+        setCounter={setCounter}
       />
 
       <PasteRecipeModal

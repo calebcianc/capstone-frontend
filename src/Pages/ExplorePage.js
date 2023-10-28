@@ -2,16 +2,42 @@ import React, { useState, useEffect } from "react";
 import RecipeList from "../Components/Recipe/RecipeList";
 import "../App.css";
 import "./HomePage.css";
+import { BACKEND_URL } from "../constants";
 
-export default function ExplorePage({ recipeList, counter, setCounter }) {
+export default function ExplorePage({
+  recipeList,
+  counter,
+  setCounter,
+  userProfile,
+}) {
   const user = { id: 1, name: "test" };
+
+  // fetch addedRecipes from user table
 
   // filter recipes by isPublic
   const [filteredRecipes, setFilteredRecipes] = useState(recipeList);
   const filterPublicRecipes = () => {
-    const newRecipes = recipeList.filter(
-      (recipe) => recipe.isPublic === true && recipe.userId !== user.id
+    // Parse userProfile.addedRecipe into an array of the first numbers in each number-pair
+    const addedRecipeOriginalIds = userProfile.addedRecipes
+      ? userProfile.addedRecipes
+          .split(",")
+          .map((pair) => parseInt(pair.split("-")[0], 10))
+      : [];
+
+    console.log("userProfile", JSON.stringify(userProfile));
+    console.log(
+      "userProfile.addedRecipe",
+      JSON.stringify(userProfile.addedRecipes)
     );
+    console.log("addedRecipeOriginalIds", addedRecipeOriginalIds);
+
+    const newRecipes = recipeList.filter(
+      (recipe) =>
+        recipe.isPublic === true &&
+        recipe.userId !== user.id &&
+        !addedRecipeOriginalIds.includes(recipe.id)
+    );
+
     setFilteredRecipes(newRecipes);
   };
 
@@ -27,8 +53,6 @@ export default function ExplorePage({ recipeList, counter, setCounter }) {
     <div className="childDiv">
       <div className="greeting">Try something new today 😋</div>
       <RecipeList recipeList={filteredRecipes} />
-
-      {/* <button onClick={() => TextToSpeech(text)}>Test text to speech</button> */}
     </div>
   );
 }

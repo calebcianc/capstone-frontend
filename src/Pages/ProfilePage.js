@@ -82,6 +82,7 @@ export default function ProfilePage({ recipeList, counter, setCounter }) {
   );
 
   return (
+
     <div className="childDiv">
       <div className="greeting">
         <div>Profile Page</div>
@@ -117,6 +118,7 @@ export default function ProfilePage({ recipeList, counter, setCounter }) {
         <div className="text-container">
           {" "}
           "Looks like you have not logged in"
+
         </div>
       )}
     </div>

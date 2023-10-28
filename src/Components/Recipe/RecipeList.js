@@ -1,16 +1,31 @@
 import RecipeCard from "./RecipeCard";
 import "./RecipeList.css";
+import "../Cookbook/CookbookList.css";
 
-const RecipeList = (props) => {
-  const recipeList = props.recipeList?.map((recipe, ind) => {
+const RecipeList = ({ recipeList, type }) => {
+  const mappedRecipeList = recipeList?.map((recipe, ind) => {
     return (
-      <div key={ind}>
-        <RecipeCard recipeData={recipe} />
+      <div key={recipe.id}>
+        <RecipeCard recipeData={recipe} type={type} />
       </div>
     );
   });
 
-  return <div className="recipe-list-container">{recipeList}</div>;
+  return (
+    <div
+      className={
+        type === "cookbook"
+          ? "cookbook-recipe-list-container"
+          : "recipe-list-container"
+      }
+    >
+      {mappedRecipeList}
+
+      {mappedRecipeList.length === 0
+        ? "Oops! Looks like there's no recipes here."
+        : null}
+    </div>
+  );
 };
 
 export default RecipeList;

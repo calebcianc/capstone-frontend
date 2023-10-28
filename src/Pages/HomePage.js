@@ -5,13 +5,16 @@ import FiberNewIcon from "@mui/icons-material/FiberNew";
 import HomeIcon from "@mui/icons-material/Home";
 
 // internal imports
+import CookbookList from "../Components/Cookbook/CookbookList";
 import RecipeList from "../Components/Recipe/RecipeList";
 import NewRecipeModal from "../Components/NewRecipe/NewRecipeModal";
 import { GlobalUseContext } from "../GlobalUseContext";
+import { BACKEND_URL } from "../constants";
 
 // CSS imports
 import "../App.css";
 import "./HomePage.css";
+import "../Components/Cookbook/CookbookList.css";
 
 export default function HomePage({ recipeList, counter, setCounter }) {
   // counter to force rerender whenever a new recipe is added
@@ -23,29 +26,32 @@ export default function HomePage({ recipeList, counter, setCounter }) {
 
   const { userProfile, isAuthenticated } = useContext(GlobalUseContext);
   const [recipeToDisplay, setRecipeToDisplay] = useState(recipeList);
-  const [folderRecipes, setFolderRecipes] = useState([]);
-  const [folders, setFolders] = useState([]);
+
+  // fetch user's cookbooks and recipes in each cookbook
+  const [userCookbooks, setUserCookbooks] = useState([]);
+  const [userCookbookRecipes, setUserCookbookRecipes] = useState([]);
+  useEffect(() => {
+    if (userProfile) {
+      fetch(`${BACKEND_URL}/cookbooks/${userProfile.id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("cookbooks", JSON.stringify(data));
+          setUserCookbooks(data);
+        });
+
+      fetch(`${BACKEND_URL}/cookbooks/recipes/${userProfile.id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("cookbookrecipes", JSON.stringify(data));
+          setUserCookbookRecipes(data);
+        });
+    }
+  }, [counter]);
 
   // home page renders newly added recipes by default
   useEffect(() => {
     filterNewlyAdded();
   }, [recipeList]);
-
-  // once authenticated, get user profile and folder recipes
-  useEffect(() => {
-    // isAuthenticated && getFolderRecipes();
-    return;
-  }, [isAuthenticated]);
-
-  // get folder and recipes
-  // const getFolderRecipes = async () => {
-  //   let data;
-  //   data = await axios.get(`http://localhost:3001/folders/${user.email}`);
-  //   setFolderRecipes(data.data);
-  //   setFolders(
-  //     data.data.map((folder) => ({ id: folder.id, name: folder.name }))
-  //   );
-  // };
 
   // buttons to filter recipes by newly added or something familiar
   const [selectedButton, setSelectedButton] = useState("newlyadded"); // Default to 'newlyadded'
@@ -77,29 +83,12 @@ export default function HomePage({ recipeList, counter, setCounter }) {
     setRecipeToDisplay(familiarRecipes);
   };
 
-  // code relating to folder recipes below
-
-  // filter recipe list on user filter selection
-  // const [filteredRecipes, setFilteredRecipes] = useState(recipeList);
-
-  // const [filteredFolderRecipes, setfilteredFolderRecipes] = useState([]);
-  // const filterFolderRecipes = (id) => {
-  //   const selectedFolderRecipes = folderRecipes.filter(
-  //     (folderRecipe) => folderRecipe.id === id
-  //   );
-  //   setRecipeToDisplay(selectedFolderRecipes[0].recipes);
-  // };
-  // const handleFolderClick = (id) => {
-  //   filterFolderRecipes(id);
-  //   // setSelectedButton("newlyadded"); // Update selected button state
-  // };
-
   return (
     <div className="childDiv">
       <div className="greeting">
         Hi {userProfile?.name}, what would you like to cook today?
       </div>
-      <div className="buttons-container">
+      {/* <div className="buttons-container">
         <Button
           variant="contained"
           style={
@@ -132,20 +121,21 @@ export default function HomePage({ recipeList, counter, setCounter }) {
         >
           Something Familiar
         </Button>
+      </div> */}
+
+      <div className="cookbook-list-container">
+        {userCookbooks.map((cookbook) => {
+          return (
+            <CookbookList
+              cookbook={cookbook}
+              recipeList={recipeList}
+              userCookbookRecipes={userCookbookRecipes}
+            />
+          );
+        })}
       </div>
-      {/* commented out folder buttons for now */}
-      {/* Folders
-      <br />
-      {folders.map((folder) => (
-        <Button
-          key={folder.id}
-          variant="contained"
-          onClick={() => handleFolderClick(folder.id)}
-        >
-          {folder.name}
-        </Button>
-      ))} */}
-      {recipeToDisplay.length > 0 ? (
+
+      {/* {recipeToDisplay.length > 0 ? (
         <RecipeList recipeList={recipeToDisplay} />
       ) : (
         <div className="text-container">
@@ -153,8 +143,8 @@ export default function HomePage({ recipeList, counter, setCounter }) {
             ? "Looks like you have not added any recipes yet - feel free to explore or add one!"
             : "Looks like you have not cooked any recipes yet~"}
         </div>
-      )}
-      <NewRecipeModal />
+      )} */}
+      <NewRecipeModal setCounter={setCounter} />
     </div>
   );
 }
