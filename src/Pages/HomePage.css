@@ -6,6 +6,7 @@
   font-family: Bitter, serif;
   font-weight: bold;
   margin: 20px auto 10px 20px;
+  color: var(--neutral-dark);
 
   /* padding-left: 10px; */
 }

@@ -25,6 +25,7 @@
 }
 
 .cookbook-card-title {
+  font-family: "bitter", serif;
   font-weight: bold;
   margin-bottom: 5px;
 }
