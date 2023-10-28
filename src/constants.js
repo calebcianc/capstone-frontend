@@ -4,30 +4,30 @@ const BACKEND_URL =
     : "http://localhost:3000";
 
 const CUISINELIST = [
-  "none",
-  "chinese",
-  "japanese",
-  "mexican",
-  "french",
-  "indian",
-  "thai",
-  "spanish",
-  "korean",
-  "american",
+  "None",
+  "Chinese",
+  "Japanese",
+  "Mexican",
+  "French",
+  "Indian",
+  "Thai",
+  "Spanish",
+  "Korean",
+  "American",
 ];
 
 const DIETARYLIST = [
-  "none",
-  "vegetarian",
-  "vegan",
-  "gluten-free",
-  "dairy-free",
-  "nut-free",
-  "halal",
-  "kosher",
-  "paleo",
-  "keto",
-  "low-carb",
+  "None",
+  "Vegetarian",
+  "Vegan",
+  "Gluten-Free",
+  "Dairy-Free",
+  "Nut-Free",
+  "Halal",
+  "Kosher",
+  "Paleo",
+  "Keto",
+  "Low-Carb",
 ];
 
 export { BACKEND_URL, CUISINELIST, DIETARYLIST };

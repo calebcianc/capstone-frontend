@@ -60,7 +60,7 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsModalOpen(false);
-    }, 1500); // Change this value to control the duration the modal is displayed
+    }, 2000); // Change this value to control the duration the modal is displayed
 
     return () => clearTimeout(timer); // Cleanup the timer to prevent memory leaks
   }, []);
@@ -127,6 +127,7 @@ function App() {
       <div className="App">
         {/* welcome modal that renders on every refresh of app  */}
         <WelcomeModal
+          // open={true}
           open={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />

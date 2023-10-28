@@ -22,9 +22,9 @@ const EditCuisinePreferences = (props) => {
       // console.log(cuisinePreferences.map((cuisine) => cuisine.label).join());
       // console.log(props.userId);
 
-      await axios.put(`${BACKEND_URL}/users/profile/cusine-preferences`, {
+      await axios.put(`${BACKEND_URL}/users/profile/cuisine-preferences`, {
         userId: props.userId,
-        cusinePreferences: cuisinePreferences
+        cuisinePreferences: cuisinePreferences
           .map((cuisine) => cuisine.label)
           .join(), // wrangle array into string
       });

@@ -31,13 +31,13 @@ function UserDashboard({
     <div>
       <div className="preference-container">
         <div className="preference-text">
-          <div className="preference-title">Cusine Preferences:</div>
-          <div>{userProfile?.cusinePreferences}</div>
+          <div className="preference-title">Cuisine Preferences:</div>
+          <div>{userProfile?.cuisinePreferences}</div>
         </div>
         <div>
-          {userProfile.cusinePreferences && toggleShowSubmit && (
+          {userProfile.cuisinePreferences && toggleShowSubmit && (
             <EditCuisinePreferences
-              preloadCuisinePreferences={userProfile?.cusinePreferences}
+              preloadCuisinePreferences={userProfile?.cuisinePreferences}
               userId={userProfile?.id}
               toggleProfileRefresh={toggleProfileRefresh}
               setToggleProfileRefresh={setToggleProfileRefresh}
@@ -101,7 +101,7 @@ function UserDashboard({
       </div>
       <div className="cookbook-container">
         <div className="preference-text">
-          <div className="preference-title"> CookBookHistory</div>
+          <div className="preference-title"> Cookbook History</div>
 
           <div style={{ fontSize: "13px" }}>
             {userProfile && userRecipe.length > 0 ? (

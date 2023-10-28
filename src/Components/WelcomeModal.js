@@ -31,6 +31,9 @@ export default function WelcomeModal({ open, onClose }) {
         <div style={modalStyle}>
           <img src="/logo512.png" className="App-logo" alt="logo" />
           <h1>Welcome to CHEFTALK</h1>
+          <h3 style={{ fontStyle: "italic", marginTop: "0px" }}>
+            A handsfree cooking experience
+          </h3>
         </div>
       </Fade>
     </Modal>
