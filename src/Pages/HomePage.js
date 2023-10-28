@@ -111,6 +111,7 @@ export default function HomePage({ recipeList, counter, setCounter }) {
 
   return (
     <div className="childDiv">
+      {/* text that shows depending on whether user is logged in or not */}
       {isAuthenticated ? (
         <div className="greeting">
           Hi {userProfile?.name},{" "}
@@ -132,6 +133,7 @@ export default function HomePage({ recipeList, counter, setCounter }) {
         </div>
       )}
 
+      {/* container that renders recipes in each cookbook if there are any to show */}
       <div className="cookbook-list-container">
         {!allEmpty &&
           userCookbooks.map((cookbook) => {
@@ -145,22 +147,8 @@ export default function HomePage({ recipeList, counter, setCounter }) {
               />
             ) : null;
           })}
-        {/* {allEmpty && (
-          <div className="empty-message">
-            You don't have any recipes in your cookbooks yet. <br />
-            Check out the Explore page or try adding a recipe!
-          </div> */}
       </div>
 
-      {/* {recipeToDisplay.length > 0 ? (
-        <RecipeList recipeList={recipeToDisplay} />
-      ) : (
-        <div className="text-container">
-          {selectedButton === "newlyadded"
-            ? "Looks like you have not added any recipes yet - feel free to explore or add one!"
-            : "Looks like you have not cooked any recipes yet~"}
-        </div>
-      )} */}
       <NewRecipeModal setCounter={setCounter} />
     </div>
   );
