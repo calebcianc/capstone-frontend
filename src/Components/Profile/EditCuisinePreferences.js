@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Button,
@@ -10,20 +10,24 @@ import {
 import CreatableSelect from "react-select/creatable";
 import { BACKEND_URL, CUISINELIST } from "../../constants";
 
-const EditCuisinePreferences = ({
-  preloadCuisinePreferences = "",
-  ...props
-}) => {
-  const cuisineArray = preloadCuisinePreferences
-    ? preloadCuisinePreferences.split(",")
+const EditCuisinePreferences = (props) => {
+  const [cuisinePreferences, setCuisinePreferences] = useState([]);
+  const cuisineArray = props.preloadCuisinePreferences
+    ? props.preloadCuisinePreferences.split(",")
     : [];
 
-  const [cuisinePreferences, setCuisinePreferences] = useState(
-    cuisineArray.map((cuisinePreference, ind) => ({
-      value: ind,
-      label: cuisinePreference,
-    }))
-  );
+  useEffect(() => {
+    const updatedCuisinePreferences = props.preloadCuisinePreferences
+      ? props.preloadCuisinePreferences.split(",").map((preferences, ind) => ({
+          value: ind,
+          label: preferences.trim(),
+        }))
+      : [];
+
+    setCuisinePreferences(updatedCuisinePreferences);
+  }, [props.preloadCuisinePreferences]);
+
+  console.log("cuisinePreferences", cuisinePreferences);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,7 +48,9 @@ const EditCuisinePreferences = ({
     }
   };
 
-  const cuisineOptions = CUISINELIST.map((cuisine, ind) => ({
+  const cuisineOptions = CUISINELIST.filter(
+    (diet) => !cuisineArray.includes(diet.trim())
+  ).map((cuisine, ind) => ({
     value: ind,
     label: cuisine,
   }));

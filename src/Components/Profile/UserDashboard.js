@@ -44,6 +44,11 @@ function UserDashboard({
     setIsDietModalOpen(false);
   };
 
+  console.log(
+    "userProfile?.dietaryRestrictions",
+    userProfile?.dietaryRestrictions
+  );
+
   return (
     <div className="dashboard-container">
       <div className="preference-container">

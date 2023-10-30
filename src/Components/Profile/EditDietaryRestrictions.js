@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Button,
@@ -10,20 +10,24 @@ import {
 import CreatableSelect from "react-select/creatable";
 import { BACKEND_URL, DIETARYLIST } from "../../constants";
 
-const EditDietaryRestrictions = ({
-  preloadDietaryRestrictions = "",
-  ...props
-}) => {
-  const dietaryRestrictionsArray = preloadDietaryRestrictions
-    ? preloadDietaryRestrictions.split(",")
+const EditDietaryRestrictions = (props) => {
+  const [dietaryRestrictions, setDietaryRestrictions] = useState([]);
+  const dietaryRestrictionsArray = props.preloadDietaryRestrictions
+    ? props.preloadDietaryRestrictions.split(",")
     : [];
 
-  const [dietaryRestrictions, setDietaryRestrictions] = useState(
-    dietaryRestrictionsArray.map((restriction, ind) => ({
-      value: ind,
-      label: restriction.trim(),
-    }))
-  );
+  useEffect(() => {
+    const updatedDietaryRestrictions = props.preloadDietaryRestrictions
+      ? props.preloadDietaryRestrictions.split(",").map((restriction, ind) => ({
+          value: ind,
+          label: restriction.trim(),
+        }))
+      : [];
+
+    setDietaryRestrictions(updatedDietaryRestrictions);
+  }, [props.preloadDietaryRestrictions]);
+
+  console.log("dietaryRestrictions", dietaryRestrictions);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,7 +48,9 @@ const EditDietaryRestrictions = ({
     }
   };
 
-  const dietaryOptions = DIETARYLIST.map((diet, ind) => ({
+  const dietaryOptions = DIETARYLIST.filter(
+    (diet) => !dietaryRestrictionsArray.includes(diet.trim())
+  ).map((diet, ind) => ({
     value: ind,
     label: diet,
   }));
