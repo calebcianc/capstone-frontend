@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Button } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
 import CreatableSelect from "react-select/creatable";
 import { BACKEND_URL, DIETARYLIST } from "../../constants";
 
@@ -17,16 +23,12 @@ const EditDietaryRestrictions = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // add post request
     try {
-      // console.log(cuisinePreferences.map((cuisine) => cuisine.label).join());
-      // console.log(props.userId);
-
       await axios.put(`${BACKEND_URL}/users/profile/dietary-restrictions`, {
         userId: props.userId,
         dietaryRestrictions: dietaryRestrictions
           .map((diet) => diet.label)
-          .join(), // wrangle array into string
+          .join(),
       });
 
       props.setToggleProfileRefresh(!props.toggleProfileRefresh);
@@ -42,7 +44,6 @@ const EditDietaryRestrictions = (props) => {
     label: diet,
   }));
 
-  // Make text black in Select field
   const selectFieldStyles = {
     option: (provided) => ({
       ...provided,
@@ -51,21 +52,43 @@ const EditDietaryRestrictions = (props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <CreatableSelect
-        isMulti
-        isClearable
-        styles={selectFieldStyles}
-        options={dietaryOptions}
-        value={dietaryRestrictions}
-        onChange={(diet) => {
-          setDietaryRestrictions(diet);
-        }}
-      />
-      <Button type="submit" variant="contained">
-        Submit
-      </Button>
-    </form>
+    <Dialog open={props.openModal} onClose={props.handleCloseModal}>
+      <DialogTitle>Edit Dietary Restrictions</DialogTitle>
+      <DialogContent>
+        <form onSubmit={handleSubmit}>
+          <CreatableSelect
+            isMulti
+            isClearable
+            styles={selectFieldStyles}
+            options={dietaryOptions}
+            value={dietaryRestrictions}
+            onChange={(diet) => {
+              setDietaryRestrictions(diet);
+            }}
+          />
+          <DialogActions>
+            <Button
+              onClick={props.handleCloseModal}
+              style={{
+                backgroundColor: "var(--primary-color)",
+                color: "var(--neutral-dark)",
+                border: "1px solid #2b2b2b",
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              onClick={props.handleCloseModal}
+              variant="contained"
+              style={{ backgroundColor: "#2b2b2b", color: "white" }}
+            >
+              Submit
+            </Button>
+          </DialogActions>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 };
 
