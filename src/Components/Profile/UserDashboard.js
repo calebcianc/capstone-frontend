@@ -45,11 +45,11 @@ function UserDashboard({
   };
 
   return (
-    <div>
+    <div className="dashboard-container">
       <div className="preference-container">
         <div className="preference-text">
           <div className="preference-title">Cuisine Preferences:</div>
-          <div>{userProfile?.cuisinePreferences}</div>
+          <div>{userProfile?.cuisinePreferences?.replace(/,/g, ", ")}</div>
         </div>
 
         <Button
@@ -78,7 +78,7 @@ function UserDashboard({
       <div className="preference-container">
         <div className="preference-text">
           <div className="preference-title">Dietary Restrictions:</div>
-          <div>{userProfile?.dietaryRestrictions}</div>
+          <div>{userProfile?.dietaryRestrictions?.replace(/,/g, ", ")}</div>
         </div>
         <Button
           onClick={handleOpenDietModal}
