@@ -31,7 +31,6 @@ export default function ProfilePage({ recipeList, counter, setCounter }) {
   };
 
   useEffect(() => {
-    console.log("Effect triggered!");
     if (isAuthenticated) {
       getUserProfile();
     }
@@ -54,10 +53,6 @@ export default function ProfilePage({ recipeList, counter, setCounter }) {
       setUserRecipe(lastCookedRecipes);
     }
   }, [userProfile, counter]);
-
-  useEffect(() => {
-    setCounter(counter + 1);
-  }, []);
 
   const LoginButton = (
     <Button
