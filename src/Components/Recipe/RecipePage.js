@@ -21,7 +21,7 @@ import { GlobalUseContext } from "../../GlobalUseContext";
 import TypeRecipeModal from "../NewRecipe/TypeRecipeModal";
 import AddToCookbookButton from "../Cookbook/AddToCookbookButton";
 
-export default function RecipePage() {
+export default function RecipePage({ counter, setCounter }) {
   const [instructionModalopen, setInstructionModalOpen] = useState(false);
   const { recipeId } = useParams();
   const [userId, setUserId] = useState("");
@@ -32,7 +32,6 @@ export default function RecipePage() {
   const [adjustedIngredients, setAdjustedIngredients] = useState([]);
   const [openTypeRecipeModal, setOpenTypeRecipeModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [counter, setCounter] = useState(0);
   const [isDataFetched, setIsDataFetched] = useState(false);
   const { userProfile, isAuthenticated } = useContext(GlobalUseContext);
   const [openDialog, setOpenDialog] = useState(false);
@@ -139,7 +138,7 @@ export default function RecipePage() {
           >
             {recipe.lastCookedDate &&
               isAuthenticated &&
-              userProfile.id === recipe.creatorId && (
+              userProfile.id === recipe.userId && (
                 <Button
                   style={{
                     backgroundColor: "var(--primary-color)",

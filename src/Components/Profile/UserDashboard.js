@@ -25,7 +25,6 @@ function UserDashboard({
     const year = date.getUTCFullYear();
     return `${day}/${month}/${year}`;
   }
-  console.log("userRecipe", userRecipe);
 
   return (
     <div>

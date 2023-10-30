@@ -21,11 +21,13 @@ export default function ProfilePage({ recipeList, counter, setCounter }) {
     useAuth0();
 
   const filterUserLastCook = () => {
-    return userProfile
-      ? recipeList.filter(
-          (recipe) => recipe.lastCookedDate && recipe.userId === userProfile.id
-        )
-      : [];
+    if (!userProfile) return [];
+
+    return recipeList
+      .filter(
+        (recipe) => recipe.lastCookedDate && recipe.userId === userProfile.id
+      )
+      .sort((a, b) => new Date(b.lastCookedDate) - new Date(a.lastCookedDate));
   };
 
   useEffect(() => {
@@ -53,7 +55,10 @@ export default function ProfilePage({ recipeList, counter, setCounter }) {
     }
   }, [userProfile, counter]);
 
-  // login
+  useEffect(() => {
+    setCounter(counter + 1);
+  }, []);
+
   const LoginButton = (
     <Button
       variant="contained"
