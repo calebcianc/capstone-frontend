@@ -60,12 +60,23 @@ const EditCuisinePreferences = (props) => {
       ...provided,
       color: "black",
     }),
+
+    menu: (provided) => ({
+      ...provided,
+      maxHeight: "130px",
+      overflowY: "auto",
+    }),
+    menuList: (provided) => ({
+      ...provided,
+      maxHeight: "120px",
+      overflowY: "auto",
+    }),
   };
 
   return (
     <Dialog open={props.openModal} onClose={props.handleCloseModal}>
       <DialogTitle>Edit Cuisine Preferences</DialogTitle>
-      <DialogContent>
+      <DialogContent style={{ height: "150px", overflowY: "auto" }}>
         <form onSubmit={handleSubmit}>
           <CreatableSelect
             isMulti
