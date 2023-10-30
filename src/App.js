@@ -169,7 +169,10 @@ function App() {
                 />
               }
             />
-            <Route path="/recipe/:recipeId" element={<RecipePage />} />
+            <Route
+              path="/recipe/:recipeId"
+              element={<RecipePage counter={counter} setCounter={setCounter} />}
+            />
             <Route
               path="/profile"
               element={

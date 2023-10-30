@@ -25,7 +25,6 @@ function InstructionListModal({
   const [instructions, setInstructions] = useState(recipe?.instructions || []);
   const [ingredients, setIngredients] = useState(adjustedIngredients || []);
   const [currentCardIndex, setCurrentCardIndex] = useState(1);
-
   const [listening, setListening] = useState(false);
 
   useEffect(() => {

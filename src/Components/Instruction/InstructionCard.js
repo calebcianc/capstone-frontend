@@ -31,7 +31,7 @@ function InstructionCard({
   useEffect(() => {
     if (
       isAuthenticated &&
-      userProfile.id === recipe.creatorId &&
+      userProfile.id === recipe.userId &&
       currentCardIndex === instructions.length
     ) {
       // Update lastCookDate in the database

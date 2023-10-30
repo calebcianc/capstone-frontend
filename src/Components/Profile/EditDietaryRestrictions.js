@@ -1,32 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Button } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
 import CreatableSelect from "react-select/creatable";
 import { BACKEND_URL, DIETARYLIST } from "../../constants";
 
 const EditDietaryRestrictions = (props) => {
-  const [dietaryRestrictions, setDietaryRestrictions] = useState(
-    props.preloadDietaryRestrictions
-      .split(",")
-      .map((dietaryRestrictions, ind) => ({
-        value: ind,
-        label: dietaryRestrictions,
-      }))
-  );
+  const [dietaryRestrictions, setDietaryRestrictions] = useState([]);
+  const dietaryRestrictionsArray = props.preloadDietaryRestrictions
+    ? props.preloadDietaryRestrictions.split(",")
+    : [];
+
+  useEffect(() => {
+    const updatedDietaryRestrictions = props.preloadDietaryRestrictions
+      ? props.preloadDietaryRestrictions.split(",").map((restriction, ind) => ({
+          value: ind,
+          label: restriction.trim(),
+        }))
+      : [];
+
+    setDietaryRestrictions(updatedDietaryRestrictions);
+  }, [props.preloadDietaryRestrictions]);
+
+  console.log("dietaryRestrictions", dietaryRestrictions);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // add post request
     try {
-      // console.log(cuisinePreferences.map((cuisine) => cuisine.label).join());
-      // console.log(props.userId);
-
       await axios.put(`${BACKEND_URL}/users/profile/dietary-restrictions`, {
         userId: props.userId,
         dietaryRestrictions: dietaryRestrictions
           .map((diet) => diet.label)
-          .join(), // wrangle array into string
+          .join(),
       });
 
       props.setToggleProfileRefresh(!props.toggleProfileRefresh);
@@ -37,12 +48,13 @@ const EditDietaryRestrictions = (props) => {
     }
   };
 
-  const dietaryOptions = DIETARYLIST.map((diet, ind) => ({
+  const dietaryOptions = DIETARYLIST.filter(
+    (diet) => !dietaryRestrictionsArray.includes(diet.trim())
+  ).map((diet, ind) => ({
     value: ind,
     label: diet,
   }));
 
-  // Make text black in Select field
   const selectFieldStyles = {
     option: (provided) => ({
       ...provided,
@@ -51,21 +63,43 @@ const EditDietaryRestrictions = (props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <CreatableSelect
-        isMulti
-        isClearable
-        styles={selectFieldStyles}
-        options={dietaryOptions}
-        value={dietaryRestrictions}
-        onChange={(diet) => {
-          setDietaryRestrictions(diet);
-        }}
-      />
-      <Button type="submit" variant="contained">
-        Submit
-      </Button>
-    </form>
+    <Dialog open={props.openModal} onClose={props.handleCloseModal}>
+      <DialogTitle>Edit Dietary Restrictions</DialogTitle>
+      <DialogContent>
+        <form onSubmit={handleSubmit}>
+          <CreatableSelect
+            isMulti
+            isClearable
+            styles={selectFieldStyles}
+            options={dietaryOptions}
+            value={dietaryRestrictions}
+            onChange={(diet) => {
+              setDietaryRestrictions(diet);
+            }}
+          />
+          <DialogActions>
+            <Button
+              onClick={props.handleCloseModal}
+              style={{
+                backgroundColor: "var(--primary-color)",
+                color: "var(--neutral-dark)",
+                border: "1px solid #2b2b2b",
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              onClick={props.handleCloseModal}
+              variant="contained"
+              style={{ backgroundColor: "#2b2b2b", color: "white" }}
+            >
+              Submit
+            </Button>
+          </DialogActions>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 };
 

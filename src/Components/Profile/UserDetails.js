@@ -23,8 +23,6 @@ function UserDetails({
   const [fileInputFile, setFileInputFile] = useState("");
   const [showChangeDisplay, setShowChangeDisplay] = useState(false);
 
-  console.log("toggleProfileRefresh", toggleProfileRefresh);
-
   const handlePostSubmit = (e) => {
     e.preventDefault();
 
@@ -130,7 +128,6 @@ function UserDetails({
                 <input
                   className="inputTag"
                   type="file"
-                  value={fileInputValue}
                   onChange={(e) => {
                     setFileInputFile(e.target.files[0]);
                     setFileInputValue(e.target.files[0].name);

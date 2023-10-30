@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import EditCuisinePreferences from "./EditCuisinePreferences";
 import EditDietaryRestrictions from "./EditDietaryRestrictions";
@@ -25,89 +25,98 @@ function UserDashboard({
     const year = date.getUTCFullYear();
     return `${day}/${month}/${year}`;
   }
-  console.log("userRecipe", userRecipe);
+  const [isCuisineModalOpen, setIsCuisineModalOpen] = useState(false);
+  const [isDietModalOpen, setIsDietModalOpen] = useState(false);
+
+  // cuisine
+  const handleOpenCuisineModal = () => {
+    setIsCuisineModalOpen(true);
+  };
+  const handleCloseCuisineModal = () => {
+    setIsCuisineModalOpen(false);
+  };
+
+  // dietary
+  const handleOpenDietModal = () => {
+    setIsDietModalOpen(true);
+  };
+  const handleCloseDietModal = () => {
+    setIsDietModalOpen(false);
+  };
+
+  console.log(
+    "userProfile?.dietaryRestrictions",
+    userProfile?.dietaryRestrictions
+  );
 
   return (
-    <div>
+    <div className="dashboard-container">
       <div className="preference-container">
         <div className="preference-text">
           <div className="preference-title">Cuisine Preferences:</div>
-          <div>{userProfile?.cuisinePreferences}</div>
+          <div>{userProfile?.cuisinePreferences?.replace(/,/g, ", ")}</div>
         </div>
-        <div>
-          {userProfile.cuisinePreferences && toggleShowSubmit && (
-            <EditCuisinePreferences
-              preloadCuisinePreferences={userProfile?.cuisinePreferences}
-              userId={userProfile?.id}
-              toggleProfileRefresh={toggleProfileRefresh}
-              setToggleProfileRefresh={setToggleProfileRefresh}
-              setToggleShowEdit={setToggleShowEdit}
-              toggleShowSubmit={toggleShowSubmit}
-              setToggleShowSubmit={setToggleShowSubmit}
-            />
-          )}
-          {toggleShowEdit && (
-            <Button
-              onClick={() => {
-                setToggleShowEdit(!toggleShowEdit);
-                setToggleShowSubmit(!toggleShowSubmit);
-              }}
-              style={{
-                backgroundColor: "var(--primary-color)",
-                color: "var(--neutral-dark)",
-                border: "1px solid #2b2b2b",
-              }}
-              startIcon={<EditIcon />}
-            >
-              Edit
-            </Button>
-          )}
-        </div>
+
+        <Button
+          onClick={handleOpenCuisineModal}
+          style={{
+            backgroundColor: "var(--primary-color)",
+            color: "var(--neutral-dark)",
+            border: "1px solid #2b2b2b",
+          }}
+          startIcon={<EditIcon />}
+        >
+          Edit
+        </Button>
+        <EditCuisinePreferences
+          openModal={isCuisineModalOpen}
+          handleCloseModal={handleCloseCuisineModal}
+          preloadCuisinePreferences={userProfile?.cuisinePreferences}
+          userId={userProfile?.id}
+          toggleProfileRefresh={toggleProfileRefresh}
+          setToggleProfileRefresh={setToggleProfileRefresh}
+          setToggleShowEdit={setToggleShowEdit}
+          toggleShowSubmit={toggleShowSubmit}
+          setToggleShowSubmit={setToggleShowSubmit}
+        />
       </div>
       <div className="preference-container">
         <div className="preference-text">
           <div className="preference-title">Dietary Restrictions:</div>
-          <div>{userProfile?.dietaryRestrictions}</div>
+          <div>{userProfile?.dietaryRestrictions?.replace(/,/g, ", ")}</div>
         </div>
-        <div>
-          {userProfile.dietaryRestrictions && toggleShowSubmit1 && (
-            <EditDietaryRestrictions
-              preloadDietaryRestrictions={userProfile?.dietaryRestrictions}
-              userId={userProfile?.id}
-              toggleProfileRefresh={toggleProfileRefresh}
-              setToggleProfileRefresh={setToggleProfileRefresh}
-              setToggleShowEdit={setToggleShowEdit1}
-              toggleShowSubmit={toggleShowSubmit1}
-              setToggleShowSubmit={setToggleShowSubmit1}
-            />
-          )}
-          {toggleShowEdit1 && (
-            <Button
-              onClick={() => {
-                setToggleShowEdit1(!toggleShowEdit1);
-                setToggleShowSubmit1(!toggleShowSubmit1);
-              }}
-              style={{
-                backgroundColor: "var(--primary-color)",
-                color: "var(--neutral-dark)",
-                border: "1px solid #2b2b2b",
-              }}
-              startIcon={<EditIcon />}
-            >
-              Edit
-            </Button>
-          )}
-        </div>
+        <Button
+          onClick={handleOpenDietModal}
+          style={{
+            backgroundColor: "var(--primary-color)",
+            color: "var(--neutral-dark)",
+            border: "1px solid #2b2b2b",
+          }}
+          startIcon={<EditIcon />}
+        >
+          Edit
+        </Button>
+        <EditDietaryRestrictions
+          openModal={isDietModalOpen}
+          handleCloseModal={handleCloseDietModal}
+          preloadDietaryRestrictions={userProfile?.dietaryRestrictions}
+          userId={userProfile?.id}
+          toggleProfileRefresh={toggleProfileRefresh}
+          setToggleProfileRefresh={setToggleProfileRefresh}
+          setToggleShowEdit={setToggleShowEdit1}
+          toggleShowSubmit={toggleShowSubmit1}
+          setToggleShowSubmit={setToggleShowSubmit1}
+        />
       </div>
       <div className="cookbook-container">
         <div className="preference-text">
           <div className="preference-title"> Cookbook History</div>
-
           <div style={{ fontSize: "13px" }}>
             {userProfile && userRecipe.length > 0 ? (
               userRecipe.map((recipe, index) => (
-                <div key={index}>
-                  {recipe.name} - {formatDateToDDMMYYYY(recipe.lastCookedDate)}
+                <div key={index} className="recipe-item">
+                  <div>{recipe.name}</div>
+                  <div>{formatDateToDDMMYYYY(recipe.lastCookedDate)}</div>
                 </div>
               ))
             ) : (
