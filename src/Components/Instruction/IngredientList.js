@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import "./IngredientList.css";
+import Tooltip from "@mui/material/Tooltip";
+import InfoIcon from "@mui/icons-material/Info";
 
 function IngredientList({ ingredients, handleStartCooking }) {
   const [checkedIngredients, setCheckedIngredients] = useState([]);
@@ -31,7 +33,68 @@ function IngredientList({ ingredients, handleStartCooking }) {
 
   return (
     <div className="ingredient-list">
-      <h2>Ingredient List</h2>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <h2 style={{ marginRight: "8px" }}>Ingredient List</h2>
+        <Tooltip
+          title={
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Command</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Next Step</td>
+                    <td>To go to the next step</td>
+                  </tr>
+                  <tr>
+                    <td>Previous Step</td>
+                    <td>To go to the previous step</td>
+                  </tr>
+                  <tr>
+                    <td>Repeat</td>
+                    <td>To repeat current step</td>
+                  </tr>
+                  <tr>
+                    <td>Start Timer</td>
+                    <td>To start timer</td>
+                  </tr>
+                  <tr>
+                    <td>Pause Timer</td>
+                    <td>To pause timer</td>
+                  </tr>
+                  <tr>
+                    <td>Reset Timer</td>
+                    <td>To reset timer</td>
+                  </tr>
+                  <tr>
+                    <td>Stop</td>
+                    <td>To stop the reading of instructions</td>
+                  </tr>
+                  <tr>
+                    <td>Close</td>
+                    <td>To close the pop up</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          }
+        >
+          <Button size="small" startIcon={<InfoIcon fontSize="small" />}>
+            Voice Commands
+          </Button>
+        </Tooltip>
+      </div>
+
       <hr />
       <p style={{ fontStyle: "italic" }}>
         Do you have all your ingredients? <br />
