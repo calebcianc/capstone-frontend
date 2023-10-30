@@ -13,7 +13,7 @@ import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite
 import PauseCircleIcon from "@mui/icons-material/PauseCircle";
 import ReplayIcon from "@mui/icons-material/Replay";
 
-function Timer({ duration }) {
+function Timer({ duration, currentInstruction }) {
   // const [timeLeft, setTimeLeft] = useState(10); for testing
   const [timeLeft, setTimeLeft] = useState(duration * 60);
   const [isRunning, setIsRunning] = useState(false);
@@ -26,7 +26,7 @@ function Timer({ duration }) {
 
     setTimeLeft(duration * 60);
     setIsRunning(false);
-  }, [duration]);
+  }, [duration, currentInstruction]);
 
   useEffect(() => {
     if (isRunning) {

@@ -181,7 +181,10 @@ function InstructionCard({
       {/* Timer */}
       {currentInstruction.timeInterval && (
         <div style={{ marginTop: 10, textAlign: "center" }}>
-          <Timer duration={currentInstruction.timeInterval} />
+          <Timer
+            duration={currentInstruction.timeInterval}
+            currentInstruction={currentInstruction}
+          />
         </div>
       )}
     </CardContent>
