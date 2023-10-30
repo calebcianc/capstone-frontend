@@ -10,14 +10,19 @@ import {
 import CreatableSelect from "react-select/creatable";
 import { BACKEND_URL, DIETARYLIST } from "../../constants";
 
-const EditDietaryRestrictions = (props) => {
+const EditDietaryRestrictions = ({
+  preloadDietaryRestrictions = "",
+  ...props
+}) => {
+  const dietaryRestrictionsArray = preloadDietaryRestrictions
+    ? preloadDietaryRestrictions.split(",")
+    : [];
+
   const [dietaryRestrictions, setDietaryRestrictions] = useState(
-    props.preloadDietaryRestrictions
-      .split(",")
-      .map((dietaryRestrictions, ind) => ({
-        value: ind,
-        label: dietaryRestrictions,
-      }))
+    dietaryRestrictionsArray.map((restriction, ind) => ({
+      value: ind,
+      label: restriction.trim(),
+    }))
   );
 
   const handleSubmit = async (e) => {

@@ -127,3 +127,9 @@
   flex-direction: column;
   /* justify-content: center; */
 }
+
+.recipe-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

@@ -109,8 +109,9 @@ function UserDashboard({
           <div style={{ fontSize: "13px" }}>
             {userProfile && userRecipe.length > 0 ? (
               userRecipe.map((recipe, index) => (
-                <div key={index}>
-                  {recipe.name} - {formatDateToDDMMYYYY(recipe.lastCookedDate)}
+                <div key={index} className="recipe-item">
+                  <div>{recipe.name}</div>
+                  <div>{formatDateToDDMMYYYY(recipe.lastCookedDate)}</div>
                 </div>
               ))
             ) : (
