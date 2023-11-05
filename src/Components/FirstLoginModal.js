@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Button, Modal, Typography, Box, TextField } from "@mui/material";
@@ -19,15 +19,30 @@ const style = {
   p: 4,
 };
 
-export default function FirstLoginModal({ setCounter }) {
+export default function FirstLoginModal({
+  setCounter,
+  setIsFirstLoginModalOpen,
+}) {
   const [name, setName] = useState("");
   const [selectedCuisine, setSelectedCuisine] = useState([]);
   const [selectedDietaryRestrictions, setSelectedDietaryRestrictions] =
     useState([]);
   const { user } = useAuth0();
 
-  const [open, setOpen] = React.useState(true);
-  const handleClose = () => setOpen(false);
+  const [open, setOpen] = useState(true);
+
+  useEffect(() => {
+    // Set the isFirstLoginModalOpen state to true when this modal opens
+    setIsFirstLoginModalOpen(true);
+
+    // Set the isFirstLoginModalOpen state to false when this modal closes
+    return () => setIsFirstLoginModalOpen(false);
+  }, [setIsFirstLoginModalOpen]);
+
+  const handleClose = () => {
+    setOpen(false);
+    setIsFirstLoginModalOpen(false); // Update the state when the modal closes
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

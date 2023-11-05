@@ -1,9 +1,10 @@
 // external import
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Switch } from "@mui/material";
 
 // internal import
 import RecipeList from "../Components/Recipe/RecipeList";
+import { GlobalUseContext } from "../GlobalUseContext";
 
 // css import
 import "../App.css";
@@ -18,6 +19,7 @@ export default function ExplorePage({
 }) {
   const [filteredRecipes, setFilteredRecipes] = useState(recipeList);
   const [checked, setChecked] = useState(false);
+  const { isAuthenticated } = useContext(GlobalUseContext);
 
   // filter recipes by isPublic and userId
   const filterPublicRecipes = () => {
@@ -80,10 +82,12 @@ export default function ExplorePage({
     <div className="childDiv">
       <div className="explore-top">
         <div className="greeting">Try something new today 😋</div>
-        <div className="match-preferences">
-          Match my preferences
-          <Switch checked={checked} onChange={handleChange} />
-        </div>
+        {isAuthenticated && (
+          <div className="match-preferences">
+            Match my preferences
+            <Switch checked={checked} onChange={handleChange} />
+          </div>
+        )}
       </div>
       <RecipeList recipeList={filteredRecipes} />
     </div>

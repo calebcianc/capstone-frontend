@@ -56,6 +56,7 @@ function App() {
   const [counter, setCounter] = useState(0);
   const { isAuthenticated, user } = useAuth0();
   const [userProfile, setUserProfile] = useState([]);
+  const [isFirstLoginModalOpen, setIsFirstLoginModalOpen] = useState(false);
 
   // useEffect that shows the logo at the start of the app
   useEffect(() => {
@@ -133,7 +134,13 @@ function App() {
           onClose={() => setIsModalOpen(false)}
         />
         {/* add condition to show only on first login */}
-        {user && isFirstLogin && <FirstLoginModal setCounter={setCounter} />}
+        {user && isFirstLogin && (
+          <FirstLoginModal
+            setCounter={setCounter}
+            setIsFirstLoginModalOpen={setIsFirstLoginModalOpen}
+          />
+        )}
+
         {/* top nav bar */}
         <Navbar setValue={setValue} />
         {/* everything else */}
