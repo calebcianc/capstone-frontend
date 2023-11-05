@@ -90,6 +90,7 @@ function InstructionListModal({
                 alignItems: "center",
                 justifyContent: "space-between",
                 marginTop: "35px",
+                marginLeft: "6px",
               }}
             >
               <Button
@@ -124,7 +125,10 @@ function InstructionListModal({
               recipe={recipe}
             />
 
-            <Button style={{ marginBottom: 10 }} onClick={handleStartCooking}>
+            <Button
+              style={{ marginBottom: 10, marginLeft: 16 }}
+              onClick={handleStartCooking}
+            >
               Back to ingredient list
             </Button>
           </>
@@ -146,7 +150,10 @@ function InstructionListModal({
             <p></p>
           ) : (
             <>
-              <p>Steps</p> {/* for commands during cooking */}
+              <p>
+                <b>Steps</b>
+              </p>{" "}
+              {/* for commands during cooking */}
               <SpeechToText
                 setCurrentCardIndex={setCurrentCardIndex}
                 currentCardIndex={currentCardIndex}

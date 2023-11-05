@@ -116,7 +116,7 @@ function PasteRecipeModal({
             fontWeight: "bold",
           }}
         >
-          We'll try to keep it a secret!
+          Copy and paste your recipe here!
         </DialogTitle>
         <DialogContent style={{ backgroundColor: "#f7f4e8", paddingBottom: 0 }}>
           <TextField

@@ -113,18 +113,31 @@ export default function HomePage({ recipeList, counter, setCounter }) {
     <div className="childDiv">
       {/* text that shows depending on whether user is logged in or not */}
       {isAuthenticated ? (
-        <div className="greeting">
-          Hi {userProfile?.name},{" "}
-          {allEmpty ? (
-            <>
-              it looks like you don't have any recipes in your cookbooks yet.
-              <br />
-              Check out "Explore" or add a recipe!
-            </>
-          ) : (
-            "what would you like to cook today?"
-          )}
-        </div>
+        <>
+          <div className="greeting">
+            Hi {userProfile?.name},{" "}
+            {allEmpty ? (
+              <>check out "Explore" or add a recipe!</>
+            ) : (
+              "what would you like to cook today?"
+            )}
+          </div>
+          {/* container that renders recipes in each cookbook if there are any to show */}
+          <div className="cookbook-list-container">
+            {!allEmpty &&
+              userCookbooks.map((cookbook) => {
+                const cookbookRecipes = userCookbookRecipes[cookbook.id];
+                return cookbookRecipes && cookbookRecipes.length > 0 ? (
+                  <CookbookList
+                    key={cookbook.id}
+                    cookbook={cookbook}
+                    recipeList={recipeList}
+                    userCookbookRecipes={userCookbookRecipes}
+                  />
+                ) : null;
+              })}
+          </div>
+        </>
       ) : (
         <div className="empty-message">
           Sign up and log in to store recipes in your cookbooks! <br />
@@ -132,22 +145,6 @@ export default function HomePage({ recipeList, counter, setCounter }) {
           {LoginButton}
         </div>
       )}
-
-      {/* container that renders recipes in each cookbook if there are any to show */}
-      <div className="cookbook-list-container">
-        {!allEmpty &&
-          userCookbooks.map((cookbook) => {
-            const cookbookRecipes = userCookbookRecipes[cookbook.id];
-            return cookbookRecipes && cookbookRecipes.length > 0 ? (
-              <CookbookList
-                key={cookbook.id}
-                cookbook={cookbook}
-                recipeList={recipeList}
-                userCookbookRecipes={userCookbookRecipes}
-              />
-            ) : null;
-          })}
-      </div>
 
       <NewRecipeModal setCounter={setCounter} />
     </div>

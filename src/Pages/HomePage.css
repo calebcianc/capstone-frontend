@@ -1,6 +1,6 @@
 .greeting {
   white-space: nowrap;
-  /* overflow: hidden; */
+  overflow: hidden;
   text-overflow: ellipsis;
   font-size: 2rem; /* Adjust the font size as needed */
   font-family: Bitter, serif;

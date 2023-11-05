@@ -63,8 +63,9 @@ export default function AddToCookbookModal({
             .filter((cookbook) => cookbook.name !== "Personally created")
             .map((cookbook) => ({
               name: cookbook.name,
-              checked: cookbook.name === "Added from Explore" ? true : false,
+              checked: cookbook.name === "Added from explore" ? true : false,
               id: cookbook.id,
+              disabled: cookbook.name === "Added from explore" ? true : false,
             }));
           setCookbooks(cookbooksData);
         } else {
@@ -225,7 +226,7 @@ export default function AddToCookbookModal({
                       color="default"
                       disabled={
                         cookbook.name === "Personally created" ||
-                        cookbook.name === "Added from Explore"
+                        cookbook.name === "Added from explore"
                       }
                     />
                   }

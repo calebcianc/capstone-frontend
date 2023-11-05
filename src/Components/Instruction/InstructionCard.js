@@ -126,6 +126,7 @@ function InstructionCard({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "space-between",
+        padding: "16px 16px 0px 16px",
         // marginTop: "50px",
       }}
     >
@@ -134,7 +135,7 @@ function InstructionCard({
         style={{
           cursor: "pointer",
           display: "block",
-          width: "50vh",
+          width: "60vh",
           height: "50vh",
           border: currentInstruction.photoUrl ? "none" : "2px dashed gray",
           position: "relative",
@@ -153,6 +154,7 @@ function InstructionCard({
               width: "100%",
               height: "100%",
               objectFit: "cover",
+              borderRadius: "16px",
             }}
           />
         ) : (
@@ -171,8 +173,11 @@ function InstructionCard({
       {/* Description */}
       <div
         style={{
-          marginTop: 10,
+          width: "60vh", // This will ensure the text div has the same width as the image div
+          marginTop: 20, // This adds some space above the text
+          marginBottom: 20, // This adds some space below the text
           textAlign: "justify",
+          padding: "0 10px", // Optional: This adds some padding on the sides of the text if desired
         }}
       >
         {currentInstruction.instruction}
@@ -180,7 +185,7 @@ function InstructionCard({
 
       {/* Timer */}
       {currentInstruction.timeInterval && (
-        <div style={{ marginTop: 10, textAlign: "center" }}>
+        <div style={{ textAlign: "center" }}>
           <Timer
             duration={currentInstruction.timeInterval}
             currentInstruction={currentInstruction}
