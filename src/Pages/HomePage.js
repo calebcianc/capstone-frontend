@@ -116,11 +116,7 @@ export default function HomePage({ recipeList, counter, setCounter }) {
         <div className="greeting">
           Hi {userProfile?.name},{" "}
           {allEmpty ? (
-            <>
-              it looks like you don't have any recipes in your cookbooks yet.
-              <br />
-              Check out "Explore" or add a recipe!
-            </>
+            <>check out "Explore" or add a recipe!</>
           ) : (
             "what would you like to cook today?"
           )}
