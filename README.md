@@ -1,70 +1,64 @@
-# Getting Started with Create React App
+# ChefTalk
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A cooking assistant that generates and stores recipes, reads out recipe instructions and listens for user's commands for a handsfree cooking experience.
 
-## Available Scripts
+Deployment page: [ChefTalk](https://capstone-frontend-bay.vercel.app/)
 
-In the project directory, you can run:
+## Preview
 
-### `npm start`
+gif walkthrough to be uploaded
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Users can add publicly available recipes to their cookbooks
+- Users has four options to personally create / add recipes to their cookbooks e.g., Inputing details of a recipe manually, Pasting a recipe in text-form, Getting ChefTalk to generate a recipe based on some parameters, Getting ChefTalk to surprise the user with a recipe based on user's culinary preferences
+- Users can add recipes to created cookbooks, and remove recipes from created cookbooks
+- Users can edit recipes, and also toggle serving size to derive ingredient quantity
+- Once user starts cooking, app reads out each instruction to the user
+- Users can instruct app via voice command to doing the following
+  i) repeat an instruction,
+  ii) proceed to the next instruction,
+  iii) return to the previous instruction,
+  iv) start a timer,
+  v) stop a timer,
+  vi) restart a timer,
+  vii) close the dialog box
+- Users can also update their profile to add or remove cuisine preferences and dietary restrictions, which are ultimately used by the app to surprise users with AI-generated recipes
 
-### `npm test`
+## Tech Used
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Front end: [React](https://react.dev/)
+- UI: [Material-UI](https://mui.com/)
+- Routing: [React Router](https://reactrouter.com/en/main)
+- APIs: [OpenAI ChatGPT](https://platform.openai.com/docs/api-reference), [Google Text-to-Speech](https://cloud.google.com/text-to-speech#), [Unsplash](https://unsplash.com/documentation)
+- Third party react hook: [React Speech Recognition](https://www.npmjs.com/package/react-speech-recognition)
 
-### `npm run build`
+## Setup
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Pre-requisite: To be used with [ChefTalk Backend](https://github.com/calebcianc/capstone-backend) in order to run the full application locally.**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+This project is created using create-react-app. Before starting, it is required to run the following steps for the application to work
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Clone repo to local
 
-### `npm run eject`
+2. Configure `.env` file, make sure to get your own API keys stated below and insert it into your `.env` file
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+REACT_APP_DOMAIN = <REACT_APP_DOMAIN>
+REACT_APP_CLIENTID = <REACT_APP_CLIENTID >
+REACT_APP_AUDIENCE = <REACT_APP_AUDIENCE >
+REACT_APP_GOOGLE_API_KEY = <API Key>
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. Install all dependencies required in this repo, and run locally
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+npm i
+npm start
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Contributors
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [Caleb Castro](https://github.com/calebcianc)
+- [Chloe Li](https://github.com/khloeli)
+- [Ho Ming Quan](https://github.com/kenho95)
