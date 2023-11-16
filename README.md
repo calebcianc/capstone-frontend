@@ -4,10 +4,6 @@ A cooking assistant that generates and stores recipes, reads out recipe instruct
 
 Deployment page: [ChefTalk](https://capstone-frontend-bay.vercel.app/)
 
-## Preview
-
-gif walkthrough to be uploaded
-
 ## Features
 
 - Users can add publicly available recipes to their cookbooks
@@ -44,10 +40,18 @@ This project is created using create-react-app. Before starting, it is required 
 2. Configure `.env` file, make sure to get your own API keys stated below and insert it into your `.env` file
 
 ```
+// Auth0 credentials
 REACT_APP_DOMAIN = <REACT_APP_DOMAIN>
-REACT_APP_CLIENTID = <REACT_APP_CLIENTID >
-REACT_APP_AUDIENCE = <REACT_APP_AUDIENCE >
-REACT_APP_GOOGLE_API_KEY = <API Key>
+REACT_APP_CLIENTID = <REACT_APP_CLIENTID>
+REACT_APP_AUDIENCE = <REACT_APP_AUDIENCE>
+
+// Firebase credentials
+REACT_APP_API_KEY = <REACT_APP_API_KEY>
+REACT_APP_AUTH_DOMAIN = <REACT_APP_AUTH_DOMAIN>
+REACT_APP_PROJECT_ID = <REACT_APP_PROJECT_ID>
+REACT_APP_STORAGE_BUCKET = <REACT_APP_STORAGE_BUCKET>
+REACT_APP_MESSAGING_SENDER_ID = <REACT_APP_MESSAGING_SENDER_ID>
+REACT_APP_APP_ID = <REACT_APP_APP_ID>
 ```
 
 3. Install all dependencies required in this repo, and run locally
